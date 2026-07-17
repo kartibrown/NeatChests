@@ -31,6 +31,8 @@ public abstract class Category {
      */
     public abstract boolean tryAdd(final Material material);
 
+    public void add(final Material material){}
+
     /**
      * Adds a material if it exists in this version of Minecraft
      *
