@@ -23,3 +23,18 @@
 hs_err_pid*
 replay_pid*
 .idea/vcs.xml
+
+# IntelliJ IDEA Templates
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Gradle Templates
+.gradle/
+build/
+
+# OS Generated
+.DS_Store
+Thumbs.db
