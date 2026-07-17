@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 public final class SortingManager {
-    final Category[] categories;
+    private final Category[] categories;
 
     public SortingManager() {
         categories = new Category[]{
@@ -20,13 +20,23 @@ public final class SortingManager {
                 new Equipment(),
                 new Redstone(),
                 new Forestry(),
-                new Mining()
+                new Misc()
         };
 
         for (final Material material : Material.values()) {
-            for (final Category category : categories) {
-                if (category.tryAdd(material)) {
+            if (material.isAir() || material.isLegacy()) {
+                continue;
+            }
+
+            for (int i = 0; i < categories.length; ++i) {
+                if (categories[i].tryAdd(material)) {
                     break;
+                }
+
+                // Catch all other blocks
+                // if no categories wanted the block
+                if (i >= categories.length - 1) {
+                    categories[categories.length - 1].add(material);
                 }
             }
         }
@@ -38,8 +48,8 @@ public final class SortingManager {
         final ItemStack[] sortedItems = new ItemStack[itemsToSort.length];
         int i = 0;
 
-        for(final ItemStack item : itemsToSort) {
-            if(belongsToAnyCategory(item.getType())){
+        for (final ItemStack item : itemsToSort) {
+            if (belongsToAnyCategory(item.getType())) {
                 sortedItems[i] = item;
                 i++;
             }
