@@ -1,11 +1,8 @@
-package com.kartibrown.neatchests;
+package com.kartibrown;
 
-import org.bukkit.Material;
+import com.kartibrown.neatchests.ChestStorageListener;
+import com.kartibrown.neatchests.SortingManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
 
 public class NeatChestsPlugin extends JavaPlugin {
 
@@ -15,10 +12,11 @@ public class NeatChestsPlugin extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new ChestStorageListener(sortingManager)
                 , this);
+
+        getLogger().info("NeatChests has been enabled successfully!");
     }
 
     @Override
     public void onDisable() {
-
     }
 }
