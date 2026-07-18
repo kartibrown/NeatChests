@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 
 public final class SortingManager {
@@ -23,7 +24,11 @@ public final class SortingManager {
                 new Misc()
         };
 
-        for (final Material material : Material.values()) {
+        final Material[] materials = Material.values();
+        // sorts the array alphabetically
+        Arrays.sort(materials, Comparator.comparing(Material::name));
+
+        for (final Material material : materials) {
             if (material.isAir() || material.isLegacy()) {
                 continue;
             }
@@ -46,32 +51,32 @@ public final class SortingManager {
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
 
         final ItemStack[] sortedItems = new ItemStack[itemsToSort.length];
-        int i = 0;
+        int sortedIndex = 0;
+        // using long because the max size of a chest is 54 slots
+        // and an int is 32 bit which is not enough for the 54 slots
+        long itemDoneCheck = 0L;
 
-        for (final ItemStack item : itemsToSort) {
-            if (belongsToAnyCategory(item.getType())) {
-                sortedItems[i] = item;
-                i++;
-            }
-        }
-
-        /*
-         * A loop for blocks that couldn't be found
-         */
-
-        return sortedItems;
-    }
-
-    private boolean belongsToAnyCategory(final Material mat) {
         for (final Category category : categories) {
-            for (final Map<Material, Integer> catItem : category.getItems()) {
-                if (catItem.containsKey(mat)) {
-                    return true;
+            for (final Map<Material, Integer> subCategoryMap : category.getItems()) {
+                for (int itemIndex = 0; itemIndex < itemsToSort.length; ++itemIndex) {
+                    // if item has already been checked
+                    if ((itemDoneCheck & (1L << itemIndex)) != 0) {
+                        continue;
+                    }
+
+                    final ItemStack item = itemsToSort[itemIndex];
+
+                    if (subCategoryMap.containsKey(item.getType())) {
+                        sortedItems[sortedIndex] = item;
+                        sortedIndex++;
+
+                        itemDoneCheck |= (1L << itemIndex); // mark this item as done
+                    }
                 }
             }
         }
 
-        return false;
+        return sortedItems;
     }
 
     @Contract("null -> null")
