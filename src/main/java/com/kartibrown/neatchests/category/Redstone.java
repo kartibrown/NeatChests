@@ -45,8 +45,6 @@ public final class Redstone extends Category {
         addMaterialIfExists(REDSTONE, "SCULK_SHRIEKER");
         addMaterialIfExists(REDSTONE, "CALIBRATED_SCULK_SENSOR");
         addMaterialIfExists(REDSTONE, "COPPER_BULB");
-
-        addWithAutoWeight(REDSTONE, Material.REDSTONE_ORE);
     }
 
     @Override

@@ -21,6 +21,7 @@ public final class SortingManager {
                 new Equipment(),
                 new Redstone(),
                 new Forestry(),
+                new Template(),
                 new Misc()
         };
 
