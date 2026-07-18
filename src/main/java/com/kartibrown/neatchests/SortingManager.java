@@ -10,9 +10,9 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Map;
 
 public final class SortingManager {
+
     private final Category[] categories;
 
     public SortingManager() {
@@ -41,7 +41,15 @@ public final class SortingManager {
                 // Catch all other blocks
                 // if no categories wanted the block
                 if (i >= categories.length - 1) {
-                    categories[categories.length - 1].add(material);
+                    char firstLetter = material.name().charAt(0);
+
+                    // 'Z' (90) minus 'A' (65) is 25.
+                    // A: (90 - 65) * 5 = 125
+                    // B: (90 - 66) * 5 = 120
+                    // Z: (90 - 90) * 5 = 0
+                    int weight = ('Z' - firstLetter) * 5;
+
+                    categories[categories.length - 1].add(material, weight);
                 }
             }
         }
@@ -49,34 +57,47 @@ public final class SortingManager {
 
     public ItemStack @NonNull [] sortChestItems(@Nullable final ItemStack[] items) {
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
-
         final ItemStack[] sortedItems = new ItemStack[itemsToSort.length];
+
         int sortedIndex = 0;
         // using long because the max size of a chest is 54 slots
         // and an int is 32 bit which is not enough for the 54 slots
         long itemDoneCheck = 0L;
 
-        for (final Category category : categories) {
-            for (final Map<Material, Integer> subCategoryMap : category.getItems()) {
-                for (int itemIndex = 0; itemIndex < itemsToSort.length; ++itemIndex) {
-                    // if item has already been checked
-                    if ((itemDoneCheck & (1L << itemIndex)) != 0) {
-                        continue;
-                    }
+                for (int currentWeight = Category.MAX_WEIGHT; currentWeight > 0; currentWeight--) {
+                    for (int itemIndex = 0; itemIndex < itemsToSort.length; ++itemIndex) {
+                        // Check if an item is done
+                        if ((itemDoneCheck & (1L << itemIndex)) != 0) {
+                            continue;
+                        }
 
-                    final ItemStack item = itemsToSort[itemIndex];
+                        final ItemStack item = itemsToSort[itemIndex];
 
-                    if (subCategoryMap.containsKey(item.getType())) {
-                        sortedItems[sortedIndex] = item;
-                        sortedIndex++;
+                        final Category matchedCategory = findCategoryFor(item.getType());
 
-                        itemDoneCheck |= (1L << itemIndex); // mark this item as done
+                        if (matchedCategory != null) {
+                            final Integer itemWeight = matchedCategory.getWeightFor(item.getType());
+
+                            if (itemWeight != null && itemWeight == currentWeight) {
+                                sortedItems[sortedIndex] = item;
+                                sortedIndex++;
+                                // Set the chest slot as done (true bitwise)
+                                itemDoneCheck |= (1L << itemIndex);
+                            }
+                        }
                     }
                 }
-            }
-        }
 
         return sortedItems;
+    }
+
+    private @Nullable Category findCategoryFor(final Material material) {
+        for (final Category category : categories) {
+            if (category.tryAdd(material)) {
+                return category;
+            }
+        }
+        return null;
     }
 
     @Contract("null -> null")
