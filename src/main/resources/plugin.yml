@@ -1,4 +1,5 @@
 name: NeatChests
-version: 1.0
-main: com.kartibrown.Main
-api-version: '1.21'
+version: 1.0.0
+main: com.kartibrown.NeatChestsPlugin
+api-version: '26.2'
+author: kartibrown
