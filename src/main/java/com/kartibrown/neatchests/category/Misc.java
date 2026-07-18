@@ -5,21 +5,43 @@ import org.bukkit.Material;
 
 // FALLBACK CLASS
 public final class Misc extends Category {
+
+    private static final int D_LETTER_WEIGHT = 110;
+
+    // Sets a letter based weight in SortingManager, and A is 125 weight
+    // so we give it some room, 130 to not get other items entangled with misc's
+    public static final int MISC_MAX_WEIGHT = 130;
+
+    private static final int OTHER = 0;
+
     public Misc() {
         super(1);
+
+        final Material[] dirt = {
+                    Material.DIRT,
+                    Material.GRASS_BLOCK,
+                    Material.COARSE_DIRT,
+                    Material.PODZOL
+        };
+
+        for(final Material mat : dirt) {
+            addToCategory(OTHER, mat, D_LETTER_WEIGHT);
+        }
+
+        addMaterialIfExists(OTHER, "ROOTED_DIRT", D_LETTER_WEIGHT);
+        addMaterialIfExists(OTHER, "DIRT_PATH", D_LETTER_WEIGHT);
+        addMaterialIfExists(OTHER, "MYCELIUM", D_LETTER_WEIGHT);
     }
 
     @Override
     public boolean tryAdd(final Material material) {
-        // I don't want to explicitly claim anything.
-        // Let the other specialized categories have first choice!
-        return false;
+        return items[OTHER].containsKey(material);
     }
 
     @Override
-    public void add(final Material material) {
+    public void add(final Material material, final int weight) {
         // The SortingManager couldn't find a home for this block,
-        // so it drops here and gets a default sorting weight.
-        addToCategory(0, material, 0);
+        // so it drops here and gets a sorting weight.
+        addToCategory(OTHER, material, weight);
     }
 }
