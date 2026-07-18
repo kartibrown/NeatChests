@@ -56,7 +56,7 @@ public final class ChestStorageListener implements Listener {
             lastClickTime.put(playerUUID, currentTime + 1);
 
             // if player double-clicked within 250ms
-            if (currentTime - lastTime > 250L) {
+            if (currentTime - lastTime < 250L) {
                 // cancel the default double-click behavior (gathering identical items)
                 event.setCancelled(true);
 
@@ -73,7 +73,14 @@ public final class ChestStorageListener implements Listener {
                 // put the sorted items back into the chest
                 chestInventory.setContents(finalSortedItems);
 
+                // Reset timer so a new click registers as a first click
+                lastClickTime.put(playerUUID, 0L);
+
                 player.sendMessage("§aChest sorted!");
+            }
+            else  {
+                // save the timer if it wasn't a double click
+                lastClickTime.put(playerUUID, currentTime);
             }
         }
     }

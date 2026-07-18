@@ -148,21 +148,23 @@ public final class Equipment extends Category {
     @Override
     public boolean tryAdd(final Material material) {
 
-        for(final Map<Material, Integer> item : items) {
-            if(item.containsKey(material)) {
+        for (final Map<Material, Integer> item : items) {
+            if (item.containsKey(material)) {
                 return true;
             }
         }
 
-        final EquipmentSlot slot = material.getEquipmentSlot();
+        if (material.isItem()) {
+            final EquipmentSlot slot = material.getEquipmentSlot();
 
-        if (slot == EquipmentSlot.BODY ||
-                slot == EquipmentSlot.CHEST ||
-                slot == EquipmentSlot.LEGS ||
-                slot == EquipmentSlot.FEET ||
-                slot == EquipmentSlot.HEAD) {
-            addToCategory(MISSED, material);
-            return true;
+            if (slot == EquipmentSlot.BODY ||
+                    slot == EquipmentSlot.CHEST ||
+                    slot == EquipmentSlot.LEGS ||
+                    slot == EquipmentSlot.FEET ||
+                    slot == EquipmentSlot.HEAD) {
+                addToCategory(MISSED, material);
+                return true;
+            }
         }
 
         return false;
