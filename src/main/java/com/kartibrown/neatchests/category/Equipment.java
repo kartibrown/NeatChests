@@ -3,10 +3,7 @@ package com.kartibrown.neatchests.category;
 import com.kartibrown.neatchests.Category;
 import org.bukkit.Material;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class Equipment extends Category {
@@ -14,18 +11,21 @@ public final class Equipment extends Category {
     private static final int DIAMOND = 1;
     private static final int GOLD = 2;
     private static final int IRON = 3;
-    private static final int COPPER = 4;
-    private static final int STONE = 5;
-    private static final int WOOD = 6;
-    private static final int LEATHER = 7;
-    private static final int MISSED = 8;
+    private static final int CHAINMAIL = 4;
+    private static final int COPPER = 5;
+    private static final int STONE = 6;
+    private static final int WOOD = 7;
+    private static final int LEATHER = 8;
+    private static final int MISSED = 9;
 
     public Equipment() {
-        super(9);
+        super(10);
 
         // NETHERITE
 
-        final Map<Material, Integer> netherite = createMap(
+        setBaseWeight(NETHERITE, 1600);
+
+        final Material[] netherite = {
                 Material.NETHERITE_AXE,
                 Material.NETHERITE_HOE,
                 Material.NETHERITE_PICKAXE,
@@ -35,14 +35,20 @@ public final class Equipment extends Category {
                 Material.NETHERITE_CHESTPLATE,
                 Material.NETHERITE_LEGGINGS,
                 Material.NETHERITE_BOOTS
-        );
+        };
 
-        addMaterialIfExists(netherite, "NETHERITE_NAUTILUS_ARMOR");
-        addMaterialIfExists(netherite, "NETHERITE_SPEAR");
+        for(final Material mat : netherite) {
+            addWithAutoWeight(NETHERITE, mat);
+        }
+
+        addMaterialIfExists(NETHERITE, "NETHERITE_NAUTILUS_ARMOR");
+        addMaterialIfExists(NETHERITE, "NETHERITE_SPEAR");
 
         // DIAMOND
 
-        final Map<Material, Integer> diamond = createMap(
+        setBaseWeight(DIAMOND, 1550);
+
+        final Material[] diamond = {
                 Material.DIAMOND_AXE,
                 Material.DIAMOND_HOE,
                 Material.DIAMOND_PICKAXE,
@@ -52,14 +58,20 @@ public final class Equipment extends Category {
                 Material.DIAMOND_CHESTPLATE,
                 Material.DIAMOND_LEGGINGS,
                 Material.DIAMOND_BOOTS
-        );
+        };
 
-        addMaterialIfExists(diamond, "DIAMOND_NAUTILUS_ARMOR");
-        addMaterialIfExists(diamond, "DIAMOND_SPEAR");
+        for(final Material mat : diamond) {
+            addWithAutoWeight(DIAMOND, mat);
+        }
+
+        addMaterialIfExists(DIAMOND, "DIAMOND_NAUTILUS_ARMOR");
+        addMaterialIfExists(DIAMOND, "DIAMOND_SPEAR");
 
         // GOLD
 
-        final Map<Material, Integer> gold = createMap(
+        setBaseWeight(GOLD,1500);
+
+        final Material[] gold = {
                 Material.GOLDEN_AXE,
                 Material.GOLDEN_HOE,
                 Material.GOLDEN_PICKAXE,
@@ -69,14 +81,20 @@ public final class Equipment extends Category {
                 Material.GOLDEN_CHESTPLATE,
                 Material.GOLDEN_LEGGINGS,
                 Material.GOLDEN_BOOTS
-        );
+        };
 
-        addMaterialIfExists(gold, "GOLDEN_NAUTILUS_ARMOR");
-        addMaterialIfExists(gold, "GOLDEN_SPEAR");
+        for(final Material mat : gold) {
+            addWithAutoWeight(GOLD, mat);
+        }
+
+        addMaterialIfExists(GOLD, "GOLDEN_NAUTILUS_ARMOR");
+        addMaterialIfExists(GOLD, "GOLDEN_SPEAR");
 
         // IRON
 
-        final Map<Material, Integer> iron = createMap(
+        setBaseWeight(IRON,1450);
+
+        final Material[] iron = {
                 Material.IRON_AXE,
                 Material.IRON_HOE,
                 Material.IRON_PICKAXE,
@@ -86,63 +104,95 @@ public final class Equipment extends Category {
                 Material.IRON_CHESTPLATE,
                 Material.IRON_LEGGINGS,
                 Material.IRON_BOOTS
-        );
+        };
 
-        addMaterialIfExists(iron, "IRON_NAUTILUS_ARMOR");
-        addMaterialIfExists(iron, "IRON_SPEAR");
+        for(final Material mat : iron) {
+            addWithAutoWeight(IRON, mat);
+        }
+
+        addMaterialIfExists(IRON, "IRON_NAUTILUS_ARMOR");
+        addMaterialIfExists(IRON, "IRON_SPEAR");
+
+        // CHAINMAIL
+
+        final Material[] chainmail = {
+                Material.CHAINMAIL_HELMET,
+                Material.CHAINMAIL_CHESTPLATE,
+                Material.CHAINMAIL_LEGGINGS,
+                Material.CHAINMAIL_BOOTS
+        };
 
         // COPPER
 
-        final Map<Material, Integer> copper = new EnumMap<>(Material.class);
-        addMaterialIfExists(copper, "COPPER_AXE");
-        addMaterialIfExists(copper, "COPPER_HOE");
-        addMaterialIfExists(copper, "COPPER_PICKAXE");
-        addMaterialIfExists(copper, "COPPER_SHOVEL");
-        addMaterialIfExists(copper, "COPPER_SWORD");
-        addMaterialIfExists(copper, "COPPER_HELMET");
-        addMaterialIfExists(copper, "COPPER_CHESTPLATE");
-        addMaterialIfExists(copper, "COPPER_LEGGINGS");
-        addMaterialIfExists(copper, "COPPER_BOOTS");
-        addMaterialIfExists(copper, "COPPER_NAUTILUS_ARMOR");
-        addMaterialIfExists(copper, "COPPER_SPEAR");
+        setBaseWeight(COPPER,1400);
+
+        addMaterialIfExists(COPPER, "COPPER_AXE");
+        addMaterialIfExists(COPPER, "COPPER_HOE");
+        addMaterialIfExists(COPPER, "COPPER_PICKAXE");
+        addMaterialIfExists(COPPER, "COPPER_SHOVEL");
+        addMaterialIfExists(COPPER, "COPPER_SWORD");
+        addMaterialIfExists(COPPER, "COPPER_HELMET");
+        addMaterialIfExists(COPPER, "COPPER_CHESTPLATE");
+        addMaterialIfExists(COPPER, "COPPER_LEGGINGS");
+        addMaterialIfExists(COPPER, "COPPER_BOOTS");
+        addMaterialIfExists(COPPER, "COPPER_NAUTILUS_ARMOR");
+        addMaterialIfExists(COPPER, "COPPER_SPEAR");
 
         // STONE
 
-        final Map<Material, Integer> stone = createMap(
+        setBaseWeight(STONE,1350);
+
+        final Material[] stone = {
                 Material.STONE_AXE,
                 Material.STONE_HOE,
                 Material.STONE_PICKAXE,
                 Material.STONE_SHOVEL,
                 Material.STONE_SWORD
-        );
+        };
+
+        for(final Material mat : stone) {
+            addWithAutoWeight(STONE, mat);
+        }
 
         // WOOD
 
-        final Map<Material, Integer> wood = createMap(
+        setBaseWeight(WOOD,1300);
+
+        final Material[] wood = {
                 Material.WOODEN_AXE,
                 Material.WOODEN_HOE,
                 Material.WOODEN_PICKAXE,
                 Material.WOODEN_SHOVEL,
-                Material.WOODEN_SWORD
-        );
+                Material.WOODEN_SWORD,
+                Material.SHIELD
+        };
+
+        for(final Material mat : wood) {
+            addWithAutoWeight(WOOD, mat);
+        }
 
         // LEATHER
 
-        final Map<Material, Integer> leather = createMap(
+        setBaseWeight(LEATHER,1250);
+
+        final Material[] leather = {
                 Material.LEATHER_HELMET,
                 Material.LEATHER_CHESTPLATE,
                 Material.LEATHER_LEGGINGS,
                 Material.LEATHER_BOOTS
-        );
+        };
 
-        items[NETHERITE].putAll(netherite);
-        items[DIAMOND].putAll(diamond);
-        items[GOLD].putAll(gold);
-        items[IRON].putAll(iron);
-        items[COPPER].putAll(copper);
-        items[STONE].putAll(stone);
-        items[WOOD].putAll(wood);
-        items[LEATHER].putAll(leather);
+        for(final Material mat : leather) {
+            addWithAutoWeight(LEATHER, mat);
+        }
+
+        // MISSED
+
+        setBaseWeight(MISSED, 1200);
+
+        addMaterialIfExists(MISSED, "MACE");
+        addMaterialIfExists(MISSED, "TRIDENT");
+        addMaterialIfExists(MISSED, "TURTLE_HELMET");
     }
 
     @Override
@@ -162,7 +212,7 @@ public final class Equipment extends Category {
                     slot == EquipmentSlot.LEGS ||
                     slot == EquipmentSlot.FEET ||
                     slot == EquipmentSlot.HEAD) {
-                addToCategory(MISSED, material);
+                addWithAutoWeight(MISSED, material);
                 return true;
             }
         }
