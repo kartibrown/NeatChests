@@ -3,13 +3,19 @@ package com.kartibrown.neatchests.category;
 import com.kartibrown.neatchests.Category;
 import org.bukkit.Material;
 
-import java.util.Map;
-
 public final class Valuables extends Category {
+    private static final int VALUABLES = 0;
+
     public Valuables() {
         super(1);
 
-        final Map<Material, Integer> valuables = createMap(
+        setBaseWeight(VALUABLES, MAX_WEIGHT);
+
+        addMaterialIfExists(VALUABLES, "NETHERITE_INGOT");
+        addMaterialIfExists(VALUABLES, "NETHERITE_BLOCK");
+        addMaterialIfExists(VALUABLES, "NETHERITE_SCRAP");
+
+        final Material[] mainValuables = {
                 Material.DIAMOND,
                 Material.DIAMOND_BLOCK,
                 Material.EMERALD,
@@ -20,18 +26,18 @@ public final class Valuables extends Category {
                 Material.IRON_BLOCK,
                 Material.LAPIS_LAZULI,
                 Material.LAPIS_BLOCK
-        );
+        };
 
-        addMaterialIfExists(valuables, "NETHERITE_INGOT", MAX_WEIGHT);
-        addMaterialIfExists(valuables, "NETHERITE_BLOCK", MAX_WEIGHT - 1);
-        addMaterialIfExists(valuables, "COPPER_INGOT");
-        addMaterialIfExists(valuables, "COPPER_BLOCK");
+        for(final Material mat : mainValuables) {
+            addWithAutoWeight(VALUABLES, mat);
+        }
 
-        items[0].putAll(valuables);
+        addMaterialIfExists(VALUABLES, "COPPER_INGOT");
+        addMaterialIfExists(VALUABLES, "COPPER_BLOCK");
     }
 
     @Override
     public boolean tryAdd(final Material material) {
-        return items[0].containsKey(material);
+        return items[VALUABLES].containsKey(material);
     }
 }
