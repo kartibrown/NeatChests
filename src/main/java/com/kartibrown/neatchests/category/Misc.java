@@ -2,6 +2,7 @@ package com.kartibrown.neatchests.category;
 
 import com.kartibrown.neatchests.Category;
 import org.bukkit.Material;
+import org.jetbrains.annotations.Contract;
 
 // FALLBACK CLASS
 public final class Misc extends Category {
@@ -33,9 +34,10 @@ public final class Misc extends Category {
         addMaterialIfExists(OTHER, "MYCELIUM", D_LETTER_WEIGHT);
     }
 
+    @Contract(pure = true)
     @Override
     public boolean tryAdd(final Material material) {
-        return items[OTHER].containsKey(material);
+        return subCategories[OTHER].containsKey(material);
     }
 
     @Override

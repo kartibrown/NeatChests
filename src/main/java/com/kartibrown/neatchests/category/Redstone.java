@@ -37,7 +37,6 @@ public final class Redstone extends Category {
         }
 
         addMaterialIfExists(REDSTONE, "CRAFTER");
-
         addMaterialIfExists(REDSTONE, "OBSERVER");
         addMaterialIfExists(REDSTONE, "TARGET");
         addMaterialIfExists(REDSTONE, "CALIBRATED_SCULK_SENSOR");
@@ -49,6 +48,6 @@ public final class Redstone extends Category {
 
     @Override
     public boolean tryAdd(final Material material) {
-        return items[REDSTONE].containsKey(material);
+        return subCategories[REDSTONE].containsKey(material);
     }
 }
