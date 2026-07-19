@@ -10,20 +10,20 @@ import java.util.*;
 public abstract class Category {
     public static final int MAX_WEIGHT = 2000;
 
-    protected final Map<Material, Integer>[] items;
+    protected final Map<Material, Integer>[] subCategories;
 
-    private final int[] nextAvaiableWeights;
+    private final int[] nextAvailableWeights;
 
     @SuppressWarnings("unchecked")
     public Category(final int numberOfSubCategories) {
 
-        items = (EnumMap<Material, Integer>[]) new EnumMap[numberOfSubCategories];
-        nextAvaiableWeights = new int[numberOfSubCategories];
+        subCategories = (EnumMap<Material, Integer>[]) new EnumMap[numberOfSubCategories];
+        nextAvailableWeights = new int[numberOfSubCategories];
 
         for (int i = 0; i < numberOfSubCategories; i++) {
-            items[i] = new EnumMap<>(Material.class);
+            subCategories[i] = new EnumMap<>(Material.class);
 
-            nextAvaiableWeights[i] = MAX_WEIGHT / 2;
+            nextAvailableWeights[i] = MAX_WEIGHT / 2;
         }
     }
 
@@ -66,7 +66,7 @@ public abstract class Category {
                                              final int weight) {
         try {
             final Material mat = Material.valueOf(bukkitName);
-            items[subCategoryIndex].put(mat, weight);
+            addToCategory(subCategoryIndex, mat, weight);
         } catch (final IllegalArgumentException e) {
             // The block doesn't exist, but we catch
             // the exception quietly
@@ -77,27 +77,40 @@ public abstract class Category {
      * Adds to the sub category map with a chosen weight
      */
     protected void addToCategory(final int subCategoryIndex, final Material material, final int weight) {
-        items[subCategoryIndex].put(material, Math.clamp(weight, 0, MAX_WEIGHT));
+        subCategories[subCategoryIndex].put(material, Math.clamp(weight, 0, MAX_WEIGHT));
     }
 
+    /**
+     * Adds a material to the desired sub category and automates the weight.<br>
+     * Can be used without setBaseWeight() but the weight will be set to MAX_WEIGHT / 2
+     *
+     * @param subCategoryIndex The desired sub category
+     * @param material The item to add
+     */
     protected final void addWithAutoWeight(final int subCategoryIndex, final Material material) {
-        int currentWeight = nextAvaiableWeights[subCategoryIndex];
-        items[subCategoryIndex].put(material, currentWeight);
+        int currentWeight = nextAvailableWeights[subCategoryIndex];
+        subCategories[subCategoryIndex].put(material, currentWeight);
 
         // protects it from going under misc's weight
-        nextAvaiableWeights[subCategoryIndex] = Math.max(currentWeight - 1, Misc.MISC_MAX_WEIGHT);
+        nextAvailableWeights[subCategoryIndex] = Math.max(currentWeight - 1, Misc.MISC_MAX_WEIGHT);
     }
 
     /*
      * GETTERS & SETTERS
      */
 
-    public String[] getTypes() {
+    protected String[] getTypes() {
         return null;
     }
 
+    /**
+     * Gets the weight of a material
+     *
+     * @param material The material to get the weight from
+     * @return Returns the weight of the passed material
+     */
     public final @Nullable Integer getWeightFor(final @NotNull Material material) {
-        for (final Map<Material, Integer> subCategoryMap : items) {
+        for (final Map<Material, Integer> subCategoryMap : subCategories) {
             if (subCategoryMap.containsKey(material)) {
                 return subCategoryMap.get(material);
             }
@@ -105,7 +118,13 @@ public abstract class Category {
         return null;
     }
 
+    /**
+     * Sets the base weight for the sub category, default is MAX_WEIGHT / 2
+     *
+     * @param subCategoryIndex The sub category to set the weight to
+     * @param weight The weight
+     */
     protected final void setBaseWeight(final int subCategoryIndex, final int weight) {
-        nextAvaiableWeights[subCategoryIndex] = Math.clamp(weight, 0, MAX_WEIGHT);
+        nextAvailableWeights[subCategoryIndex] = Math.clamp(weight, 0, MAX_WEIGHT);
     }
 }
