@@ -1,6 +1,6 @@
 # NeatChests
 
-A Minecraft plugin/mod designed to bring smarter, cleaner, and more efficient chest management to your world. 
+A Minecraft plugin designed to bring smarter, cleaner, and more efficient chest management to your world. 
 
 ## Features
 * 📦 **Smart Sorting:** Keep your chests organized instantly without the hassle.
