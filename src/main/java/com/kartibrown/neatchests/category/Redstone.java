@@ -29,7 +29,17 @@ public final class Redstone extends Category {
                 Material.STICKY_PISTON,
                 Material.DISPENSER,
                 Material.DROPPER,
-                Material.HOPPER
+                Material.HOPPER,
+                Material.MINECART,
+                Material.CHEST_MINECART,
+                Material.COMMAND_BLOCK_MINECART,
+                Material.FURNACE_MINECART,
+                Material.HOPPER_MINECART,
+                Material.TNT_MINECART,
+                Material.RAIL,
+                Material.ACTIVATOR_RAIL,
+                Material.DETECTOR_RAIL,
+                Material.POWERED_RAIL
         };
 
         for (final Material mat : redstone){
