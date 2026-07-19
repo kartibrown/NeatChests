@@ -93,7 +93,7 @@ public final class Forestry extends Category {
 
     @Contract(value = " -> new", pure = true)
     @Override
-    public String @NonNull [] getTypes() {
+    protected String @NonNull [] getTypes() {
         return new String[]{
                 "ACACIA",
                 "BAMBOO",
