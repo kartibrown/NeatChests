@@ -16,7 +16,7 @@ public final class Equipment extends Category {
     private static final int STONE = 6;
     private static final int WOOD = 7;
     private static final int LEATHER = 8;
-    private static final int MISSED = 9;
+    private static final int MISC = 9;
 
     public Equipment() {
         super(10);
@@ -41,6 +41,7 @@ public final class Equipment extends Category {
             addWithAutoWeight(NETHERITE, mat);
         }
 
+        addMaterialIfExists(NETHERITE, "NETHERITE_HORSE_ARMOR");
         addMaterialIfExists(NETHERITE, "NETHERITE_NAUTILUS_ARMOR");
         addMaterialIfExists(NETHERITE, "NETHERITE_SPEAR");
 
@@ -64,6 +65,7 @@ public final class Equipment extends Category {
             addWithAutoWeight(DIAMOND, mat);
         }
 
+        addMaterialIfExists(DIAMOND, "DIAMOND_HORSE_ARMOR");
         addMaterialIfExists(DIAMOND, "DIAMOND_NAUTILUS_ARMOR");
         addMaterialIfExists(DIAMOND, "DIAMOND_SPEAR");
 
@@ -87,6 +89,7 @@ public final class Equipment extends Category {
             addWithAutoWeight(GOLD, mat);
         }
 
+        addMaterialIfExists(GOLD, "GOLDEN_HORSE_ARMOR");
         addMaterialIfExists(GOLD, "GOLDEN_NAUTILUS_ARMOR");
         addMaterialIfExists(GOLD, "GOLDEN_SPEAR");
 
@@ -110,6 +113,7 @@ public final class Equipment extends Category {
             addWithAutoWeight(IRON, mat);
         }
 
+        addMaterialIfExists(IRON, "IRON_HORSE_ARMOR");
         addMaterialIfExists(IRON, "IRON_NAUTILUS_ARMOR");
         addMaterialIfExists(IRON, "IRON_SPEAR");
 
@@ -121,6 +125,10 @@ public final class Equipment extends Category {
                 Material.CHAINMAIL_LEGGINGS,
                 Material.CHAINMAIL_BOOTS
         };
+
+        for(final Material mat : chainmail) {
+            addWithAutoWeight(CHAINMAIL, mat);
+        }
 
         // COPPER
 
@@ -135,6 +143,7 @@ public final class Equipment extends Category {
         addMaterialIfExists(COPPER, "COPPER_CHESTPLATE");
         addMaterialIfExists(COPPER, "COPPER_LEGGINGS");
         addMaterialIfExists(COPPER, "COPPER_BOOTS");
+        addMaterialIfExists(COPPER, "COPPER_HORSE_ARMOR");
         addMaterialIfExists(COPPER, "COPPER_NAUTILUS_ARMOR");
         addMaterialIfExists(COPPER, "COPPER_SPEAR");
 
@@ -186,13 +195,25 @@ public final class Equipment extends Category {
             addWithAutoWeight(LEATHER, mat);
         }
 
+        addMaterialIfExists(LEATHER, "LEATHER_HORSE_ARMOR");
+
         // MISSED
 
-        setBaseWeight(MISSED, 1200);
+        setBaseWeight(MISC, 1200);
 
-        addMaterialIfExists(MISSED, "MACE");
-        addMaterialIfExists(MISSED, "TRIDENT");
-        addMaterialIfExists(MISSED, "TURTLE_HELMET");
+        addMaterialIfExists(MISC, "ELYTRA");
+        addWithAutoWeight(MISC, Material.FLINT_AND_STEEL);
+        addWithAutoWeight(MISC, Material.FISHING_ROD);
+        addWithAutoWeight(MISC, Material.CARROT_ON_A_STICK);
+        addMaterialIfExists(MISC, "WARPED_FUNGUS_ON_A_STICK");
+        addMaterialIfExists(MISC, "GOAT_HORN");
+        addWithAutoWeight(MISC, Material.LEAD);
+        addMaterialIfExists(MISC, "MACE");
+        addMaterialIfExists(MISC, "MISSED");
+        addWithAutoWeight(MISC, Material.SHEARS);
+        addMaterialIfExists(MISC, "TRIDENT");
+        addMaterialIfExists(MISC, "TURTLE_HELMET");
+        addMaterialIfExists(MISC, "WOLF_ARMOR");
     }
 
     @Override
@@ -212,7 +233,7 @@ public final class Equipment extends Category {
                     slot == EquipmentSlot.LEGS ||
                     slot == EquipmentSlot.FEET ||
                     slot == EquipmentSlot.HEAD) {
-                addWithAutoWeight(MISSED, material);
+                addWithAutoWeight(MISC, material);
                 return true;
             }
         }
