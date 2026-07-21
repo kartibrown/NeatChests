@@ -3,12 +3,14 @@ package com.kartibrown.neatchests;
 import com.kartibrown.neatchests.category.Misc;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
 public abstract class Category {
-    public static final int MAX_WEIGHT = 2000;
+    protected static final int MIN_WEIGHT = Material.values().length + 1;
+    protected static final int MAX_WEIGHT = MIN_WEIGHT + 2000;
 
     protected final Map<Material, Integer>[] subCategories;
 
@@ -23,7 +25,7 @@ public abstract class Category {
         for (int i = 0; i < numberOfSubCategories; i++) {
             subCategories[i] = new EnumMap<>(Material.class);
 
-            nextAvailableWeights[i] = MAX_WEIGHT / 2;
+            nextAvailableWeights[i] = (MAX_WEIGHT + MIN_WEIGHT) / 2;
         }
     }
 
@@ -33,7 +35,7 @@ public abstract class Category {
      * @param material The material checked
      * @return Returns true if a material was successfully added to its category
      */
-    public abstract boolean tryAdd(final Material material);
+    public abstract boolean tryAdd(final Material material, final int weight);
 
     public void add(final Material material, final int weight) {
     }
@@ -77,7 +79,7 @@ public abstract class Category {
      * Adds to the sub category map with a chosen weight
      */
     protected void addToCategory(final int subCategoryIndex, final Material material, final int weight) {
-        subCategories[subCategoryIndex].put(material, Math.clamp(weight, 0, MAX_WEIGHT));
+        subCategories[subCategoryIndex].put(material, Math.clamp(weight, MIN_WEIGHT, MAX_WEIGHT));
     }
 
     /**
@@ -91,8 +93,8 @@ public abstract class Category {
         int currentWeight = nextAvailableWeights[subCategoryIndex];
         subCategories[subCategoryIndex].put(material, currentWeight);
 
-        // protects it from going under misc's weight
-        nextAvailableWeights[subCategoryIndex] = Math.max(currentWeight - 1, Misc.MISC_MAX_WEIGHT);
+        // protects it from going under misc's (FALLBACK CLASS) weight
+        nextAvailableWeights[subCategoryIndex] = Math.max(currentWeight - 1, MIN_WEIGHT);
     }
 
     /*
@@ -119,7 +121,7 @@ public abstract class Category {
     }
 
     /**
-     * Sets the base weight for the sub category, default is MAX_WEIGHT / 2
+     * Sets the base weight for the sub category, default is (MAX_WEIGHT + MIN_WEIGHT) / 2
      *
      * @param subCategoryIndex The sub category to set the weight to
      * @param weight The weight
