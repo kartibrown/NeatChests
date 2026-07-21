@@ -27,7 +27,7 @@ public final class Forestry extends Category {
     }
 
     @Override
-    public boolean tryAdd(final @NonNull Material material) {
+    public boolean tryAdd(final @NonNull Material material, final int weight) {
         final String name = material.name();
 
         // 1. Wood type gatekeeper

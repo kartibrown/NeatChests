@@ -42,7 +42,7 @@ public final class Valuables extends Category {
 
     @Contract(pure = true)
     @Override
-    public boolean tryAdd(final Material material) {
+    public boolean tryAdd(final Material material, final int weight) {
         return subCategories[VALUABLES].containsKey(material);
     }
 }
