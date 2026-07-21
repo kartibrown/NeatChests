@@ -29,27 +29,27 @@ public final class SortingManager {
         // sorts the array alphabetically
         Arrays.sort(materials, Comparator.comparing(Material::name));
 
-        for (final Material material : materials) {
+        final int totalMaterials = materials.length;
+
+        for (int materialIndex = 0; materialIndex < totalMaterials; materialIndex++) {
+            final Material material = materials[materialIndex];
+
             if (material.isAir() || material.isLegacy()) {
                 continue;
             }
 
+            // Highest weight to index 0 (A)
+            // Lowest weight to last index (Z)
+            int weight = totalMaterials - materialIndex;
+
             for (int i = 0; i < categories.length; ++i) {
-                if (categories[i].tryAdd(material)) {
+                if (categories[i].tryAdd(material, weight)) {
                     break;
                 }
 
                 // Catch all other blocks
                 // if no categories wanted the block
                 if (i >= categories.length - 1) {
-                    char firstLetter = material.name().charAt(0);
-
-                    // 'Z' (90) minus 'A' (65) is 25.
-                    // A: (90 - 65) * 5 = 125
-                    // B: (90 - 66) * 5 = 120
-                    // Z: (90 - 90) * 5 = 0
-                    int weight = ('Z' - firstLetter) * 5;
-
                     categories[categories.length - 1].add(material, weight);
                 }
             }
@@ -69,42 +69,37 @@ public final class SortingManager {
      */
     public ItemStack @NonNull [] sortChestItems(@Nullable final ItemStack[] items) {
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
-        final ItemStack[] sortedItems = new ItemStack[itemsToSort.length];
 
-        int sortedIndex = 0;
-        // We use a 64-bit 'long' as a bitmask to keep track of processed items.
-        // Since a double chest in Minecraft has up to 54 slots, a standard 32-bit 'int'
-        // does not have enough bits to represent each slot index individually.
-        long itemDoneCheck = 0L;
+        Arrays.sort(itemsToSort, (item1, item2) -> {
+            int w1 = getWeightSafely(item1);
+            int w2 = getWeightSafely(item2);
 
-        // Priority/Bucket sort: Iterate from the highest weight down to 1.
-        // This ensures heavier (higher priority) items are placed first in the sorted array.
-        for (int currentWeight = Category.MAX_WEIGHT; currentWeight > 0; currentWeight--) {
-            for (int itemIndex = 0; itemIndex < itemsToSort.length; ++itemIndex) {
-                // Bitwise check: If the bit at 'itemIndex' is 1, this item has already been sorted
-                if ((itemDoneCheck & (1L << itemIndex)) != 0) {
-                    continue;
-                }
+            // highest weight first
+            return Integer.compare(w2, w1);
+        });
 
-                final ItemStack item = itemsToSort[itemIndex];
+        return itemsToSort;
+    }
 
-                final Category matchedCategory = findCategoryFor(item.getType());
-
-                if (matchedCategory != null) {
-                    final Integer itemWeight = matchedCategory.getWeightFor(item.getType());
-
-                    // If the item matches the current weight tier, place it in the next available slot
-                    if (itemWeight != null && itemWeight == currentWeight) {
-                        sortedItems[sortedIndex] = item;
-                        sortedIndex++;
-                        // Mark this item index as processed by setting its bit to 1
-                        itemDoneCheck |= (1L << itemIndex);
-                    }
-                }
-            }
+    /**
+     * Gets the weight safely from the item, will return -1 if null
+     *
+     * @param item The item to get the weight from
+     * @return Returns -1 if item is null or if Category is null or if the Integer
+     * to get the weight is null
+     */
+    private int getWeightSafely(final @Nullable ItemStack item) {
+        if (item == null) {
+            return -1;
         }
 
-        return sortedItems;
+        final Category category = findCategoryFor(item.getType());
+        if (category == null) {
+            return -1;
+        }
+
+        final Integer weight = category.getWeightFor(item.getType());
+        return weight != null ? weight : -1;
     }
 
     /**
@@ -116,7 +111,7 @@ public final class SortingManager {
      */
     private @Nullable Category findCategoryFor(final Material material) {
         for (final Category category : categories) {
-            if (category.tryAdd(material)) {
+            if (category.tryAdd(material, -1)) {
                 return category;
             }
         }
