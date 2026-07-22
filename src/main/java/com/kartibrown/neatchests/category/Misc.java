@@ -1,7 +1,9 @@
 package com.kartibrown.neatchests.category;
 
+import com.kartibrown.NeatChestsPlugin;
 import com.kartibrown.neatchests.Category;
 import org.bukkit.Material;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 
 // FALLBACK CLASS
@@ -22,23 +24,18 @@ public final class Misc extends Category {
 
         if(material == Material.DIRT) {
 
-            add(Material.DIRT, weight);
-            add(Material.GRASS_BLOCK, weight);
-            add(Material.COARSE_DIRT, weight);
-            add(Material.PODZOL, weight);
+            addToCategory(OTHER, Material.DIRT, weight);
+            addToCategory(OTHER, Material.GRASS_BLOCK, weight);
+            addToCategory(OTHER, Material.COARSE_DIRT, weight);
+            addToCategory(OTHER, Material.PODZOL, weight);
 
             addMaterialIfExists(OTHER, "ROOTED_DIRT", weight);
             addMaterialIfExists(OTHER, "DIRT_PATH", weight);
             addMaterialIfExists(OTHER, "MYCELIUM", weight);
+
+            return true;
         }
 
         return false;
-    }
-
-    @Override
-    public void add(final Material material, final int weight) {
-        // The SortingManager couldn't find a home for this block,
-        // so it drops here and gets a sorting weight.
-        addToCategory(OTHER, material, weight);
     }
 }
