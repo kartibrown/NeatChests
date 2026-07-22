@@ -12,7 +12,7 @@ public final class Template extends Category {
     {
         super(1);
 
-        setBaseWeight(TEMPLATE, 300);
+        setBaseWeight(TEMPLATE, MIN_WEIGHT + 200);
     }
 
     @Contract("null, _ -> false")

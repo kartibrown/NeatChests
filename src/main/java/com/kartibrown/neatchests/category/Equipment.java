@@ -23,7 +23,7 @@ public final class Equipment extends Category {
 
         // NETHERITE
 
-        setBaseWeight(NETHERITE, 1600);
+        setBaseWeight(NETHERITE, MAX_WEIGHT - 200);
 
         final Material[] netherite = {
                 Material.NETHERITE_AXE,
@@ -47,7 +47,7 @@ public final class Equipment extends Category {
 
         // DIAMOND
 
-        setBaseWeight(DIAMOND, 1550);
+        setBaseWeight(DIAMOND, MAX_WEIGHT - 250);
 
         final Material[] diamond = {
                 Material.DIAMOND_AXE,
@@ -71,7 +71,7 @@ public final class Equipment extends Category {
 
         // GOLD
 
-        setBaseWeight(GOLD,1500);
+        setBaseWeight(GOLD,MAX_WEIGHT - 300);
 
         final Material[] gold = {
                 Material.GOLDEN_AXE,
@@ -95,7 +95,7 @@ public final class Equipment extends Category {
 
         // IRON
 
-        setBaseWeight(IRON,1450);
+        setBaseWeight(IRON,MAX_WEIGHT - 350);
 
         final Material[] iron = {
                 Material.IRON_AXE,
@@ -119,6 +119,8 @@ public final class Equipment extends Category {
 
         // CHAINMAIL
 
+        setBaseWeight(CHAINMAIL, MAX_WEIGHT - 400);
+
         final Material[] chainmail = {
                 Material.CHAINMAIL_HELMET,
                 Material.CHAINMAIL_CHESTPLATE,
@@ -132,7 +134,7 @@ public final class Equipment extends Category {
 
         // COPPER
 
-        setBaseWeight(COPPER,1400);
+        setBaseWeight(COPPER,MAX_WEIGHT - 450);
 
         addMaterialIfExists(COPPER, "COPPER_AXE");
         addMaterialIfExists(COPPER, "COPPER_HOE");
@@ -149,7 +151,7 @@ public final class Equipment extends Category {
 
         // STONE
 
-        setBaseWeight(STONE,1350);
+        setBaseWeight(STONE,MAX_WEIGHT - 500);
 
         final Material[] stone = {
                 Material.STONE_AXE,
@@ -165,7 +167,7 @@ public final class Equipment extends Category {
 
         // WOOD
 
-        setBaseWeight(WOOD,1300);
+        setBaseWeight(WOOD,MAX_WEIGHT - 550);
 
         final Material[] wood = {
                 Material.WOODEN_AXE,
@@ -182,7 +184,7 @@ public final class Equipment extends Category {
 
         // LEATHER
 
-        setBaseWeight(LEATHER,1250);
+        setBaseWeight(LEATHER,MAX_WEIGHT - 600);
 
         final Material[] leather = {
                 Material.LEATHER_HELMET,
@@ -199,7 +201,7 @@ public final class Equipment extends Category {
 
         // MISSED
 
-        setBaseWeight(MISC, 1200);
+        setBaseWeight(MISC, MAX_WEIGHT - 650);
 
         addMaterialIfExists(MISC, "ELYTRA");
         addWithAutoWeight(MISC, Material.FLINT_AND_STEEL);

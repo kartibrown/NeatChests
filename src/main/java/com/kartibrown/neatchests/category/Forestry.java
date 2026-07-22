@@ -12,11 +12,11 @@ public final class Forestry extends Category {
     private static final int DOORS = 3;
     private static final int MISC = 4;
 
-    private static final int LOGS_WEIGHT = 700;
-    private static final int PLANKS_WEIGHT = 650;
-    private static final int SLABS_WEIGHT = 600;
-    private static final int DOORS_WEIGHT = 550;
-    private static final int MISC_WEIGHT = 500;
+    private static final int LOGS_WEIGHT = MAX_WEIGHT - 1500;
+    private static final int PLANKS_WEIGHT = MAX_WEIGHT - 1550;
+    private static final int SLABS_WEIGHT = MAX_WEIGHT - 1600;
+    private static final int DOORS_WEIGHT = MAX_WEIGHT - 1650;
+    private static final int MISC_WEIGHT = MAX_WEIGHT - 1700;
 
     private final String[] woodTypes;
 

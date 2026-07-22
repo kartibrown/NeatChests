@@ -9,7 +9,7 @@ public final class Redstone extends Category {
     public Redstone() {
         super(1);
 
-        setBaseWeight(REDSTONE, 1000);
+        setBaseWeight(REDSTONE, MAX_WEIGHT - 1000);
 
         final Material[] redstone = {
                 Material.REDSTONE,

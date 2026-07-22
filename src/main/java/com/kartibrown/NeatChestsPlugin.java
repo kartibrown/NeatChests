@@ -9,7 +9,6 @@ public class NeatChestsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         final SortingManager sortingManager = new SortingManager();
-
         getServer().getPluginManager().registerEvents(new ChestStorageListener(sortingManager)
                 , this);
 
