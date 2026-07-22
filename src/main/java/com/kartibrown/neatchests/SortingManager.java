@@ -44,18 +44,20 @@ public final class SortingManager {
             // Highest weight to index 0 (A)
             // Lowest weight to last index (Z)
             int weight = totalMaterials - materialIndex;
+            boolean added = false;
 
-            for (int i = 0; i < categories.length; ++i) {
+            for (final Category category : categories) {
 
-                if (categories[i].tryAdd(material, weight)) {
+                if (category.tryAdd(material, weight)) {
+                    added = true;
                     break;
                 }
+            }
 
-                // Catch all other blocks
-                // if no categories wanted the block
-                if (i >= categories.length - 1) {
-                    categories[categories.length - 1].add(material, weight);
-                }
+            // Catch all other blocks
+            // if no categories wanted the block
+            if (!added) {
+                categories[categories.length - 1].add(material, weight);
             }
         }
     }
@@ -74,20 +76,20 @@ public final class SortingManager {
     public ItemStack @NonNull [] sortChestItems(@Nullable final ItemStack[] items) {
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
 
-        Arrays.sort(itemsToSort, (item1, item2) -> {
-            int w1 = getWeightSafely(item1);
-            int w2 = getWeightSafely(item2);
-
-            if (w1 != w2) {
-                // highest weight first
-                return Integer.compare(w2, w1);
-            }
-
-            // if they have same weight, sort by alphabetical order
-            return item1.getType().name().compareTo(item2.getType().name());
-        });
+        Arrays.sort(itemsToSort, this::compareItems);
 
         return itemsToSort;
+    }
+
+    private int compareItems(final ItemStack item1, final ItemStack item2) {
+        final int w1 = getWeightSafely(item1);
+        final int w2 = getWeightSafely(item2);
+
+        if (w1 != w2) {
+            return Integer.compare(w2, w1);
+        }
+
+        return item1.getType().name().compareTo(item2.getType().name());
     }
 
     /**
