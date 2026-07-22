@@ -1,5 +1,6 @@
-package com.kartibrown.neatchests;
+package com.kartibrown.neatchests.listener;
 
+import com.kartibrown.neatchests.sorting.SortingManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

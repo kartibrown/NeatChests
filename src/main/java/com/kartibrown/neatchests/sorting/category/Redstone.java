@@ -1,6 +1,6 @@
-package com.kartibrown.neatchests.category;
+package com.kartibrown.neatchests.sorting.category;
 
-import com.kartibrown.neatchests.Category;
+import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
 
 public final class Redstone extends Category {

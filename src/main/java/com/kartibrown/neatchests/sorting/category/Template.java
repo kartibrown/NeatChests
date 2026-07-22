@@ -1,9 +1,8 @@
-package com.kartibrown.neatchests.category;
+package com.kartibrown.neatchests.sorting.category;
 
-import com.kartibrown.neatchests.Category;
+import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
-import org.jspecify.annotations.NonNull;
 
 public final class Template extends Category {
     private static final int TEMPLATE = 0;

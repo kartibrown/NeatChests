@@ -1,10 +1,8 @@
-package com.kartibrown.neatchests;
+package com.kartibrown.neatchests.sorting;
 
-import com.kartibrown.NeatChestsPlugin;
-import com.kartibrown.neatchests.category.*;
+import com.kartibrown.neatchests.sorting.category.*;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +10,6 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.logging.Logger;
 
 public final class SortingManager {
 

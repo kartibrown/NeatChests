@@ -1,9 +1,7 @@
-package com.kartibrown.neatchests.category;
+package com.kartibrown.neatchests.sorting.category;
 
-import com.kartibrown.NeatChestsPlugin;
-import com.kartibrown.neatchests.Category;
+import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 
 // FALLBACK CLASS

@@ -1,7 +1,7 @@
-package com.kartibrown;
+package com.kartibrown.neatchests;
 
-import com.kartibrown.neatchests.ChestStorageListener;
-import com.kartibrown.neatchests.SortingManager;
+import com.kartibrown.neatchests.listener.ChestStorageListener;
+import com.kartibrown.neatchests.sorting.SortingManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class NeatChestsPlugin extends JavaPlugin {

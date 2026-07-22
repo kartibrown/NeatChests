@@ -1,13 +1,8 @@
-package com.kartibrown.neatchests;
+package com.kartibrown.neatchests.sorting;
 
-import com.kartibrown.NeatChestsPlugin;
-import com.kartibrown.neatchests.category.Misc;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
