@@ -41,10 +41,11 @@ public final class SortingManager {
                 continue;
             }
 
+            // Highest weight to index 0 (A)
+            // Lowest weight to last index (Z)
+            int weight = totalMaterials - materialIndex;
+
             for (int i = 0; i < categories.length; ++i) {
-                // Highest weight to index 0 (A)
-                // Lowest weight to last index (Z)
-                int weight = totalMaterials - materialIndex;
 
                 if (categories[i].tryAdd(material, weight)) {
                     break;
