@@ -1,7 +1,11 @@
 package com.kartibrown.neatchests;
 
+import com.kartibrown.NeatChestsPlugin;
 import com.kartibrown.neatchests.category.Misc;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -37,7 +41,14 @@ public abstract class Category {
      */
     public abstract boolean tryAdd(final Material material, final int weight);
 
+    /**
+     * Most likly only for the FallBack class!
+     *
+     * @param material The material to add
+     * @param weight The weight to add
+     */
     public void add(final Material material, final int weight) {
+        subCategories[0].put(material, weight);
     }
 
     /**
@@ -118,6 +129,16 @@ public abstract class Category {
             }
         }
         return null;
+    }
+
+    @Contract(pure = true)
+    public final boolean contains(final Material material) {
+        for(final Map<Material, Integer> subCategoryMap : subCategories) {
+            if (subCategoryMap.containsKey(material)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

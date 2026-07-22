@@ -1,8 +1,10 @@
 package com.kartibrown.neatchests;
 
+import com.kartibrown.NeatChestsPlugin;
 import com.kartibrown.neatchests.category.*;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +12,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.logging.Logger;
 
 public final class SortingManager {
 
@@ -38,11 +41,11 @@ public final class SortingManager {
                 continue;
             }
 
-            // Highest weight to index 0 (A)
-            // Lowest weight to last index (Z)
-            int weight = totalMaterials - materialIndex;
-
             for (int i = 0; i < categories.length; ++i) {
+                // Highest weight to index 0 (A)
+                // Lowest weight to last index (Z)
+                int weight = totalMaterials - materialIndex;
+
                 if (categories[i].tryAdd(material, weight)) {
                     break;
                 }
@@ -74,8 +77,13 @@ public final class SortingManager {
             int w1 = getWeightSafely(item1);
             int w2 = getWeightSafely(item2);
 
-            // highest weight first
-            return Integer.compare(w2, w1);
+            if (w1 != w2) {
+                // highest weight first
+                return Integer.compare(w2, w1);
+            }
+
+            // if they have same weight, sort by alphabetical order
+            return item1.getType().name().compareTo(item2.getType().name());
         });
 
         return itemsToSort;
@@ -99,6 +107,7 @@ public final class SortingManager {
         }
 
         final Integer weight = category.getWeightFor(item.getType());
+
         return weight != null ? weight : -1;
     }
 
@@ -109,9 +118,10 @@ public final class SortingManager {
      * @param material The material to find the category for
      * @return Returns the category that the material is in
      */
+    @Contract(pure = true)
     private @Nullable Category findCategoryFor(final Material material) {
         for (final Category category : categories) {
-            if (category.tryAdd(material, -1)) {
+            if (category.contains(material)) {
                 return category;
             }
         }
