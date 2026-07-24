@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -29,61 +30,111 @@ public final class ChestStorageListener implements Listener {
 
     @EventHandler
     public void onClick(final @NonNull InventoryClickEvent event) {
-        // Always get the top inventory to check if a chest is open
-        final Inventory topInventory = event.getInventory();
 
-        if (topInventory.getType() == InventoryType.CHEST ||
-                topInventory.getType() == InventoryType.SHULKER_BOX) {
-            handleChestClick(event, topInventory);
-        }
-    }
+        final Inventory clickedInventory = event.getClickedInventory();
 
-    private void handleChestClick(final @NonNull InventoryClickEvent event,
-                                  final Inventory chestInventory) {
-        // check if they clicked the actual chest
-        if (event.getRawSlot() >= event.getInventory().getSize()) {
+        if (clickedInventory == null) {
             return;
         }
 
-        // check if they double-clicked (using Paper's ClickType)
-        if (event.getClick() == ClickType.LEFT) {
-            final Player player = (Player) event.getWhoClicked();
-            final UUID playerUUID = player.getUniqueId();
-            final long currentTime = System.currentTimeMillis();
+        final InventoryType type = clickedInventory.getType();
 
-            // get the last time player clicked
-            final long lastTime = lastClickTime.getOrDefault(playerUUID, 0L);
-
-            lastClickTime.put(playerUUID, currentTime + 1);
-
-            // if player double-clicked within 250ms
-            if (currentTime - lastTime < 250L) {
-                // cancel the default double-click behavior (gathering identical items)
-                event.setCancelled(true);
-
-                // get all items currently in the chest and sort them
-                final ItemStack[] sortedItems = sortingManager.sortChestItems(
-                        chestInventory.getContents()
-                );
-
-                // create a new array with same length/size as the chest
-                final ItemStack[] finalSortedItems = new ItemStack[chestInventory.getSize()];
-                // copy the contents of the sorted items
-                System.arraycopy(sortedItems, 0, finalSortedItems, 0, sortedItems.length);
-
-                // put the sorted items back into the chest
-                chestInventory.setContents(finalSortedItems);
-
-                // Reset timer so a new click registers as a first click
-                lastClickTime.put(playerUUID, 0L);
-
-                player.sendMessage("§aChest sorted!");
-            }
-            else  {
-                // save the timer if it wasn't a double click
-                lastClickTime.put(playerUUID, currentTime);
-            }
+        if (type == InventoryType.PLAYER
+                || type == InventoryType.CHEST
+                || type == InventoryType.SHULKER_BOX
+                || type == InventoryType.ENDER_CHEST) {
+            handleInventoryClick(event, clickedInventory);
         }
+    }
+
+    private void handleInventoryClick(
+            final @NonNull InventoryClickEvent event,
+            final @NonNull Inventory inventory
+    ) {
+        // Return if it's not a left-click so it doesn't trigger when left- and then right-clicking
+        if (event.getClick() != ClickType.LEFT) {
+            return;
+        }
+
+        final Player player = (Player) event.getWhoClicked();
+
+        // return if it's not a double click
+        if (!isDoubleClick(player)) {
+            return;
+        }
+
+        // Cancel the default click/double-click behavior
+        event.setCancelled(true);
+
+        final ItemStack[] contents = inventory.getStorageContents();
+
+        if (inventory.getType() == InventoryType.PLAYER) {
+            final int hotBarSize = 9;
+
+            // ignores the hotbar in the players inventory
+            final ItemStack[] sortableContents = Arrays.copyOfRange(
+                    contents,
+                    hotBarSize,
+                    contents.length);
+
+            final ItemStack[] sortedContents = sortingManager.sortChestItems(sortableContents);
+
+            // keep the original to keep the hotbar from changing
+            final ItemStack[] finalContents = contents.clone();
+
+            // Only empty the inventory above the hotbar
+            Arrays.fill(finalContents, hotBarSize, finalContents.length, null);
+
+            // put back the items after the hotbar
+            System.arraycopy(
+                    sortedContents,
+                    0,
+                    finalContents,
+                    hotBarSize,
+                    sortedContents.length
+            );
+
+            inventory.setStorageContents(finalContents);
+        }
+        else {
+
+            final ItemStack[] sortedItems =
+                    sortingManager.sortChestItems(contents);
+
+            final ItemStack[] finalContents =
+                    new ItemStack[contents.length];
+
+            // copy the
+            System.arraycopy(
+                    sortedItems,
+                    0,
+                    finalContents,
+                    0,
+                    sortedItems.length
+            );
+
+            inventory.setStorageContents(finalContents);
+        }
+
+        player.sendMessage(
+                inventory.getType() == InventoryType.PLAYER
+                        ? "§aInventory sorted!"
+                        : "§aChest sorted!"
+        );
+    }
+
+    private boolean isDoubleClick(final @NonNull Player player) {
+        final UUID uuid = player.getUniqueId();
+        final long currentTime = System.currentTimeMillis();
+        final long lastTime = lastClickTime.getOrDefault(uuid, 0L);
+
+        if (currentTime - lastTime < 250L) {
+            lastClickTime.put(uuid, 0L);
+            return true;
+        }
+
+        lastClickTime.put(uuid, currentTime);
+        return false;
     }
 }
 
