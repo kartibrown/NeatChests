@@ -37,7 +37,7 @@ public abstract class Category {
     public abstract boolean tryAdd(final Material material, final int weight);
 
     /**
-     * Most likly only for the FallBack class!
+     * Most likely only for the FallBack class!
      *
      * @param material The material to add
      * @param weight The weight to add
