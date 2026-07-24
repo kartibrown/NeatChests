@@ -70,7 +70,7 @@ public final class SortingManager {
      * @param items The chest items to sort (can contain null/empty slots)
      * @return A new array containing the sorted items, compressed without empty spaces
      */
-    public ItemStack @NonNull [] sortChestItems(@Nullable final ItemStack[] items) {
+    public ItemStack @NonNull [] sortChestItems(final @Nullable ItemStack @NonNull [] items) {
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
 
         Arrays.sort(itemsToSort, this::compareItems);
@@ -138,10 +138,8 @@ public final class SortingManager {
      * @param items The array of item stacks to merge (can contain nulls)
      * @return The same array with items merged, or null if the input was null
      */
-    @Contract("null -> null")
-    private ItemStack @Nullable [] mergeBlocks(@Nullable final ItemStack[] items) {
-
-        if (items == null) return null;
+    @Contract("_ -> param1")
+    private @Nullable ItemStack @NonNull [] mergeBlocks(final @Nullable ItemStack @NonNull [] items) {
 
         // Find an item stack that has room for more items
         for (int i = 0; i < items.length; i++) {
@@ -192,19 +190,16 @@ public final class SortingManager {
      * @return A new array compressed to the exact size of the valid items contained within
      */
     @NotNull
-    private ItemStack @NonNull [] removeEmptySlots(@Nullable final ItemStack[] items) {
+    private ItemStack @NonNull [] removeEmptySlots(final @Nullable ItemStack @NonNull [] items) {
         final ItemStack[] newItems = new ItemStack[items.length];
         int itemCount = 0;
 
-        for (final ItemStack item : items) {
-            if (item == null) {
+        for (final @Nullable ItemStack item : items) {
+            if (item == null || item.isEmpty()) {
                 continue;
             }
 
-            if (!item.isEmpty()) {
-                newItems[itemCount] = item;
-                itemCount++;
-            }
+            newItems[itemCount++] = item;
         }
 
         return Arrays.copyOf(newItems, itemCount);
