@@ -12,14 +12,16 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public final class ChestStorageListener implements Listener {
     final SortingManager sortingManager;
 
-    private final HashMap<UUID, Long> lastClickTime;
+    private final Map<UUID, Long> lastClickTime;
 
     @Contract(pure = true)
     public ChestStorageListener(final SortingManager sortingManager) {
@@ -30,6 +32,11 @@ public final class ChestStorageListener implements Listener {
 
     @EventHandler
     public void onClick(final @NonNull InventoryClickEvent event) {
+        // ignore if cursor is not empty
+        final ItemStack cursor = event.getCursor();
+        if (!cursor.isEmpty()) {
+            return;
+        }
 
         final Inventory clickedInventory = event.getClickedInventory();
 
@@ -95,8 +102,7 @@ public final class ChestStorageListener implements Listener {
             );
 
             inventory.setStorageContents(finalContents);
-        }
-        else {
+        } else {
 
             final ItemStack[] sortedItems =
                     sortingManager.sortChestItems(contents);
