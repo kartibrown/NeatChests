@@ -204,6 +204,11 @@ public final class Equipment extends Category {
         setBaseWeight(MISC, MAX_WEIGHT - 650);
 
         addMaterialIfExists(MISC, "ELYTRA");
+        addWithAutoWeight(MISC, Material.BOW);
+        addMaterialIfExists(MISC, "CROSSBOW");
+        addWithAutoWeight(MISC, Material.ARROW);
+        addMaterialIfExists(MISC, "TIPPED_ARROW");
+        addMaterialIfExists(MISC, "SPECTRAL_ARROW");
         addWithAutoWeight(MISC, Material.FLINT_AND_STEEL);
         addWithAutoWeight(MISC, Material.FISHING_ROD);
         addWithAutoWeight(MISC, Material.CARROT_ON_A_STICK);
