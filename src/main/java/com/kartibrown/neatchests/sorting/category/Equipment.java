@@ -209,6 +209,7 @@ public final class Equipment extends Category {
         addWithAutoWeight(MISC, Material.ARROW);
         addMaterialIfExists(MISC, "TIPPED_ARROW");
         addMaterialIfExists(MISC, "SPECTRAL_ARROW");
+        addWithAutoWeight(MISC, Material.BUCKET);
         addWithAutoWeight(MISC, Material.FLINT_AND_STEEL);
         addWithAutoWeight(MISC, Material.FISHING_ROD);
         addWithAutoWeight(MISC, Material.CARROT_ON_A_STICK);
