@@ -90,7 +90,7 @@ public abstract class Category {
 
     /**
      * Adds a material to the desired sub category and automates the weight.<br>
-     * Can be used without setBaseWeight() but the weight will be set to MAX_WEIGHT / 2
+     * Can be used without setBaseWeight() but the weight will be set to (MAX_WEIGHT + MIN_WEIGHT) / 2
      *
      * @param subCategoryIndex The desired sub category
      * @param material The item to add
