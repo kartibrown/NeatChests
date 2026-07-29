@@ -7,11 +7,13 @@ import org.jetbrains.annotations.Contract;
 public final class Template extends Category {
     private static final int TEMPLATE = 0;
 
+    private static final int TEMPLATE_WEIGHT = MIN_WEIGHT + 200;
+
     public Template()
     {
         super(1);
 
-        setBaseWeight(TEMPLATE, MIN_WEIGHT + 200);
+        setBaseWeight(TEMPLATE, TEMPLATE_WEIGHT);
     }
 
     @Contract("null, _ -> false")

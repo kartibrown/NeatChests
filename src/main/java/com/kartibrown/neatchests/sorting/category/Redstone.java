@@ -6,10 +6,12 @@ import org.bukkit.Material;
 public final class Redstone extends Category {
     private static final int REDSTONE = 0;
 
+    private static final int REDSTONE_WEIGHT = MAX_WEIGHT - 1000;
+
     public Redstone() {
         super(1);
 
-        setBaseWeight(REDSTONE, MAX_WEIGHT - 1000);
+        setBaseWeight(REDSTONE, REDSTONE_WEIGHT);
 
         final Material[] redstone = {
                 Material.REDSTONE,
