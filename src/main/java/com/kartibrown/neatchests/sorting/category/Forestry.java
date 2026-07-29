@@ -30,7 +30,7 @@ public final class Forestry extends Category {
     public boolean tryAdd(final @NonNull Material material, final int weight) {
         final String name = material.name();
 
-        // 1. Wood type gatekeeper
+        // Wood type gatekeeper
         boolean isWoodFamily = false;
         for (final String woodType : woodTypes) {
             if (name.contains(woodType)) {
