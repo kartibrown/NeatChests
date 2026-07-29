@@ -18,12 +18,23 @@ public final class Equipment extends Category {
     private static final int LEATHER = 8;
     private static final int MISC = 9;
 
+    private static final int NETHERITE_WEIGHT = MAX_WEIGHT - 200;
+    private static final int DIAMOND_WEIGHT = MAX_WEIGHT - 250;
+    private static final int GOLD_WEIGHT = MAX_WEIGHT - 300;
+    private static final int IRON_WEIGHT = MAX_WEIGHT - 350;
+    private static final int CHAINMAIL_WEIGHT = MAX_WEIGHT - 400;
+    private static final int COPPER_WEIGHT = MAX_WEIGHT - 450;
+    private static final int STONE_WEIGHT = MAX_WEIGHT - 500;
+    private static final int WOOD_WEIGHT = MAX_WEIGHT - 550;
+    private static final int LEATHER_WEIGHT = MAX_WEIGHT - 600;
+    private static final int MISC_WEIGHT = MAX_WEIGHT - 650;
+
     public Equipment() {
         super(10);
 
         // NETHERITE
 
-        setBaseWeight(NETHERITE, MAX_WEIGHT - 200);
+        setBaseWeight(NETHERITE, NETHERITE_WEIGHT);
 
         final Material[] netherite = {
                 Material.NETHERITE_AXE,
@@ -37,7 +48,7 @@ public final class Equipment extends Category {
                 Material.NETHERITE_BOOTS
         };
 
-        for(final Material mat : netherite) {
+        for (final Material mat : netherite) {
             addWithAutoWeight(NETHERITE, mat);
         }
 
@@ -47,7 +58,7 @@ public final class Equipment extends Category {
 
         // DIAMOND
 
-        setBaseWeight(DIAMOND, MAX_WEIGHT - 250);
+        setBaseWeight(DIAMOND, DIAMOND_WEIGHT);
 
         final Material[] diamond = {
                 Material.DIAMOND_AXE,
@@ -61,7 +72,7 @@ public final class Equipment extends Category {
                 Material.DIAMOND_BOOTS
         };
 
-        for(final Material mat : diamond) {
+        for (final Material mat : diamond) {
             addWithAutoWeight(DIAMOND, mat);
         }
 
@@ -71,7 +82,7 @@ public final class Equipment extends Category {
 
         // GOLD
 
-        setBaseWeight(GOLD,MAX_WEIGHT - 300);
+        setBaseWeight(GOLD, GOLD_WEIGHT);
 
         final Material[] gold = {
                 Material.GOLDEN_AXE,
@@ -85,7 +96,7 @@ public final class Equipment extends Category {
                 Material.GOLDEN_BOOTS
         };
 
-        for(final Material mat : gold) {
+        for (final Material mat : gold) {
             addWithAutoWeight(GOLD, mat);
         }
 
@@ -95,7 +106,7 @@ public final class Equipment extends Category {
 
         // IRON
 
-        setBaseWeight(IRON,MAX_WEIGHT - 350);
+        setBaseWeight(IRON, IRON_WEIGHT);
 
         final Material[] iron = {
                 Material.IRON_AXE,
@@ -109,7 +120,7 @@ public final class Equipment extends Category {
                 Material.IRON_BOOTS
         };
 
-        for(final Material mat : iron) {
+        for (final Material mat : iron) {
             addWithAutoWeight(IRON, mat);
         }
 
@@ -119,7 +130,7 @@ public final class Equipment extends Category {
 
         // CHAINMAIL
 
-        setBaseWeight(CHAINMAIL, MAX_WEIGHT - 400);
+        setBaseWeight(CHAINMAIL, CHAINMAIL_WEIGHT);
 
         final Material[] chainmail = {
                 Material.CHAINMAIL_HELMET,
@@ -128,13 +139,13 @@ public final class Equipment extends Category {
                 Material.CHAINMAIL_BOOTS
         };
 
-        for(final Material mat : chainmail) {
+        for (final Material mat : chainmail) {
             addWithAutoWeight(CHAINMAIL, mat);
         }
 
         // COPPER
 
-        setBaseWeight(COPPER,MAX_WEIGHT - 450);
+        setBaseWeight(COPPER, COPPER_WEIGHT);
 
         addMaterialIfExists(COPPER, "COPPER_AXE");
         addMaterialIfExists(COPPER, "COPPER_HOE");
@@ -151,7 +162,7 @@ public final class Equipment extends Category {
 
         // STONE
 
-        setBaseWeight(STONE,MAX_WEIGHT - 500);
+        setBaseWeight(STONE, STONE_WEIGHT);
 
         final Material[] stone = {
                 Material.STONE_AXE,
@@ -161,13 +172,13 @@ public final class Equipment extends Category {
                 Material.STONE_SWORD
         };
 
-        for(final Material mat : stone) {
+        for (final Material mat : stone) {
             addWithAutoWeight(STONE, mat);
         }
 
         // WOOD
 
-        setBaseWeight(WOOD,MAX_WEIGHT - 550);
+        setBaseWeight(WOOD, WOOD_WEIGHT);
 
         final Material[] wood = {
                 Material.WOODEN_AXE,
@@ -178,13 +189,13 @@ public final class Equipment extends Category {
                 Material.SHIELD
         };
 
-        for(final Material mat : wood) {
+        for (final Material mat : wood) {
             addWithAutoWeight(WOOD, mat);
         }
 
         // LEATHER
 
-        setBaseWeight(LEATHER,MAX_WEIGHT - 600);
+        setBaseWeight(LEATHER, LEATHER_WEIGHT);
 
         final Material[] leather = {
                 Material.LEATHER_HELMET,
@@ -193,7 +204,7 @@ public final class Equipment extends Category {
                 Material.LEATHER_BOOTS
         };
 
-        for(final Material mat : leather) {
+        for (final Material mat : leather) {
             addWithAutoWeight(LEATHER, mat);
         }
 
@@ -201,7 +212,7 @@ public final class Equipment extends Category {
 
         // MISSED
 
-        setBaseWeight(MISC, MAX_WEIGHT - 650);
+        setBaseWeight(MISC, MISC_WEIGHT);
 
         addMaterialIfExists(MISC, "ELYTRA");
         addWithAutoWeight(MISC, Material.BOW);
