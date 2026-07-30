@@ -5,25 +5,25 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
-import static java.util.Locale.LanguageRange.MAX_WEIGHT;
-
 public final class Forestry extends Category {
     private static final int LOGS = 0;
     private static final int PLANKS = 1;
     private static final int SLABS = 2;
     private static final int DOORS = 3;
     private static final int MISC = 4;
+    private static final int SAPLING = 5;
 
     private static final int LOGS_OFFSET = 0;
     private static final int PLANKS_OFFSET = 50;
     private static final int SLABS_OFFSET = 100;
     private static final int DOORS_OFFSET = 150;
     private static final int MISC_OFFSET = 200;
+    private static final int SAPLING_OFFSET = 250;
 
     private final String[] woodTypes;
 
     public Forestry() {
-        super(5);
+        super(6);
 
         woodTypes = getTypes();
     }
@@ -41,17 +41,27 @@ public final class Forestry extends Category {
             }
         }
 
+        /*
+         * If this list gets big, consider using a 
+         */
         // Universal item fallback
-        if (name.contains("STICK")) {
+        if (name.equals("STICK") || name.equals("BOWL") || name.equals("LADDER")) {
             addToCategory(MISC, material, getWeightOffset(MISC_OFFSET));
             return true;
         }
 
+        // if it's a wood type
         if (!isWoodFamily) {
             return false;
         }
 
         // --- SORTING THE WOOD FAMILY ---
+
+        //Add saplings to the saplings sub-category
+        if (name.startsWith("POTTED_") || name.endsWith("_SAPLING")) {
+            addToCategory(SAPLING, material, getWeightOffset(SAPLING_OFFSET));
+            return true;
+        }
 
         // Manage not a block things
         if (!material.isBlock()) {
@@ -78,7 +88,7 @@ public final class Forestry extends Category {
             return true;
         } else if (name.contains("PLANKS") || name.equals("WOOD")) {
             // Gets modern planks and also 1.12 legacy "WOOD"
-            addToCategory(PLANKS, material,  getWeightOffset(PLANKS_OFFSET));
+            addToCategory(PLANKS, material, getWeightOffset(PLANKS_OFFSET));
             return true;
         } else if (name.contains("LOG") || name.contains("WOOD") ||
                 name.contains("STEM") || name.contains("HYPHAE") ||
