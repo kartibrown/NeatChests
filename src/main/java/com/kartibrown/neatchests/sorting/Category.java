@@ -8,24 +8,27 @@ import org.jspecify.annotations.Nullable;
 import java.util.*;
 
 public abstract class Category {
-    protected static final int MIN_WEIGHT = Material.values().length + 1;
-    protected static final int MAX_WEIGHT = MIN_WEIGHT + 2000;
+
+    protected int baseWeight;
 
     protected final Map<Material, Integer>[] subCategories;
-
-    private final int[] nextAvailableWeights;
 
     @SuppressWarnings("unchecked")
     public Category(final int numberOfSubCategories) {
 
         subCategories = (EnumMap<Material, Integer>[]) new EnumMap[numberOfSubCategories];
-        nextAvailableWeights = new int[numberOfSubCategories];
 
         for (int i = 0; i < numberOfSubCategories; i++) {
             subCategories[i] = new EnumMap<>(Material.class);
-
-            nextAvailableWeights[i] = (MAX_WEIGHT + MIN_WEIGHT) / 2;
         }
+    }
+
+    /**
+     * Initializes the category after its base weight has been assigned.
+     * Categories that do not require initialization may use the default implementation.
+     */
+    public void initialize() {
+
     }
 
     /**
@@ -34,13 +37,14 @@ public abstract class Category {
      * @param material The material checked
      * @return Returns true if a material was successfully added to its category
      */
-    public abstract boolean tryAdd(final Material material, final int weight);
+    public abstract boolean tryAdd(final Material material);
 
     /**
-     * Most likely only for the FallBack class!
+     * Most likely only for the FallBack class!<br>
+     * Adds the material to the first sub-category with a weight
      *
      * @param material The material to add
-     * @param weight The weight to add
+     * @param weight   The weight to add
      */
     public void add(final Material material, final int weight) {
         subCategories[0].put(material, weight);
@@ -85,7 +89,7 @@ public abstract class Category {
      * Adds to the sub category map with a chosen weight
      */
     protected void addToCategory(final int subCategoryIndex, final Material material, final int weight) {
-        subCategories[subCategoryIndex].put(material, Math.clamp(weight, MIN_WEIGHT, MAX_WEIGHT));
+        subCategories[subCategoryIndex].put(material, weight);
     }
 
     /**
@@ -93,14 +97,12 @@ public abstract class Category {
      * Can be used without setBaseWeight() but the weight will be set to (MAX_WEIGHT + MIN_WEIGHT) / 2
      *
      * @param subCategoryIndex The desired sub category
-     * @param material The item to add
+     * @param material         The item to add
      */
     protected final void addWithAutoWeight(final int subCategoryIndex, final Material material) {
-        int currentWeight = nextAvailableWeights[subCategoryIndex];
-        subCategories[subCategoryIndex].put(material, currentWeight);
+        subCategories[subCategoryIndex].put(material, baseWeight);
 
-        // protects it from going under misc's (FALLBACK CLASS) weight
-        nextAvailableWeights[subCategoryIndex] = Math.max(currentWeight - 1, MIN_WEIGHT);
+        baseWeight--;
     }
 
     /*
@@ -126,9 +128,20 @@ public abstract class Category {
         return null;
     }
 
+    /**
+     * Gets the weight with offset
+     *
+     * @param offset The offset set by category
+     * @return Returns weight - offset
+     */
+    @Contract(pure = true)
+    protected final int getWeightOffset(final int offset) {
+        return baseWeight - offset;
+    }
+
     @Contract(pure = true)
     public final boolean contains(final Material material) {
-        for(final Map<Material, Integer> subCategoryMap : subCategories) {
+        for (final Map<Material, Integer> subCategoryMap : subCategories) {
             if (subCategoryMap.containsKey(material)) {
                 return true;
             }
@@ -137,12 +150,11 @@ public abstract class Category {
     }
 
     /**
-     * Sets the base weight for the sub category, default is (MAX_WEIGHT + MIN_WEIGHT) / 2
+     * Sets the base weight for the category
      *
-     * @param subCategoryIndex The sub category to set the weight to
      * @param weight The weight
      */
-    protected final void setBaseWeight(final int subCategoryIndex, final int weight) {
-        nextAvailableWeights[subCategoryIndex] = Math.clamp(weight, 0, MAX_WEIGHT);
+    protected final void setBaseWeight(final int weight) {
+        baseWeight = weight;
     }
 }

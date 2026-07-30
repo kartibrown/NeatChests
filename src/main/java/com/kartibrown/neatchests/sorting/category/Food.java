@@ -3,16 +3,15 @@ package com.kartibrown.neatchests.sorting.category;
 import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
 
-public class Food extends Category {
+public final class Food extends Category {
     private static final int FOOD = 0;
-
-    private static final int FOOD_WEIGHT = MAX_WEIGHT - 1100;
 
     public Food() {
         super(1);
+    }
 
-        setBaseWeight(FOOD, FOOD_WEIGHT);
-
+    @Override
+    public void initialize() {
         final Material[] food = {
                 Material.ENCHANTED_GOLDEN_APPLE,
                 Material.GOLDEN_APPLE,
@@ -52,7 +51,7 @@ public class Food extends Category {
     }
 
     @Override
-    public boolean tryAdd(final Material material, final int weight) {
+    public boolean tryAdd(final Material material) {
         return subCategories[FOOD].containsKey(material);
     }
 }

@@ -15,25 +15,44 @@ public final class Misc extends Category {
 
     @Contract(pure = true)
     @Override
-    public boolean tryAdd(final Material material, final int weight) {
-        if(subCategories[OTHER].containsKey(material)) {
-            return true;
-        }
-
-        if(material == Material.DIRT) {
-
-            addToCategory(OTHER, Material.DIRT, weight);
-            addToCategory(OTHER, Material.GRASS_BLOCK, weight);
-            addToCategory(OTHER, Material.COARSE_DIRT, weight);
-            addToCategory(OTHER, Material.PODZOL, weight);
-
-            addMaterialIfExists(OTHER, "ROOTED_DIRT", weight);
-            addMaterialIfExists(OTHER, "DIRT_PATH", weight);
-            addMaterialIfExists(OTHER, "MYCELIUM", weight);
-
-            return true;
-        }
-
+    public boolean tryAdd(final Material material) {
         return false;
+    }
+
+    /**
+     *  Fallback class needs the weight to sort. e.g.<br>
+     *  DIRT has other similar blocks like PODZOL or MYCELIUM as they don't
+     *  start with same character they'll otherwise get in weird places
+     *
+     * @param material The fallback material to add
+     * @param weight The weight to be added with it
+     */
+    public void addFallback(final Material material, final int weight) {
+        if (tryAddGroupedMaterial(material, weight)) {
+            return;
+        }
+
+        add(material, weight);
+    }
+
+    private boolean tryAddGroupedMaterial(final Material material, final int weight) {
+        if (subCategories[OTHER].containsKey(material)) {
+            return true;
+        }
+
+        if (material != Material.DIRT) {
+            return false;
+        }
+
+        addToCategory(OTHER, Material.DIRT, weight);
+        addToCategory(OTHER, Material.GRASS_BLOCK, weight);
+        addToCategory(OTHER, Material.COARSE_DIRT, weight);
+        addToCategory(OTHER, Material.PODZOL, weight);
+
+        addMaterialIfExists(OTHER, "ROOTED_DIRT", weight);
+        addMaterialIfExists(OTHER, "DIRT_PATH", weight);
+        addMaterialIfExists(OTHER, "MYCELIUM", weight);
+
+        return true;
     }
 }

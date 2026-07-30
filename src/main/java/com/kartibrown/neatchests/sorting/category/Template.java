@@ -7,18 +7,14 @@ import org.jetbrains.annotations.Contract;
 public final class Template extends Category {
     private static final int TEMPLATE = 0;
 
-    private static final int TEMPLATE_WEIGHT = MIN_WEIGHT + 200;
-
     public Template()
     {
         super(1);
-
-        setBaseWeight(TEMPLATE, TEMPLATE_WEIGHT);
     }
 
-    @Contract("null, _ -> false")
+    @Contract("null -> false")
     @Override
-    public boolean tryAdd(final Material material, final int weight) {
+    public boolean tryAdd(final Material material) {
         if (material != null && material.name().endsWith("_SMITHING_TEMPLATE")) {
             addWithAutoWeight(TEMPLATE, material);
             return true;

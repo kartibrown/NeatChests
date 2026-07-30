@@ -6,13 +6,12 @@ import org.bukkit.Material;
 public final class Redstone extends Category {
     private static final int REDSTONE = 0;
 
-    private static final int REDSTONE_WEIGHT = MAX_WEIGHT - 1000;
-
     public Redstone() {
         super(1);
+    }
 
-        setBaseWeight(REDSTONE, REDSTONE_WEIGHT);
-
+    @Override
+    public void initialize() {
         final Material[] redstone = {
                 Material.REDSTONE,
                 Material.REDSTONE_BLOCK,
@@ -59,7 +58,7 @@ public final class Redstone extends Category {
     }
 
     @Override
-    public boolean tryAdd(final Material material, final int weight) {
+    public boolean tryAdd(final Material material) {
         return subCategories[REDSTONE].containsKey(material);
     }
 }

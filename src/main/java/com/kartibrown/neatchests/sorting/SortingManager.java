@@ -13,20 +13,46 @@ import java.util.Comparator;
 
 public final class SortingManager {
 
+    private static final int CATEGORY_SPACING = 2000;
+
     private final Category[] categories;
 
     public SortingManager() {
+        // Throw exception if category spacing is too small
+        if (Material.values().length >= CATEGORY_SPACING) {
+            throw new IllegalStateException(
+                    "CATEGORY_SPACING (" + CATEGORY_SPACING +
+                            ") must be larger than the number of materials (" +
+                            Material.values().length + ")."
+            );
+        }
+
+        // Fallback class
+        final Misc misc = new Misc();
+
         categories = new Category[]{
                 new Valuables(),
                 new Equipment(),
                 new Redstone(),
+                new Food(),
                 new Forestry(),
                 new Template(),
-                new Misc()
+                misc
         };
 
+        int baseWeight = 1_000_000;
+
+        for (final Category category : categories) {
+            // Set weight
+            category.setBaseWeight(baseWeight);
+            baseWeight -= CATEGORY_SPACING;
+
+            // Initialize the materials of each category
+            category.initialize();
+        }
+
         final Material[] materials = Material.values();
-        // sorts the array alphabetically
+        // sort the materials in alphabetical order
         Arrays.sort(materials, Comparator.comparing(Material::name));
 
         final int totalMaterials = materials.length;
@@ -38,23 +64,24 @@ public final class SortingManager {
                 continue;
             }
 
-            // Highest weight to index 0 (A)
-            // Lowest weight to last index (Z)
-            int weight = totalMaterials - materialIndex;
+            final int alphabeticalWeight = totalMaterials - materialIndex;
             boolean added = false;
 
-            for (final Category category : categories) {
+            // Misc is fallback and doesn't need testing here
+            for (int categoryIndex = 0;
+                 categoryIndex < categories.length - 1;
+                 categoryIndex++) {
 
-                if (category.tryAdd(material, weight)) {
+                // Adds or checks that a material has been added
+                if (categories[categoryIndex].tryAdd(material)) {
                     added = true;
                     break;
                 }
             }
 
-            // Catch all other blocks
-            // if no categories wanted the block
+            // FALLBACK
             if (!added) {
-                categories[categories.length - 1].add(material, weight);
+                misc.addFallback(material, alphabeticalWeight);
             }
         }
     }
