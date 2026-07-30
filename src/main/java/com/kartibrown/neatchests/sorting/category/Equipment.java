@@ -18,23 +18,13 @@ public final class Equipment extends Category {
     private static final int LEATHER = 8;
     private static final int MISC = 9;
 
-    private static final int NETHERITE_WEIGHT = MAX_WEIGHT - 200;
-    private static final int DIAMOND_WEIGHT = MAX_WEIGHT - 250;
-    private static final int GOLD_WEIGHT = MAX_WEIGHT - 300;
-    private static final int IRON_WEIGHT = MAX_WEIGHT - 350;
-    private static final int CHAINMAIL_WEIGHT = MAX_WEIGHT - 400;
-    private static final int COPPER_WEIGHT = MAX_WEIGHT - 450;
-    private static final int STONE_WEIGHT = MAX_WEIGHT - 500;
-    private static final int WOOD_WEIGHT = MAX_WEIGHT - 550;
-    private static final int LEATHER_WEIGHT = MAX_WEIGHT - 600;
-    private static final int MISC_WEIGHT = MAX_WEIGHT - 650;
-
     public Equipment() {
         super(10);
+    }
 
+    @Override
+    public void initialize() {
         // NETHERITE
-
-        setBaseWeight(NETHERITE, NETHERITE_WEIGHT);
 
         final Material[] netherite = {
                 Material.NETHERITE_AXE,
@@ -58,8 +48,6 @@ public final class Equipment extends Category {
 
         // DIAMOND
 
-        setBaseWeight(DIAMOND, DIAMOND_WEIGHT);
-
         final Material[] diamond = {
                 Material.DIAMOND_AXE,
                 Material.DIAMOND_HOE,
@@ -81,8 +69,6 @@ public final class Equipment extends Category {
         addMaterialIfExists(DIAMOND, "DIAMOND_SPEAR");
 
         // GOLD
-
-        setBaseWeight(GOLD, GOLD_WEIGHT);
 
         final Material[] gold = {
                 Material.GOLDEN_AXE,
@@ -106,8 +92,6 @@ public final class Equipment extends Category {
 
         // IRON
 
-        setBaseWeight(IRON, IRON_WEIGHT);
-
         final Material[] iron = {
                 Material.IRON_AXE,
                 Material.IRON_HOE,
@@ -130,8 +114,6 @@ public final class Equipment extends Category {
 
         // CHAINMAIL
 
-        setBaseWeight(CHAINMAIL, CHAINMAIL_WEIGHT);
-
         final Material[] chainmail = {
                 Material.CHAINMAIL_HELMET,
                 Material.CHAINMAIL_CHESTPLATE,
@@ -144,8 +126,6 @@ public final class Equipment extends Category {
         }
 
         // COPPER
-
-        setBaseWeight(COPPER, COPPER_WEIGHT);
 
         addMaterialIfExists(COPPER, "COPPER_AXE");
         addMaterialIfExists(COPPER, "COPPER_HOE");
@@ -162,8 +142,6 @@ public final class Equipment extends Category {
 
         // STONE
 
-        setBaseWeight(STONE, STONE_WEIGHT);
-
         final Material[] stone = {
                 Material.STONE_AXE,
                 Material.STONE_HOE,
@@ -177,8 +155,6 @@ public final class Equipment extends Category {
         }
 
         // WOOD
-
-        setBaseWeight(WOOD, WOOD_WEIGHT);
 
         final Material[] wood = {
                 Material.WOODEN_AXE,
@@ -195,8 +171,6 @@ public final class Equipment extends Category {
 
         // LEATHER
 
-        setBaseWeight(LEATHER, LEATHER_WEIGHT);
-
         final Material[] leather = {
                 Material.LEATHER_HELMET,
                 Material.LEATHER_CHESTPLATE,
@@ -211,8 +185,6 @@ public final class Equipment extends Category {
         addMaterialIfExists(LEATHER, "LEATHER_HORSE_ARMOR");
 
         // MISSED
-
-        setBaseWeight(MISC, MISC_WEIGHT);
 
         addMaterialIfExists(MISC, "ELYTRA");
         addWithAutoWeight(MISC, Material.BOW);
@@ -252,7 +224,7 @@ public final class Equipment extends Category {
     }
 
     @Override
-    public boolean tryAdd(final Material material, final int weight) {
+    public boolean tryAdd(final Material material) {
 
         for (final Map<Material, Integer> item : subCategories) {
             if (item.containsKey(material)) {

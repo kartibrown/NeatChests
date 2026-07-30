@@ -7,13 +7,12 @@ import org.jetbrains.annotations.Contract;
 public final class Valuables extends Category {
     private static final int VALUABLES = 0;
 
-    private static final int VALUABLES_WEIGHT = MAX_WEIGHT;
-
     public Valuables() {
         super(1);
+    }
 
-        setBaseWeight(VALUABLES, VALUABLES_WEIGHT);
-
+    @Override
+    public void initialize() {
         addMaterialIfExists(VALUABLES, "NETHERITE_INGOT");
         addMaterialIfExists(VALUABLES, "NETHERITE_BLOCK");
         addMaterialIfExists(VALUABLES, "NETHERITE_SCRAP");
@@ -44,7 +43,7 @@ public final class Valuables extends Category {
 
     @Contract(pure = true)
     @Override
-    public boolean tryAdd(final Material material, final int weight) {
+    public boolean tryAdd(final Material material) {
         return subCategories[VALUABLES].containsKey(material);
     }
 }
