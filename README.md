@@ -14,6 +14,7 @@ Sort both chests and your player inventory instantly with a simple double-click.
 - ⚡ **Lightweight & Fast:** Designed to sort efficiently without unnecessary server overhead.
 - 🔄 **Safe Sorting:** Built to handle simultaneous inventory changes, including items being inserted by hoppers.
 - ⚙️ **Config File:** *Coming soon!* Currently uses carefully selected default sorting settings.
+- 🪶 **No Dependencies:** Works out of the box without requiring additional plugins.
 
 ## Compatibility
 
