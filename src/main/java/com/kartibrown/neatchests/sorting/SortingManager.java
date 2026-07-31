@@ -73,7 +73,7 @@ public final class SortingManager {
                  categoryIndex++) {
 
                 // Adds or checks that a material has been added
-                if (categories[categoryIndex].tryAdd(material)) {
+                if (categories[categoryIndex].containsOrRegister(material)) {
                     added = true;
                     break;
                 }
