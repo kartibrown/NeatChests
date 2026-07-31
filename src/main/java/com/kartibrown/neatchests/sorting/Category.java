@@ -32,12 +32,14 @@ public abstract class Category {
     }
 
     /**
-     * Tries to add or check that a material was added to a category
+     * Returns whether this category contains the given material.
+     * Categories with dynamic registration may register the material
+     * during this call.
      *
-     * @param material The material checked
-     * @return Returns true if a material was successfully added to its category
+     * @param material the material to check or register
+     * @return {@code true} if the material belongs to this category
      */
-    public abstract boolean tryAdd(final Material material);
+    public abstract boolean containsOrRegister(final Material material);
 
     /**
      * Most likely only for the FallBack class!<br>

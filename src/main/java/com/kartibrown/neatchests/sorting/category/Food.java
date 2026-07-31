@@ -38,6 +38,7 @@ public final class Food extends Category {
 
         addMaterialIfExists(FOOD, "BEETROOT_SOUP");
         addMaterialIfExists(FOOD, "SUSPICIOUS_STEW");
+        addWithAutoWeight(FOOD, Material.BOWL);
 
         addWithAutoWeight(FOOD, Material.BAKED_POTATO);
         addWithAutoWeight(FOOD, Material.CARROT);
@@ -51,7 +52,7 @@ public final class Food extends Category {
     }
 
     @Override
-    public boolean tryAdd(final Material material) {
+    public boolean containsOrRegister(final Material material) {
         return subCategories[FOOD].containsKey(material);
     }
 }

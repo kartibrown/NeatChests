@@ -15,7 +15,7 @@ public final class Misc extends Category {
 
     @Contract(pure = true)
     @Override
-    public boolean tryAdd(final Material material) {
+    public boolean containsOrRegister(final Material material) {
         return false;
     }
 

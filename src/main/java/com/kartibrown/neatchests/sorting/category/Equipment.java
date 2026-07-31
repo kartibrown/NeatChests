@@ -224,7 +224,7 @@ public final class Equipment extends Category {
     }
 
     @Override
-    public boolean tryAdd(final Material material) {
+    public boolean containsOrRegister(final Material material) {
 
         for (final Map<Material, Integer> item : subCategories) {
             if (item.containsKey(material)) {

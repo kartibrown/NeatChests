@@ -58,7 +58,7 @@ public final class Redstone extends Category {
     }
 
     @Override
-    public boolean tryAdd(final Material material) {
+    public boolean containsOrRegister(final Material material) {
         return subCategories[REDSTONE].containsKey(material);
     }
 }

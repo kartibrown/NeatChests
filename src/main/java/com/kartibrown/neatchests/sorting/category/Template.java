@@ -14,7 +14,7 @@ public final class Template extends Category {
 
     @Contract("null -> false")
     @Override
-    public boolean tryAdd(final Material material) {
+    public boolean containsOrRegister(final Material material) {
         if (material != null && material.name().endsWith("_SMITHING_TEMPLATE")) {
             addWithAutoWeight(TEMPLATE, material);
             return true;

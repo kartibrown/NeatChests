@@ -5,120 +5,254 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Map;
+
 public final class Forestry extends Category {
-    private static final int LOGS = 0;
-    private static final int PLANKS = 1;
-    private static final int SLABS = 2;
-    private static final int DOORS = 3;
-    private static final int MISC = 4;
-    private static final int SAPLING = 5;
-
-    private static final int LOGS_OFFSET = 0;
-    private static final int PLANKS_OFFSET = 50;
-    private static final int SLABS_OFFSET = 100;
-    private static final int DOORS_OFFSET = 150;
-    private static final int MISC_OFFSET = 200;
-    private static final int SAPLING_OFFSET = 250;
-
-    private final String[] woodTypes;
+    private static final int BUILD = 0;
+    private static final int MISC = 1;
+    private static final int LEAVES = 2;
+    private static final int SAPLING = 3;
 
     public Forestry() {
-        super(6);
-
-        woodTypes = getTypes();
+        super(4);
     }
 
     @Override
-    public boolean tryAdd(final @NonNull Material material) {
-        final String name = material.name();
+    public void initialize() {
 
-        // Wood type gatekeeper
-        boolean isWoodFamily = false;
-        for (final String woodType : woodTypes) {
-            if (name.contains(woodType)) {
-                isWoodFamily = true;
-                break;
+        /*
+         * BUILD
+         */
+
+        // OAK
+        addWoodBuild("OAK");
+
+        // Spruce
+        addWoodBuild("SPRUCE");
+
+        // Birch
+        addWoodBuild("BIRCH");
+
+        // Jungle
+        addWoodBuild("JUNGLE");
+
+        // Acacia
+        addWoodBuild("ACACIA");
+
+        // Dark Oak
+        addWoodBuild("DARK_OAK");
+
+        // Mangrove 1.19
+        addWoodBuild("MANGROVE");
+
+        // Cherry 1.20
+        addWoodBuild("CHERRY");
+
+        // Pale 1.21.4
+        addWoodBuild("PALE_OAK");
+
+        // Bamboo 1.20
+        // It's not a building block, but I think this design is correct
+        addMaterialIfExists(BUILD, "BAMBOO");
+        addMaterialIfExists(BUILD, "SCAFFOLDING");
+        addWoodBuild("BAMBOO");
+
+        // Crimson 1.16
+        addWoodBuild("CRIMSON");
+
+        // Warped 1.16
+        addWoodBuild("WARPED");
+
+        /*
+         * MISC
+         */
+
+        // Beds
+        // Colored beds started at 1.12
+        addColoredItems("BED");
+
+        // Chests & Barrel
+        addMaterialIfExists(MISC, "BARREL");
+        addWithAutoWeight(MISC, Material.CHEST);
+        addWithAutoWeight(MISC, Material.ENDER_CHEST);
+        addMaterialIfExists(MISC, "COPPER_CHEST");
+        addMaterialIfExists(MISC, "EXPOSED_COPPER_CHEST");
+        addMaterialIfExists(MISC, "WEATHERED_COPPER_CHEST");
+        addMaterialIfExists(MISC, "OXIDIZED_COPPER_CHEST");
+        addMaterialIfExists(MISC, "WAXED_COPPER_CHEST");
+        addMaterialIfExists(MISC, "WAXED_EXPOSED_COPPER_CHEST");
+        addMaterialIfExists(MISC, "WAXED_WEATHERED_COPPER_CHEST");
+        addMaterialIfExists(MISC, "WAXED_OXIDIZED_COPPER_CHEST");
+        // Shulker Box 1.11
+        addMaterialIfExists(MISC, "SHULKER_BOX");
+        addColoredItems("SHULKER_BOX");
+
+
+        addWithAutoWeight(MISC, Material.CRAFTING_TABLE);
+        addWithAutoWeight(MISC, Material.COMPOSTER);
+        addWithAutoWeight(MISC, Material.LADDER);
+        addWithAutoWeight(MISC, Material.BOOKSHELF);
+        addMaterialIfExists(MISC, "CHISELED_BOOKSHELF");
+        addMaterialIfExists(MISC, "LECTERN");
+
+        // Oak
+
+        addWoodMisc("OAK");
+
+        // Spruce
+
+        addWoodMisc("SPRUCE");
+
+        // Birch
+
+        addWoodMisc("BIRCH");
+
+        // Jungle
+
+        addWoodMisc("JUNGLE");
+
+        // Acacia
+
+        addWoodMisc("ACACIA");
+
+        // Dark Oak
+
+        addWoodMisc("DARK_OAK");
+
+        // Mangrove
+
+        addWoodMisc("MANGROVE");
+
+        // Cherry
+
+        addWoodMisc("CHERRY");
+
+        // Pale
+
+        addWoodMisc("PALE_OAK");
+
+        // Bamboo
+
+        addWoodMisc("BAMBOO");
+
+        // Crimson
+
+        addWoodMisc("CRIMSON");
+
+        // Warped
+
+        addWoodMisc("WARPED");
+
+        /*
+         * Leaves
+         */
+
+        addWithAutoWeight(LEAVES, Material.OAK_LEAVES);
+        addWithAutoWeight(LEAVES, Material.SPRUCE_LEAVES);
+        addWithAutoWeight(LEAVES, Material.BIRCH_LEAVES);
+        addWithAutoWeight(LEAVES, Material.JUNGLE_LEAVES);
+        addWithAutoWeight(LEAVES, Material.ACACIA_LEAVES);
+        addWithAutoWeight(LEAVES, Material.DARK_OAK_LEAVES);
+        addMaterialIfExists(LEAVES, "MANGROVE_LEAVES");
+        addMaterialIfExists(LEAVES, "CHERRY_LEAVES");
+        addMaterialIfExists(LEAVES, "PALE_OAK_LEAVES");
+        addMaterialIfExists(LEAVES, "AZALEA_LEAVES");
+        addMaterialIfExists(LEAVES, "FLOWERING_AZALEA_LEAVES");
+
+        /*
+         * SAPLING
+         */
+
+        // Saplings are weird before 1.13, IDK
+        addMaterialIfExists(SAPLING, "OAK_SAPLING");
+        addMaterialIfExists(SAPLING, "SPRUCE_SAPLING");
+        addMaterialIfExists(SAPLING, "BIRCH_SAPLING");
+        addMaterialIfExists(SAPLING, "JUNGLE_SAPLING");
+        addMaterialIfExists(SAPLING, "ACACIA_SAPLING");
+        addMaterialIfExists(SAPLING, "DARK_OAK_SAPLING");
+        addMaterialIfExists(SAPLING, "MANGROVE_PROPAGULE");
+        addMaterialIfExists(SAPLING, "CHERRY_SAPLING");
+        addMaterialIfExists(SAPLING, "PALE_OAK_SAPLING");
+        addMaterialIfExists(SAPLING, "AZALEA");
+        addMaterialIfExists(SAPLING, "FLOWERING_AZALEA");
+        addMaterialIfExists(SAPLING, "CRIMSON_FUNGUS");
+        addMaterialIfExists(SAPLING, "WARPED_FUNGUS");
+    }
+
+    private void addWoodBuild(final String woodType) {
+        addMaterialIfExists(BUILD, woodType + "_LOG");
+        // Bamboo
+        addMaterialIfExists(BUILD, woodType + "_BLOCK");
+        // Crimson & Warped
+        addMaterialIfExists(BUILD, woodType + "_STEM");
+        addMaterialIfExists(BUILD, woodType + "_HYPHAE");
+
+        addMaterialIfExists(BUILD, woodType + "_WOOD");
+        addMaterialIfExists(BUILD, "STRIPPED_" + woodType + "_LOG");
+        // Bamboo
+        addMaterialIfExists(BUILD, "STRIPPED_" + woodType + "_BLOCK");
+        // Crimson & Warped
+        addMaterialIfExists(BUILD, "STRIPPED_" + woodType + "_STEM");
+        addMaterialIfExists(BUILD, "STRIPPED_" + woodType + "_HYPHAE");
+
+        addMaterialIfExists(BUILD, "STRIPPED_" + woodType + "_WOOD");
+        addMaterialIfExists(BUILD, woodType + "_PLANKS");
+        // Bamboo
+        addMaterialIfExists(BUILD, woodType + "_MOSAIC");
+        addMaterialIfExists(BUILD, woodType + "_STAIRS");
+        // Bamboo
+        addMaterialIfExists(BUILD, woodType + "_MOSAIC_STAIRS");
+        addMaterialIfExists(BUILD, woodType + "_SLAB");
+        // Bamboo
+        addMaterialIfExists(BUILD, woodType + "_MOSAIC_SLAB");
+        addMaterialIfExists(BUILD, woodType + "_FENCE");
+        addMaterialIfExists(BUILD, woodType + "_FENCE_GATE");
+        addMaterialIfExists(BUILD, woodType + "_DOOR");
+        addMaterialIfExists(BUILD, woodType + "_TRAPDOOR");
+        addMaterialIfExists(BUILD, woodType + "_PRESSURE_PLATE");
+        addMaterialIfExists(BUILD, woodType + "_BUTTON");
+    }
+
+    private void addWoodMisc(final String woodType) {
+        addMaterialIfExists(MISC, woodType + "_BOAT");
+        // only for bamboo
+        addMaterialIfExists(MISC, woodType + "_RAFT");
+        addMaterialIfExists(MISC, woodType + "_CHEST_BOAT");
+        // only for bamboo
+        addMaterialIfExists(MISC, woodType + "_CHEST_RAFT");
+        addMaterialIfExists(MISC, woodType + "_SHELF");
+        addMaterialIfExists(MISC, woodType + "_SIGN");
+        addMaterialIfExists(MISC, woodType + "_HANGING_SIGN");
+    }
+
+    private void addColoredItems(final String item) {
+        addMaterialIfExists(MISC, "WHITE_" + item);
+        addMaterialIfExists(MISC, "LIGHT_GRAY_" + item);
+        addMaterialIfExists(MISC, "GRAY_" + item);
+        addMaterialIfExists(MISC, "BLACK_" + item);
+        addMaterialIfExists(MISC, "BROWN_" + item);
+        addMaterialIfExists(MISC, "RED_" + item);
+        addMaterialIfExists(MISC, "ORANGE_" + item);
+        addMaterialIfExists(MISC, "YELLOW_" + item);
+        addMaterialIfExists(MISC, "LIME_" + item);
+        addMaterialIfExists(MISC, "GREEN_" + item);
+        addMaterialIfExists(MISC, "CYAN_" + item);
+        addMaterialIfExists(MISC, "LIGHT_BLUE_" + item);
+        addMaterialIfExists(MISC, "BLUE_" + item);
+        addMaterialIfExists(MISC, "PURPLE_" + item);
+        addMaterialIfExists(MISC, "MAGENTA_" + item);
+        addMaterialIfExists(MISC, "PINK_" + item);
+    }
+
+    @Contract(pure = true)
+    @Override
+    public boolean containsOrRegister(final @NonNull Material material) {
+        for (final Map<Material, Integer> item : subCategories) {
+            if (item.containsKey(material)) {
+                return true;
             }
         }
 
-        /*
-         * If this list gets big, consider using a 
-         */
-        // Universal item fallback
-        if (name.equals("STICK") || name.equals("BOWL") || name.equals("LADDER")) {
-            addToCategory(MISC, material, getWeightOffset(MISC_OFFSET));
-            return true;
-        }
-
-        // if it's a wood type
-        if (!isWoodFamily) {
-            return false;
-        }
-
-        // --- SORTING THE WOOD FAMILY ---
-
-        //Add saplings to the saplings sub-category
-        if (name.startsWith("POTTED_") || name.endsWith("_SAPLING")) {
-            addToCategory(SAPLING, material, getWeightOffset(SAPLING_OFFSET));
-            return true;
-        }
-
-        // Manage not a block things
-        if (!material.isBlock()) {
-            addToCategory(MISC, material, getWeightOffset(MISC_OFFSET));
-            return true;
-        }
-
-        // Filter out specific tree things that's gonna go to MISC
-        // which is otherwise gonna get into LOGS & PLANKS otherwise
-        if (name.contains("STAIRS") || name.contains("FENCE") || name.contains("GATE") ||
-                name.contains("BUTTON") || name.contains("PLATE") || name.contains("SIGN")) {
-
-            addToCategory(MISC, material, getWeightOffset(MISC_OFFSET));
-            return true;
-        }
-
-        // Sort the other building blocks
-        if (name.contains("SLAB") || name.contains("STEP")) {
-            addToCategory(SLABS, material, getWeightOffset(SLABS_OFFSET));
-            return true;
-        } else if (name.contains("DOOR")) {
-            // Both TRAPDOORS and DOORS
-            addToCategory(DOORS, material, getWeightOffset(DOORS_OFFSET));
-            return true;
-        } else if (name.contains("PLANKS") || name.equals("WOOD")) {
-            // Gets modern planks and also 1.12 legacy "WOOD"
-            addToCategory(PLANKS, material, getWeightOffset(PLANKS_OFFSET));
-            return true;
-        } else if (name.contains("LOG") || name.contains("WOOD") ||
-                name.contains("STEM") || name.contains("HYPHAE") ||
-                name.contains("BARK")) {
-            // Catches all logs and stuff
-            addToCategory(LOGS, material, getWeightOffset(LOGS_OFFSET));
-            return true;
-        } else {
-            // Leaves, saplings etc.
-            addToCategory(MISC, material, getWeightOffset(MISC_OFFSET));
-            return true;
-        }
-    }
-
-    @Contract(value = " -> new", pure = true)
-    @Override
-    protected String @NonNull [] getTypes() {
-        return new String[]{
-                "ACACIA",
-                "BAMBOO",
-                "BIRCH",
-                "CHERRY",
-                "CRIMSON",
-                "DARK_OAK",
-                "JUNGLE",
-                "MANGROVE",
-                "OAK",
-                "PALE_OAK",
-                "SPRUCE",
-                "WARPED"
-        };
+        return false;
     }
 }
