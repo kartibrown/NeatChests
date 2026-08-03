@@ -64,6 +64,7 @@ public final class SortingManager {
                 continue;
             }
 
+            // Get the biggest number to character A first
             final int alphabeticalWeight = totalMaterials - materialIndex;
             boolean added = false;
 
