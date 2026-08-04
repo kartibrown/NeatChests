@@ -1,0 +1,5 @@
+# NeatChests Config
+
+logging:
+  debug: true
+  verbose: true
