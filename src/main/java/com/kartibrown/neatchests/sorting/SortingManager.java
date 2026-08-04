@@ -1,5 +1,6 @@
 package com.kartibrown.neatchests.sorting;
 
+import com.kartibrown.neatchests.config.LoggerManager;
 import com.kartibrown.neatchests.sorting.category.*;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -8,8 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 public final class SortingManager {
 
@@ -17,7 +17,9 @@ public final class SortingManager {
 
     private final Category[] categories;
 
-    public SortingManager() {
+    private final LoggerManager logger;
+
+    public SortingManager(final LoggerManager logger) {
         // Throw exception if category spacing is too small
         if (Material.values().length >= CATEGORY_SPACING) {
             throw new IllegalStateException(
@@ -26,6 +28,13 @@ public final class SortingManager {
                             Material.values().length + ")."
             );
         }
+
+        // Init LoggerManager
+        this.logger = logger;
+        logger.debug("Initializing categories...");
+        // For debug
+        final long start = System.nanoTime();
+        final Map<String, Integer> missingMaterials = new TreeMap<>();
 
         // Fallback class
         final Misc misc = new Misc();
@@ -56,6 +65,7 @@ public final class SortingManager {
         Arrays.sort(materials, Comparator.comparing(Material::name));
 
         final int totalMaterials = materials.length;
+        int registeredMaterials = 0;
 
         for (int materialIndex = 0; materialIndex < totalMaterials; materialIndex++) {
             final Material material = materials[materialIndex];
@@ -76,6 +86,7 @@ public final class SortingManager {
                 // Adds or checks that a material has been added
                 if (categories[categoryIndex].containsOrRegister(material)) {
                     added = true;
+                    registeredMaterials++;
                     break;
                 }
             }
@@ -83,8 +94,22 @@ public final class SortingManager {
             // FALLBACK
             if (!added) {
                 misc.addFallback(material, alphabeticalWeight);
+                registeredMaterials++;
             }
         }
+
+        /*
+         * DEBUG
+         */
+        final long elapsed = System.nanoTime() - start;
+
+        // Log registered materials and time it took
+        logger.debug("Registered " + registeredMaterials + " valid materials.");
+        logger.debug(String.format(
+                Locale.US,
+                "Initialization took %.3f ms.",
+                elapsed / 1_000_000.0
+        ));
     }
 
     /**
@@ -99,9 +124,21 @@ public final class SortingManager {
      * @return A new array containing the sorted items, compressed without empty spaces
      */
     public ItemStack @NonNull [] sortChestItems(final @Nullable ItemStack @NonNull [] items) {
+        final long start = System.nanoTime();
+
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
 
         Arrays.sort(itemsToSort, this::compareItems);
+
+        /*
+         * DEBUG
+         */
+        final long elapsed = System.nanoTime() - start;
+        logger.debug(String.format(
+                Locale.US,
+                "Chest sort took %.3f ms.",
+                elapsed / 1_000_000.0
+        ));
 
         return itemsToSort;
     }
