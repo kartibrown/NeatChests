@@ -1,5 +1,6 @@
 # NeatChests Config
 
 logging:
+  startup: false
+  performance: false
   debug: false
-  verbose: false
