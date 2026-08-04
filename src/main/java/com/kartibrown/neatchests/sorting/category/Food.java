@@ -3,6 +3,8 @@ package com.kartibrown.neatchests.sorting.category;
 import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
 
+import java.util.Map;
+
 public final class Food extends Category {
     private static final int FOOD = 0;
 
