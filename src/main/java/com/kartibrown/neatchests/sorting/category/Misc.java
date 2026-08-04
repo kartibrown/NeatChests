@@ -4,8 +4,6 @@ import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 
-import java.util.Map;
-
 // FALLBACK CLASS
 public final class Misc extends Category {
 
