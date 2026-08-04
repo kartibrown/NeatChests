@@ -1,6 +1,5 @@
 package com.kartibrown.neatchests.sorting;
 
-import com.kartibrown.neatchests.config.LoggerManager;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -112,10 +111,6 @@ public abstract class Category {
      * GETTERS & SETTERS
      */
 
-    protected String[] getTypes() {
-        return null;
-    }
-
     /**
      * Gets the weight of a material
      *
@@ -129,17 +124,6 @@ public abstract class Category {
             }
         }
         return null;
-    }
-
-    /**
-     * Gets the weight with offset
-     *
-     * @param offset The offset set by category
-     * @return Returns weight - offset
-     */
-    @Contract(pure = true)
-    protected final int getWeightOffset(final int offset) {
-        return baseWeight - offset;
     }
 
     @Contract(pure = true)

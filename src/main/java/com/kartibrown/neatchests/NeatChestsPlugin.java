@@ -18,7 +18,7 @@ public class NeatChestsPlugin extends JavaPlugin {
         final LoggerManager logger = new LoggerManager(this, config);
 
         // Sorting
-        final SortingManager sortingManager = new SortingManager(logger);
+        final SortingManager sortingManager = new SortingManager(config, logger);
 
         getServer().getPluginManager().registerEvents(new ChestStorageListener(sortingManager)
                 , this);

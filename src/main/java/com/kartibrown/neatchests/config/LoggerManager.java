@@ -3,6 +3,7 @@ package com.kartibrown.neatchests.config;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Locale;
 import java.util.logging.Logger;
 
 public final class LoggerManager {
@@ -34,9 +35,22 @@ public final class LoggerManager {
         }
     }
 
-    public void verbose(final String message) {
-        if (configManager.isDebugEnabled() && configManager.isVerboseEnabled()) {
-            logger.info("[VERBOSE] " + message);
-        }
+    /**
+     * Logs how long an operation took.
+     *
+     * @param startTime The timestamp returned by {@link System#nanoTime()} before the operation started.
+     * @param prefix    The message shown before the elapsed time.<br>
+     *                  Example: "Chest sorting" becomes
+     *                  "Chest sorting took 0.352 ms."
+     */
+    public void logElapsedTime(final long startTime, final String prefix) {
+        final long elapsed = System.nanoTime() - startTime;
+
+        logger.info(String.format(
+                Locale.US, // makes it always show 20.0 ms, instead of 20,0 ms
+                "%s took %.3f ms.",
+                prefix,
+                elapsed / 1_000_000.0
+        ));
     }
 }

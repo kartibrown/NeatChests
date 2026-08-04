@@ -1,5 +1,6 @@
 package com.kartibrown.neatchests.sorting;
 
+import com.kartibrown.neatchests.config.ConfigManager;
 import com.kartibrown.neatchests.config.LoggerManager;
 import com.kartibrown.neatchests.sorting.category.*;
 import org.bukkit.Material;
@@ -18,8 +19,9 @@ public final class SortingManager {
     private final Category[] categories;
 
     private final LoggerManager logger;
+    private final ConfigManager config;
 
-    public SortingManager(final LoggerManager logger) {
+    public SortingManager(final ConfigManager config, final LoggerManager logger) {
         // Throw exception if category spacing is too small
         if (Material.values().length >= CATEGORY_SPACING) {
             throw new IllegalStateException(
@@ -31,10 +33,12 @@ public final class SortingManager {
 
         // Init LoggerManager
         this.logger = logger;
-        logger.debug("Initializing categories...");
+        if (config.isStartupEnabled()) {
+            logger.info("Initializing categories...");
+        }
+
         // For debug
         final long start = System.nanoTime();
-        final Map<String, Integer> missingMaterials = new TreeMap<>();
 
         // Fallback class
         final Misc misc = new Misc();
@@ -98,18 +102,13 @@ public final class SortingManager {
             }
         }
 
-        /*
-         * DEBUG
-         */
-        final long elapsed = System.nanoTime() - start;
-
         // Log registered materials and time it took
-        logger.debug("Registered " + registeredMaterials + " valid materials.");
-        logger.debug(String.format(
-                Locale.US,
-                "Initialization took %.3f ms.",
-                elapsed / 1_000_000.0
-        ));
+        if (config.isStartupEnabled()) {
+            logger.info("Registered " + registeredMaterials + " valid materials.");
+            logger.logElapsedTime(start, "Initialization");
+        }
+
+        this.config = config;
     }
 
     /**
@@ -124,21 +123,20 @@ public final class SortingManager {
      * @return A new array containing the sorted items, compressed without empty spaces
      */
     public ItemStack @NonNull [] sortChestItems(final @Nullable ItemStack @NonNull [] items) {
-        final long start = System.nanoTime();
+        final boolean performanceLogging = config.isPerformanceEnabled();
+
+        long start = 0;
+        if (performanceLogging) {
+            start = System.nanoTime();
+        }
 
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
 
         Arrays.sort(itemsToSort, this::compareItems);
-
-        /*
-         * DEBUG
-         */
-        final long elapsed = System.nanoTime() - start;
-        logger.debug(String.format(
-                Locale.US,
-                "Chest sort took %.3f ms.",
-                elapsed / 1_000_000.0
-        ));
+        
+        if (performanceLogging) {
+            logger.logElapsedTime(start, "Chest sort");
+        }
 
         return itemsToSort;
     }
