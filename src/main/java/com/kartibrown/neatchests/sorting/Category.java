@@ -1,5 +1,6 @@
 package com.kartibrown.neatchests.sorting;
 
+import com.kartibrown.neatchests.config.LoggerManager;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -150,6 +151,10 @@ public abstract class Category {
         }
         return false;
     }
+
+    /*
+     * GETTERS & SETTERS
+     */
 
     /**
      * Sets the base weight for the category
