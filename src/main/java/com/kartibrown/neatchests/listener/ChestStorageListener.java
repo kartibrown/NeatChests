@@ -1,5 +1,6 @@
 package com.kartibrown.neatchests.listener;
 
+import com.kartibrown.neatchests.NeatChestsPlugin;
 import com.kartibrown.neatchests.sorting.SortingManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
