@@ -22,9 +22,9 @@ public class NeatChestsPlugin extends JavaPlugin {
         final LoggerManager loggerManager = new LoggerManager(this, configManager);
 
         // Commands
-        final CommandsManager commandsManager = new CommandsManager();
+        final CommandsManager commandsManager = new CommandsManager(configManager, loggerManager);
         final LiteralCommandNode<CommandSourceStack> buildCommand =
-                commandsManager.createCommandTree(configManager, loggerManager).build();
+                commandsManager.createCommandTree().build();
 
         // Add commands to plugin
         this.getLifecycleManager().registerEventHandler(

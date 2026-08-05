@@ -12,29 +12,30 @@ import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 
 public final class CommandsManager {
-    public CommandsManager() {
+    final ConfigManager configManager;
+    final LoggerManager loggerManager;
 
+    public CommandsManager(final ConfigManager configManager, final LoggerManager loggerManager) {
+        this.configManager = configManager;
+        this.loggerManager = loggerManager;
     }
 
-    public LiteralArgumentBuilder<CommandSourceStack> createCommandTree(
-            final ConfigManager configManager,
-            final LoggerManager logger) {
+    public LiteralArgumentBuilder<CommandSourceStack> createCommandTree() {
         return Commands.literal("neatchests")
                 .executes(this::help)
                 .then(Commands.literal("reload")
-                        .executes(ctx -> reload(ctx, configManager, logger))
+                        .executes(this::reload)
                 );
     }
 
     private int help(final CommandContext<CommandSourceStack> ctx) {
+        
         return 1;
     }
 
-    private int reload(final @NonNull CommandContext<CommandSourceStack> ctx,
-                       final @NonNull ConfigManager configManager,
-                       final @NonNull LoggerManager logger) {
+    private int reload(final @NonNull CommandContext<CommandSourceStack> ctx) {
         configManager.reload();
-        logger.info("Configuration reloaded via command.");
+        loggerManager.info("Configuration reloaded via command.");
 
         final CommandSender sender = ctx.getSource().getSender();
         if (sender instanceof Player) {
