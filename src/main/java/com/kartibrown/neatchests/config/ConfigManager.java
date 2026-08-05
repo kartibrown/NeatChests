@@ -16,6 +16,10 @@ public final class ConfigManager {
         plugin.saveDefaultConfig();
     }
 
+    public void reload() {
+        plugin.reloadConfig();
+    }
+
     public boolean isDebugEnabled() {
         return plugin.getConfig().getBoolean("logging.debug");
     }
