@@ -32,9 +32,9 @@ public class NeatChestsPlugin extends JavaPlugin {
         // Add commands to plugin
         this.getLifecycleManager().registerEventHandler(
                 LifecycleEvents.COMMANDS,
-                commands -> {
-                    commands.registrar().register(buildCommand);
-                });
+                commands ->
+                    commands.registrar().register(buildCommand)
+                );
 
         // Sorting
         final SortingManager sortingManager = new SortingManager(configManager, loggerManager);
