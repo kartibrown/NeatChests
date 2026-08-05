@@ -4,20 +4,22 @@ import com.kartibrown.neatchests.config.ConfigManager;
 import com.kartibrown.neatchests.config.LoggerManager;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 
 public final class CommandsManager {
-    final ConfigManager configManager;
-    final LoggerManager loggerManager;
+    final String version;
 
-    public CommandsManager(final ConfigManager configManager, final LoggerManager loggerManager) {
+    final ConfigManager configManager;
+
+    public CommandsManager(
+            final ConfigManager configManager,
+            final String version) {
         this.configManager = configManager;
-        this.loggerManager = loggerManager;
+
+        this.version = version;
     }
 
     public LiteralArgumentBuilder<CommandSourceStack> createCommandTree() {
@@ -28,20 +30,24 @@ public final class CommandsManager {
                 );
     }
 
-    private int help(final CommandContext<CommandSourceStack> ctx) {
-        
+    private int help(final @NonNull CommandContext<CommandSourceStack> ctx) {
+        sendMessageToSender("version: " + version, ctx);
         return 1;
     }
 
     private int reload(final @NonNull CommandContext<CommandSourceStack> ctx) {
         configManager.reload();
-        loggerManager.info("Configuration reloaded via command.");
 
-        final CommandSender sender = ctx.getSource().getSender();
-        if (sender instanceof Player) {
-            sender.sendMessage("Config Reloaded!");
-        }
+        sendMessageToSender("Config Reloaded!", ctx);
 
         return 1;
+    }
+
+    private void sendMessageToSender(
+            final String message,
+            final @NonNull CommandContext<CommandSourceStack> ctx) {
+
+        final CommandSender sender = ctx.getSource().getSender();
+        sender.sendMessage("[NeatChests] " + message);
     }
 }
