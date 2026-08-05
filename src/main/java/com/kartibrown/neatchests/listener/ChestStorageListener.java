@@ -1,5 +1,6 @@
 package com.kartibrown.neatchests.listener;
 
+import com.kartibrown.neatchests.commands.CommandsManager;
 import com.kartibrown.neatchests.sorting.SortingManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,9 +33,15 @@ public final class ChestStorageListener implements Listener {
 
     @EventHandler
     public void onClick(final @NonNull InventoryClickEvent event) {
+
         // ignore if cursor is not empty
-        final ItemStack cursor = event.getCursor();
-        if (!cursor.isEmpty()) {
+        if (!event.getCursor().isEmpty()) {
+            return;
+        }
+
+        final Player player = (Player) event.getWhoClicked();
+        // ignore if player doesn't have permission
+        if (!player.hasPermission(CommandsManager.SORT_PERMISSION)) {
             return;
         }
 
@@ -50,20 +57,19 @@ public final class ChestStorageListener implements Listener {
                 || type == InventoryType.CHEST
                 || type == InventoryType.SHULKER_BOX
                 || type == InventoryType.ENDER_CHEST) {
-            handleInventoryClick(event, clickedInventory);
+            handleInventoryClick(event, clickedInventory, player);
         }
     }
 
     private void handleInventoryClick(
             final @NonNull InventoryClickEvent event,
-            final @NonNull Inventory inventory
+            final @NonNull Inventory inventory,
+            final @NonNull Player player
     ) {
         // Return if it's not a left-click so it doesn't trigger when left- and then right-clicking
         if (event.getClick() != ClickType.LEFT) {
             return;
         }
-
-        final Player player = (Player) event.getWhoClicked();
 
         // return if it's not a double click
         if (!isDoubleClick(player)) {

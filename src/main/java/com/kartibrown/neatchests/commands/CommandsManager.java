@@ -11,6 +11,7 @@ import org.jspecify.annotations.NonNull;
 
 public final class CommandsManager {
     private static final String RELOAD_PERMISSION = "neatchests.reload";
+    public static final String SORT_PERMISSION = "neatchests.sort";
 
     final String version;
 
