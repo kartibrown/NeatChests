@@ -10,31 +10,40 @@ Sort both chests and your player inventory instantly with a simple double-click.
 
 - 🧠 **Category-Based Sorting:** Related items, such as diamonds and diamond blocks, are placed together.
 - 📦 **Chest Sorting:** Organize any supported chest instantly.
-- 🎒 **Player Inventory Sorting:** Keep your own inventory neat using the same simple sorting system.
-- ⚡ **Lightweight & Fast:** Designed to sort efficiently without unnecessary server overhead.
-- 🔄 **Safe Sorting:** Built to handle simultaneous inventory changes, including items being inserted by hoppers.
-- ⚙️ **Config File:** *Coming soon!* Currently uses carefully selected default sorting settings.
+- 🎒 **Player Inventory Sorting:** Keep your own inventory neat using the same sorting system.
+- ⚖️ **Customizable Weights:** *Coming soon!* Configure how items are ordered within categories.
+- ⚡ **Lightweight & Fast:** Designed to sort efficiently with minimal server overhead.
+- 🔄 **Safe Sorting:** Handles simultaneous inventory changes, including items inserted by hoppers.
+- ⚙️ **Configuration:** Includes a `config.yml` with configurable debug logging.
 - 🪶 **No Dependencies:** Works out of the box without requiring additional plugins.
+
+## Commands
+
+| Command | Description | Permission |
+|---------|-------------|------------|
+| `/neatchests` | Displays plugin information. | None |
+| `/neatchests reload` | Reloads the plugin configuration. | `neatchests.reload` |
 
 ## Compatibility
 
-> ⚠️ **Important:** NeatChests currently supports Minecraft version **26.2** and above. Older versions are not officially supported.
+> ⚠️ **Important:** NeatChests currently supports Minecraft **26.2** and above. Older versions are not officially supported.
 
 ## Installation
 
-1. Download the latest release `.jar` file.
-2. Place the file inside your server's `plugins` folder.
-3. Restart the server.
-4. Enjoy your neatly organized storage!
+1. Download the latest release `.jar`.
+2. Place it in your server's `plugins` folder.
+3. Start or restart your server.
+4. Edit `config.yml` if desired.
+5. Enjoy your neatly organized storage!
 
 ## How to Sort a Chest
 
 1. Open a chest.
-2. **Double-click an empty slot.**
-3. *Voilà!* The chest is now sorted.
+2. **Double-click an empty inventory slot.**
+3. The chest is sorted instantly.
 
-## How to Sort Your Player Inventory
+## How to Sort Your Inventory
 
-1. Open your player inventory.
-2. **Double-click an empty slot.**
-3. Your inventory will be sorted instantly.
+1. Open your inventory.
+2. **Double-click an empty inventory slot.**
+3. Your inventory is sorted instantly.
