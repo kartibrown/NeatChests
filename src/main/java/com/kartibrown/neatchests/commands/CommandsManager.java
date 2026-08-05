@@ -1,7 +1,7 @@
 package com.kartibrown.neatchests.commands;
 
 import com.kartibrown.neatchests.config.ConfigManager;
-import com.kartibrown.neatchests.config.LoggerManager;
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.jspecify.annotations.NonNull;
 
 public final class CommandsManager {
+    private static final String RELOAD_PERMISSION = "neatchests.reload";
+
     final String version;
 
     final ConfigManager configManager;
@@ -25,7 +27,8 @@ public final class CommandsManager {
     public LiteralArgumentBuilder<CommandSourceStack> createCommandTree() {
         return Commands.literal("neatchests")
                 .executes(this::help)
-                .then(Commands.literal("reload")
+                .then(Commands.literal("reload").requires(source ->
+                                source.getSender().hasPermission(RELOAD_PERMISSION))
                         .executes(this::reload)
                 );
     }
@@ -40,7 +43,7 @@ public final class CommandsManager {
 
         sendMessageToSender("Config Reloaded!", ctx);
 
-        return 1;
+        return Command.SINGLE_SUCCESS;
     }
 
     private void sendMessageToSender(
