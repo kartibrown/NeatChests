@@ -1,5 +1,15 @@
 name: NeatChests
-version: 0.2.0-alpha
+version: 0.3.0-alpha
 main: com.kartibrown.neatchests.NeatChestsPlugin
+description: A ChestSorter to keep your chests neat
 api-version: '26.2'
 author: kartibrown
+
+permissions:
+  neatchests.reload:
+    description: Reload the plugin configuration.
+    default: op
+
+  neatchests.sort:
+    description: Sort containers.
+    default: true
