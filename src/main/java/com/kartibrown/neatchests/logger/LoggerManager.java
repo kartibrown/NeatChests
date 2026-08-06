@@ -1,5 +1,6 @@
-package com.kartibrown.neatchests.config;
+package com.kartibrown.neatchests.logger;
 
+import com.kartibrown.neatchests.config.ConfigManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
 

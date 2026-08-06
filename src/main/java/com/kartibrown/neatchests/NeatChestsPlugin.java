@@ -2,7 +2,7 @@ package com.kartibrown.neatchests;
 
 import com.kartibrown.neatchests.commands.CommandsManager;
 import com.kartibrown.neatchests.config.ConfigManager;
-import com.kartibrown.neatchests.config.LoggerManager;
+import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.listener.ChestStorageListener;
 import com.kartibrown.neatchests.sorting.SortingManager;
 import com.mojang.brigadier.tree.LiteralCommandNode;
