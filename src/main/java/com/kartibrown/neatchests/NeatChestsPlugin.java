@@ -2,6 +2,7 @@ package com.kartibrown.neatchests;
 
 import com.kartibrown.neatchests.commands.CommandsManager;
 import com.kartibrown.neatchests.config.ConfigManager;
+import com.kartibrown.neatchests.listener.PlayerListener;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.listener.ChestStorageListener;
 import com.kartibrown.neatchests.sorting.SortingManager;
@@ -33,9 +34,12 @@ public final class NeatChestsPlugin extends JavaPlugin {
         registerCommands(commandsManager);
 
         // Register Listener
-        getServer().getPluginManager().registerEvents(
-                new ChestStorageListener(configManager, sortingManager)
-                , this);
+        final ChestStorageListener csl = new ChestStorageListener(configManager, sortingManager);
+        final PlayerListener pl = new PlayerListener(csl.getDoubleClickTracker());
+
+        getServer().getPluginManager().registerEvents(csl, this);
+
+        getServer().getPluginManager().registerEvents(pl, this);
 
         loggerManager.info("NeatChests has been enabled successfully!");
     }

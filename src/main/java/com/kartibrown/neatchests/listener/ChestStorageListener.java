@@ -13,7 +13,6 @@ import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +21,7 @@ public final class ChestStorageListener implements Listener {
     final ConfigManager configManager;
     final SortingManager sortingManager;
 
-    private final Map<UUID, Long> lastClickTime;
+    private final Map<UUID, Long> doubleClickTracker;
 
     @Contract(pure = true)
     public ChestStorageListener(final ConfigManager configManager,
@@ -30,7 +29,7 @@ public final class ChestStorageListener implements Listener {
         this.configManager = configManager;
         this.sortingManager = sortingManager;
 
-        lastClickTime = new HashMap<>();
+        doubleClickTracker = new HashMap<>();
     }
 
     @EventHandler
@@ -94,15 +93,24 @@ public final class ChestStorageListener implements Listener {
     private boolean isDoubleClick(final @NonNull Player player) {
         final UUID uuid = player.getUniqueId();
         final long currentTime = System.currentTimeMillis();
-        final long lastTime = lastClickTime.getOrDefault(uuid, 0L);
+        final long lastTime = doubleClickTracker.getOrDefault(uuid, 0L);
 
         if (currentTime - lastTime < 250L) {
-            lastClickTime.put(uuid, 0L);
+            doubleClickTracker.put(uuid, 0L);
             return true;
         }
 
-        lastClickTime.put(uuid, currentTime);
+        doubleClickTracker.put(uuid, currentTime);
         return false;
+    }
+
+    /*
+     * GETTERS & SETTERS
+     */
+
+    @Contract(pure = true)
+    public Map<UUID, Long> getDoubleClickTracker() {
+        return doubleClickTracker;
     }
 }
 
