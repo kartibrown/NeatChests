@@ -25,6 +25,7 @@ public class NeatChestsPlugin extends JavaPlugin {
         final String version = getPluginMeta().getVersion();
         final CommandsManager commandsManager = new CommandsManager(
                 configManager,
+                loggerManager,
                 version);
         final LiteralCommandNode<CommandSourceStack> buildCommand =
                 commandsManager.createCommandTree().build();
