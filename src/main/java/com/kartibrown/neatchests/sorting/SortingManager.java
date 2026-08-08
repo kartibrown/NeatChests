@@ -323,4 +323,14 @@ public final class SortingManager {
 
         return Arrays.copyOf(newItems, itemCount);
     }
+
+    public boolean isSortableInventory(final @NonNull Inventory inventory) {
+        return switch (inventory.getType()) {
+            case PLAYER,
+                 CHEST,
+                 ENDER_CHEST,
+                 SHULKER_BOX -> true;
+            default -> false;
+        };
+    }
 }
