@@ -19,10 +19,14 @@ Sort both chests and your player inventory instantly with a simple double-click.
 
 ## Commands
 
+Both `/neatchests` and `/nc` can be used.
+
 | Command | Description | Permission |
 |---------|-------------|------------|
 | `/neatchests` | Displays plugin information. | None |
 | `/neatchests reload` | Reloads the plugin configuration. | `neatchests.reload` |
+| `/neatchests sort` | Sorts the contents of the targeted chest. | `neatchests.sort` |
+| `/neatchests sort inventory` | Sorts the player inventory. | `neatchests.sort` |
 
 ## Compatibility
 
