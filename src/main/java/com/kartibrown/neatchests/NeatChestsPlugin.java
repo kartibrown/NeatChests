@@ -2,6 +2,7 @@ package com.kartibrown.neatchests;
 
 import com.kartibrown.neatchests.commands.CommandsManager;
 import com.kartibrown.neatchests.config.ConfigManager;
+import com.kartibrown.neatchests.cooldown.CooldownManager;
 import com.kartibrown.neatchests.listener.PlayerListener;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.listener.ChestStorageListener;
@@ -20,8 +21,11 @@ public final class NeatChestsPlugin extends JavaPlugin {
         // Logger
         final LoggerManager loggerManager = new LoggerManager(this, configManager);
 
-        // Sorter
+        // Sorting
         final SortingManager sortingManager = new SortingManager(configManager, loggerManager);
+
+        // Cooldowns
+        final CooldownManager cooldownManager = new CooldownManager();
 
         // Commands
         final String version = getPluginMeta().getVersion();
@@ -29,17 +33,21 @@ public final class NeatChestsPlugin extends JavaPlugin {
                 configManager,
                 sortingManager,
                 loggerManager,
+                cooldownManager,
                 version);
 
         registerCommands(commandsManager);
 
         // Register Listener
-        final ChestStorageListener csl = new ChestStorageListener(configManager, sortingManager);
-        final PlayerListener pl = new PlayerListener(csl.getDoubleClickTracker());
+        final ChestStorageListener chestStorageListener = new ChestStorageListener(
+                configManager,
+                sortingManager,
+                cooldownManager);
+        final PlayerListener playerListener = new PlayerListener(cooldownManager);
 
-        getServer().getPluginManager().registerEvents(csl, this);
+        getServer().getPluginManager().registerEvents(chestStorageListener, this);
 
-        getServer().getPluginManager().registerEvents(pl, this);
+        getServer().getPluginManager().registerEvents(playerListener, this);
 
         loggerManager.info("NeatChests has been enabled successfully!");
     }

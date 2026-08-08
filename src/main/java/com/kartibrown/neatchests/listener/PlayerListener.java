@@ -1,24 +1,22 @@
 package com.kartibrown.neatchests.listener;
 
+import com.kartibrown.neatchests.cooldown.CooldownManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
-import java.util.Map;
-import java.util.UUID;
-
 public final class PlayerListener implements Listener {
-    private final Map<UUID, Long> lastClickTime;
+    private final CooldownManager cooldownManager;
 
     @Contract(pure = true)
-    public PlayerListener(final Map<UUID, Long> lastClickTime) {
-        this.lastClickTime = lastClickTime;
+    public PlayerListener(final CooldownManager cooldownManager) {
+        this.cooldownManager = cooldownManager;
     }
 
     @EventHandler
     public void onPlayerQuit(final @NonNull PlayerQuitEvent event) {
-        lastClickTime.remove(event.getPlayer().getUniqueId());
+        cooldownManager.removePlayer(event.getPlayer().getUniqueId());
     }
 }
