@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
@@ -79,54 +80,8 @@ public final class ChestStorageListener implements Listener {
         // Cancel the default click/double-click behavior
         event.setCancelled(true);
 
-        final ItemStack[] contents = inventory.getStorageContents();
-
-        if (inventory.getType() == InventoryType.PLAYER) {
-            final int hotBarSize = 9;
-
-            // ignores the hotbar in the players inventory
-            final ItemStack[] sortableContents = Arrays.copyOfRange(
-                    contents,
-                    hotBarSize,
-                    contents.length);
-
-            final ItemStack[] sortedContents = sortingManager.sortChestItems(sortableContents);
-
-            // keep the original to keep the hotbar from changing
-            final ItemStack[] finalContents = contents.clone();
-
-            // Only empty the inventory above the hotbar
-            Arrays.fill(finalContents, hotBarSize, finalContents.length, null);
-
-            // put back the items after the hotbar
-            System.arraycopy(
-                    sortedContents,
-                    0,
-                    finalContents,
-                    hotBarSize,
-                    sortedContents.length
-            );
-
-            inventory.setStorageContents(finalContents);
-        } else {
-
-            final ItemStack[] sortedItems =
-                    sortingManager.sortChestItems(contents);
-
-            final ItemStack[] finalContents =
-                    new ItemStack[contents.length];
-
-            // copy the
-            System.arraycopy(
-                    sortedItems,
-                    0,
-                    finalContents,
-                    0,
-                    sortedItems.length
-            );
-
-            inventory.setStorageContents(finalContents);
-        }
+        // sort the inventory
+        sortingManager.sortInventory(inventory);
 
         player.sendMessage(
                 inventory.getType() == InventoryType.PLAYER
