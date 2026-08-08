@@ -14,6 +14,9 @@ public final class ConfigManager {
 
     public void load() {
         plugin.saveDefaultConfig();
+
+        plugin.getConfig().options().copyDefaults(true);
+        plugin.saveConfig();
     }
 
     public void reload() {
@@ -30,5 +33,13 @@ public final class ConfigManager {
 
     public boolean isPerformanceEnabled() {
         return plugin.getConfig().getBoolean("logging.performance");
+    }
+
+    public boolean isDoubleClickSortEnabled() {
+        return plugin.getConfig().getBoolean("sorting.double-click");
+    }
+
+    public boolean isCommandSortEnabled() {
+        return plugin.getConfig().getBoolean("sorting.command-sort");
     }
 }

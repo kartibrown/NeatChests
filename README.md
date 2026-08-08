@@ -4,7 +4,7 @@ Tired of sorting plugins that place diamonds and diamond blocks nowhere near eac
 
 **NeatChests sorts items by category rather than only by name**, keeping related materials together and making your storage easier to navigate.
 
-Sort both chests and your player inventory instantly with a simple double-click.
+Sort both chests and your player inventory instantly using either double-click or commands.
 
 ## Features
 
@@ -19,10 +19,14 @@ Sort both chests and your player inventory instantly with a simple double-click.
 
 ## Commands
 
+Both `/neatchests` and `/nc` can be used.
+
 | Command | Description | Permission |
 |---------|-------------|------------|
 | `/neatchests` | Displays plugin information. | None |
 | `/neatchests reload` | Reloads the plugin configuration. | `neatchests.reload` |
+| `/neatchests sort` | Sorts the contents of the targeted chest. | `neatchests.sort` |
+| `/neatchests sort inventory` | Sorts the player inventory. | `neatchests.sort` |
 
 ## Compatibility
 
@@ -36,14 +40,23 @@ Sort both chests and your player inventory instantly with a simple double-click.
 4. Edit `config.yml` if desired.
 5. Enjoy your neatly organized storage!
 
-## How to Sort a Chest
+## How to Sort
 
-1. Open a chest.
+### Double-click
+
+1. Open a supported container.
 2. **Double-click an empty inventory slot.**
-3. The chest is sorted instantly.
 
-## How to Sort Your Inventory
+### Command
 
-1. Open your inventory.
-2. **Double-click an empty inventory slot.**
-3. Your inventory is sorted instantly.
+Look at a supported container and run:
+
+```text
+/neatchests sort
+```
+
+To sort your own inventory, run:
+
+```text
+/neatchests sort inventory
+```
