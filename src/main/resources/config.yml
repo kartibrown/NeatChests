@@ -4,3 +4,7 @@ logging:
   startup: false
   performance: false
   debug: false
+
+sorting:
+  double-click: true
+  command-sort: true

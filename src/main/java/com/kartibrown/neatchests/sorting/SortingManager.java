@@ -4,7 +4,10 @@ import com.kartibrown.neatchests.config.ConfigManager;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.sorting.category.*;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +18,7 @@ import java.util.*;
 public final class SortingManager {
 
     private static final int CATEGORY_SPACING = 2000;
+    private static final int HOTBAR_SIZE = 9;
 
     private final Category[] categories;
 
@@ -112,17 +116,14 @@ public final class SortingManager {
     }
 
     /**
-     * Sorts chest items based on their category weight.
+     * Sorts the given inventory using the configured item sorting rules.
      * <p>
-     * The sorting process follows three steps:<br>
-     * 1. Merges stacks of the same item type (mergeBlocks).<br>
-     * 2. Removes any remaining empty slots (removeEmptySlots).<br>
-     * 3. Sorts the cleaned items in descending order based on their assigned weight.
+     * Player inventories keep the hotbar unchanged, while storage inventories
+     * are sorted across all storage slots.
      *
-     * @param items The chest items to sort (can contain null/empty slots)
-     * @return A new array containing the sorted items, compressed without empty spaces
+     * @param inventory the inventory to sort
      */
-    public ItemStack @NonNull [] sortChestItems(final @Nullable ItemStack @NonNull [] items) {
+    public void sortInventory(final @NonNull Inventory inventory) {
         final boolean performanceLogging = config.isPerformanceEnabled();
 
         long start = 0;
@@ -130,13 +131,68 @@ public final class SortingManager {
             start = System.nanoTime();
         }
 
+        final ItemStack[] contents = inventory.getStorageContents();
+
+        if (inventory.getType() == InventoryType.PLAYER) {
+            sortPlayerInventory((PlayerInventory) inventory, contents);
+        } else {
+            sortStorageInventory(inventory, contents);
+        }
+
+        if (performanceLogging) {
+            logger.logElapsedTime(start, "Inventory sort (" + inventory.getType() + ")");
+        }
+    }
+
+    private void sortStorageInventory(final Inventory inventory, final ItemStack[] contents) {
+        final ItemStack[] sortedItems = sortItems(contents);
+
+        final ItemStack[] finalContents =
+                new ItemStack[contents.length];
+
+        // copy the
+        System.arraycopy(
+                sortedItems,
+                0,
+                finalContents,
+                0,
+                sortedItems.length
+        );
+
+        inventory.setStorageContents(finalContents);
+    }
+
+    private void sortPlayerInventory(final PlayerInventory inventory, final ItemStack[] contents) {
+        // ignores the hotbar in the players inventory
+        final ItemStack[] sortableContents = Arrays.copyOfRange(
+                contents,
+                HOTBAR_SIZE,
+                contents.length);
+
+        final ItemStack[] sortedContents = sortItems(sortableContents);
+
+        // keep the original to keep the hotbar from changing
+        final ItemStack[] finalContents = contents.clone();
+
+        // Only empty the inventory above the hotbar
+        Arrays.fill(finalContents, HOTBAR_SIZE, finalContents.length, null);
+
+        // put back the items after the hotbar
+        System.arraycopy(
+                sortedContents,
+                0,
+                finalContents,
+                HOTBAR_SIZE,
+                sortedContents.length
+        );
+
+        inventory.setStorageContents(finalContents);
+    }
+
+    private ItemStack[] sortItems(final ItemStack[] items) {
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
 
         Arrays.sort(itemsToSort, this::compareItems);
-        
-        if (performanceLogging) {
-            logger.logElapsedTime(start, "Chest sort");
-        }
 
         return itemsToSort;
     }
@@ -266,5 +322,15 @@ public final class SortingManager {
         }
 
         return Arrays.copyOf(newItems, itemCount);
+    }
+
+    public boolean isSortableInventory(final @NonNull Inventory inventory) {
+        return switch (inventory.getType()) {
+            case PLAYER,
+                 CHEST,
+                 ENDER_CHEST,
+                 SHULKER_BOX -> true;
+            default -> false;
+        };
     }
 }
