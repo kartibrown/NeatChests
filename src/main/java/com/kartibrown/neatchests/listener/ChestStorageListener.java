@@ -1,6 +1,7 @@
 package com.kartibrown.neatchests.listener;
 
 import com.kartibrown.neatchests.commands.CommandsManager;
+import com.kartibrown.neatchests.config.ConfigManager;
 import com.kartibrown.neatchests.sorting.SortingManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,24 +10,24 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public final class ChestStorageListener implements Listener {
+    final ConfigManager configManager;
     final SortingManager sortingManager;
 
     private final Map<UUID, Long> lastClickTime;
 
     @Contract(pure = true)
-    public ChestStorageListener(final SortingManager sortingManager) {
+    public ChestStorageListener(final ConfigManager configManager,
+                                final SortingManager sortingManager) {
+        this.configManager = configManager;
         this.sortingManager = sortingManager;
 
         lastClickTime = new HashMap<>();
@@ -35,8 +36,8 @@ public final class ChestStorageListener implements Listener {
     @EventHandler
     public void onClick(final @NonNull InventoryClickEvent event) {
 
-        // ignore if cursor is not empty
-        if (!event.getCursor().isEmpty()) {
+        // ignore if double-click in config is set to false or if cursor is not empty
+        if (!configManager.isDoubleClickSortEnabled() || !event.getCursor().isEmpty()) {
             return;
         }
 
