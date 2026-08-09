@@ -145,6 +145,7 @@ public abstract class Category {
      *
      * @param weight The weight
      */
+    @Contract(mutates = "this")
     protected final void setBaseWeight(final int weight) {
         baseWeight = weight;
     }

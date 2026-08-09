@@ -13,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Container;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -33,6 +34,7 @@ public final class CommandsManager {
 
     final Map<UUID, Long> lastCommandTracker;
 
+    @Contract(pure = true)
     public CommandsManager(
             final ConfigManager configManager,
             final SortingManager sortingManager,

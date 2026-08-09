@@ -50,6 +50,7 @@ public final class ChestStorageListener implements Listener {
 
         final InventoryType type = clickedInventory.getType();
 
+        // Handle the inventory if it's as follows
         if (type == InventoryType.PLAYER
                 || type == InventoryType.CHEST
                 || type == InventoryType.SHULKER_BOX

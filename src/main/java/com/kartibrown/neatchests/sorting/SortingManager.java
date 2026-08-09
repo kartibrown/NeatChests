@@ -144,7 +144,7 @@ public final class SortingManager {
         }
     }
 
-    private void sortStorageInventory(final Inventory inventory, final ItemStack[] contents) {
+    private void sortStorageInventory(final @NonNull Inventory inventory, final ItemStack[] contents) {
         final ItemStack[] sortedItems = sortItems(contents);
 
         final ItemStack[] finalContents =
@@ -162,7 +162,7 @@ public final class SortingManager {
         inventory.setStorageContents(finalContents);
     }
 
-    private void sortPlayerInventory(final PlayerInventory inventory, final ItemStack[] contents) {
+    private void sortPlayerInventory(final @NonNull PlayerInventory inventory, final ItemStack[] contents) {
         // ignores the hotbar in the players inventory
         final ItemStack[] sortableContents = Arrays.copyOfRange(
                 contents,
@@ -189,7 +189,7 @@ public final class SortingManager {
         inventory.setStorageContents(finalContents);
     }
 
-    private ItemStack[] sortItems(final ItemStack[] items) {
+    private ItemStack @NonNull [] sortItems(final ItemStack[] items) {
         final ItemStack[] itemsToSort = removeEmptySlots(mergeBlocks(items));
 
         Arrays.sort(itemsToSort, this::compareItems);

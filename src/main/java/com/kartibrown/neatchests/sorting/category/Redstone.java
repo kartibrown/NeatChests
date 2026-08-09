@@ -2,6 +2,7 @@ package com.kartibrown.neatchests.sorting.category;
 
 import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
+import org.jetbrains.annotations.Contract;
 
 public final class Redstone extends Category {
     private static final int REDSTONE = 0;
@@ -57,6 +58,7 @@ public final class Redstone extends Category {
         addMaterialIfExists(REDSTONE, "COPPER_BULB");
     }
 
+    @Contract(pure = true)
     @Override
     public boolean containsOrRegister(final Material material) {
         return subCategories[REDSTONE].containsKey(material);

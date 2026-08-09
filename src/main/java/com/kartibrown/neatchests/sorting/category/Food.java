@@ -2,6 +2,7 @@ package com.kartibrown.neatchests.sorting.category;
 
 import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
+import org.jetbrains.annotations.Contract;
 
 public final class Food extends Category {
     private static final int FOOD = 0;
@@ -51,6 +52,7 @@ public final class Food extends Category {
         addWithAutoWeight(FOOD, Material.MILK_BUCKET);
     }
 
+    @Contract(pure = true)
     @Override
     public boolean containsOrRegister(final Material material) {
         return subCategories[FOOD].containsKey(material);
