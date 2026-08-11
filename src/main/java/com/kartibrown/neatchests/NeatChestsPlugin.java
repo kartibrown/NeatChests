@@ -34,7 +34,7 @@ public final class NeatChestsPlugin extends JavaPlugin {
         // Hooks
         ProtectionHook worldGuardHook = null;
         if(Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
-            worldGuardHook = new WorldGuardHook();
+            worldGuardHook = new WorldGuardHook(loggerManager);
             loggerManager.info("Hooked into WorldGuard.");
         }
 
