@@ -4,6 +4,7 @@ import com.kartibrown.neatchests.commands.CommandsManager;
 import com.kartibrown.neatchests.config.ConfigManager;
 import com.kartibrown.neatchests.cooldown.CooldownManager;
 import com.kartibrown.neatchests.hooks.ProtectionHook;
+import com.kartibrown.neatchests.hooks.ProtectionHookManager;
 import com.kartibrown.neatchests.hooks.WorldGuardHook;
 import com.kartibrown.neatchests.listener.PlayerListener;
 import com.kartibrown.neatchests.logger.LoggerManager;
@@ -32,11 +33,7 @@ public final class NeatChestsPlugin extends JavaPlugin {
         final CooldownManager cooldownManager = new CooldownManager();
 
         // Hooks
-        ProtectionHook worldGuardHook = null;
-        if(Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
-            worldGuardHook = new WorldGuardHook(loggerManager);
-            loggerManager.info("Hooked into WorldGuard.");
-        }
+        final ProtectionHookManager protectionHookManager = new ProtectionHookManager(loggerManager);
 
         // Commands
         final String version = getPluginMeta().getVersion();
@@ -44,7 +41,7 @@ public final class NeatChestsPlugin extends JavaPlugin {
                 configManager,
                 sortingManager,
                 loggerManager,
-                worldGuardHook,
+                protectionHookManager,
                 cooldownManager,
                 version);
 

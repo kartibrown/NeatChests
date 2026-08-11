@@ -2,7 +2,7 @@ package com.kartibrown.neatchests.commands;
 
 import com.kartibrown.neatchests.config.ConfigManager;
 import com.kartibrown.neatchests.cooldown.CooldownManager;
-import com.kartibrown.neatchests.hooks.ProtectionHook;
+import com.kartibrown.neatchests.hooks.ProtectionHookManager;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.sorting.SortingManager;
 import com.mojang.brigadier.Command;
@@ -31,7 +31,7 @@ public final class CommandsManager {
     final ConfigManager configManager;
     final SortingManager sortingManager;
     final LoggerManager logger;
-    final ProtectionHook worldGuardHook;
+    final ProtectionHookManager protectionHookManager;
     final CooldownManager cooldownManager;
 
     final Map<UUID, Long> lastCommandTracker;
@@ -41,13 +41,13 @@ public final class CommandsManager {
             final ConfigManager configManager,
             final SortingManager sortingManager,
             final LoggerManager logger,
-            final ProtectionHook worldGuardHook,
+            final ProtectionHookManager protectionHookManager,
             final CooldownManager cooldownManager,
             final String version) {
         this.configManager = configManager;
         this.sortingManager = sortingManager;
         this.logger = logger;
-        this.worldGuardHook = worldGuardHook;
+        this.protectionHookManager = protectionHookManager;
         this.cooldownManager = cooldownManager;
 
         this.version = version;
@@ -84,6 +84,7 @@ public final class CommandsManager {
             return 0;
         }
 
+        // Cooldown
         if (cooldownManager.hasCommandCooldown(player)) {
             player.sendMessage("§cYou're using this command too quickly!");
             return 0;
@@ -103,13 +104,15 @@ public final class CommandsManager {
             return 0;
         }
 
-        if(worldGuardHook != null && !worldGuardHook.canAccess(player, player.getLocation())) {
-            player.sendMessage("§cYou don't have permission to sort this chest!");
+        // Cooldown check
+        if (cooldownManager.hasCommandCooldown(player)) {
+            player.sendMessage("§cYou're using this command too quickly!");
             return 0;
         }
 
-        if (cooldownManager.hasCommandCooldown(player)) {
-            player.sendMessage("§cYou're using this command too quickly!");
+        // Check access from other plugins
+        if(!protectionHookManager.canAccess(player, player.getLocation())) {
+            player.sendMessage("§cYou don't have permission to sort this chest!");
             return 0;
         }
 
