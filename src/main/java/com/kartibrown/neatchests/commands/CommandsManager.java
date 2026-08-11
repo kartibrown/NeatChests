@@ -103,6 +103,7 @@ public final class CommandsManager {
 
         if(worldGuardHook != null && !worldGuardHook.canAccess(player, player.getLocation())) {
             player.sendMessage("§cYou don't have permission to sort this chest!");
+            return 0;
         }
 
         if (cooldownManager.hasCommandCooldown(player)) {
