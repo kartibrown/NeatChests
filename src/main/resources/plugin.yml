@@ -13,3 +13,6 @@ permissions:
   neatchests.sort:
     description: Sort containers.
     default: true
+
+softdepend:
+  - WorldGuard
