@@ -110,12 +110,6 @@ public final class CommandsManager {
             return 0;
         }
 
-        // Check access from other plugins
-        if(!protectionHookManager.canAccess(player, player.getLocation())) {
-            player.sendMessage("§cYou don't have permission to sort this chest!");
-            return 0;
-        }
-
         final Block block = player.getTargetBlockExact(5);
 
         if (block == null) {
@@ -123,8 +117,15 @@ public final class CommandsManager {
             return 0;
         }
 
+        // Check if it is a container first
         if (!((block.getState()) instanceof final Container container)) {
             player.sendMessage("§cYou're not looking at a sortable container!");
+            return 0;
+        }
+
+        // Check access from other plugins even bypasses like (OP)
+        if(!protectionHookManager.canAccess(player, block.getLocation())) {
+            player.sendMessage("§cYou don't have permission to sort this chest!");
             return 0;
         }
 
