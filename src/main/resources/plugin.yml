@@ -16,3 +16,4 @@ permissions:
 
 softdepend:
   - WorldGuard
+  - Residence
