@@ -5,7 +5,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
-import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public final class WorldGuardHook implements ProtectionHook {
@@ -21,7 +21,7 @@ public final class WorldGuardHook implements ProtectionHook {
 
 
     @Override
-    public boolean canAccess(final Player player, final Location location) {
+    public boolean canAccess(final Player player, final Block block) {
         final var localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
         final var platform = WorldGuard.getInstance().getPlatform();
 
@@ -32,7 +32,7 @@ public final class WorldGuardHook implements ProtectionHook {
             return true;
         }
 
-        final var wgLocation = BukkitAdapter.adapt(location);
+        final var wgLocation = BukkitAdapter.adapt(block.getLocation());
 
         // Players with normal build permissions (owners/members) are allowed immediately.
         // Otherwise, allow access only if the region explicitly grants CHEST_ACCESS.
