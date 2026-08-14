@@ -19,6 +19,11 @@ repositories {
     maven {
         url = uri("https://jitpack.io")
     }
+
+    maven {
+        name = "glaremasters repo"
+        url = uri("https://repo.glaremasters.me/repository/towny/")
+    }
 }
 
 dependencies {
@@ -32,6 +37,8 @@ dependencies {
     compileOnly("com.github.Zrips:Residence:6.0.2.3"){
         isTransitive = false
     }
+
+    compileOnly("com.palmergames.bukkit.towny:towny:0.103.2.0")
 }
 
 java {
