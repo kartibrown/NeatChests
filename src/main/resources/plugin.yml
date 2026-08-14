@@ -1,20 +1,23 @@
 name: NeatChests
 version: 0.4.0-alpha
 main: com.kartibrown.neatchests.NeatChestsPlugin
-description: A ChestSorter to keep your chests neat
+
+description: Smart chest sorting with protection plugin support.
 api-version: '26.2'
+website: https://github.com/kartibrown/NeatChests
+
 author: kartibrown
-
-permissions:
-  neatchests.reload:
-    description: Reload the plugin configuration.
-    default: op
-
-  neatchests.sort:
-    description: Sort containers.
-    default: true
 
 softdepend:
   - WorldGuard
   - Residence
   - Towny
+
+permissions:
+  neatchests.reload:
+    description: Reload NeatChests.
+    default: op
+
+  neatchests.sort:
+    description: Allow players to sort supported containers.
+    default: true
