@@ -1,8 +1,10 @@
 package com.kartibrown.neatchests.hooks;
 
 import com.kartibrown.neatchests.logger.LoggerManager;
+import com.palmergames.bukkit.towny.object.TownyPermission;
+import com.palmergames.bukkit.towny.utils.PlayerCacheUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public final class ProtectionHookManager implements ProtectionHook {
         protectionHooks = new ArrayList<>();
         addHook("WorldGuard", WorldGuardHook::new);
         addHook("Residence", ResidenceHook::new);
+        addHook("Towny", TownyHook::new);
     }
 
     private void addHook(final String pluginName,
@@ -34,9 +37,10 @@ public final class ProtectionHookManager implements ProtectionHook {
     }
 
     @Override
-    public boolean canAccess(final Player player, final Location location) {
+    public boolean canAccess(final Player player, final Block block) {
+
         for (final ProtectionHook protectionHook : protectionHooks) {
-            if (!protectionHook.canAccess(player, location)) {
+            if (!protectionHook.canAccess(player, block)) {
                 return false;
             }
         }

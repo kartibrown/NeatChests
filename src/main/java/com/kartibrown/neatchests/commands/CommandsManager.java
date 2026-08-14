@@ -124,7 +124,7 @@ public final class CommandsManager {
         }
 
         // Check access from other plugins even bypasses like (OP)
-        if(!protectionHookManager.canAccess(player, block.getLocation())) {
+        if(!protectionHookManager.canAccess(player, block)) {
             player.sendMessage("§cYou don't have permission to sort this chest!");
             return 0;
         }
