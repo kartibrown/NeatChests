@@ -17,3 +17,4 @@ permissions:
 softdepend:
   - WorldGuard
   - Residence
+  - Towny
