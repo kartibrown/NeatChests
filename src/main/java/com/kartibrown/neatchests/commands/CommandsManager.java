@@ -65,7 +65,7 @@ public final class CommandsManager {
                         .executes(this::reload)
                 )
                 .then(Commands.literal("sort").requires(source ->
-                                configManager.isCommandSortEnabled()
+                                configManager.getMainConfig().isCommandSortEnabled()
                                         && source.getSender().hasPermission(SORT_PERMISSION))
                         .executes(this::sortStorage)
                         .then(Commands.literal("inventory")
@@ -145,7 +145,7 @@ public final class CommandsManager {
     }
 
     private int reload(final @NonNull CommandContext<CommandSourceStack> ctx) {
-        configManager.reload();
+        configManager.reloadAll();
 
         sendMessageToSender("Config Reloaded!", ctx);
 
