@@ -72,7 +72,10 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
                         "In SIMPLE mode, only category weights are configurable.",
                         "In ADVANCED mode, both categories and individual items can be configured.",
                         "",
-                        "Higher weights are sorted first."
+                        "Higher weights are sorted first.",
+                        "",
+                        "Items are listed alphabetically.",
+                        "The weight determines their sort priority."
                 )
         );
 
