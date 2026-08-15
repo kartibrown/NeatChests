@@ -24,6 +24,9 @@ public final class Equipment extends Category {
 
     @Override
     public void initialize() {
+
+        setStartWeight(baseWeight);
+
         // NETHERITE
 
         final Material[] netherite = {

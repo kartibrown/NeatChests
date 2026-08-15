@@ -1,17 +1,16 @@
 package com.kartibrown.neatchests.config;
 
 import com.kartibrown.neatchests.sorting.Category;
-import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Contract;
 
 import java.io.IOException;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 
 public final class WeightsConfig extends AbstractConfig implements ConfigFile {
+    private boolean created;
 
     public WeightsConfig(final JavaPlugin plugin) {
         super(plugin, "weights.yml");
@@ -19,8 +18,11 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
 
     @Override
     public void load() {
+        created = false;
+
         if (!file.exists()) {
             plugin.saveResource(fileName, false);
+            created = true;
         }
 
         fileConfig = YamlConfiguration.loadConfiguration(file);
@@ -38,5 +40,27 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
         } catch (final IOException e) {
             plugin.getLogger().log(Level.SEVERE, "Could not save config file " + fileName, e);
         }
+    }
+
+    public void generateDefaults(final Category[] sortingCategories) {
+        final ConfigurationSection categoriesSection = fileConfig.createSection("categories");
+
+        for (final Category category : sortingCategories) {
+            final ConfigurationSection categorySection =
+                    categoriesSection.createSection(category.name().toLowerCase());
+
+            categorySection.set("weight", category.getStartWeight());
+
+            categorySection.createSection("items", category.getSubCategories());
+        }
+    }
+
+    /*
+     * GETTERS & SETTERS
+     */
+
+    @Contract(pure = true)
+    public boolean wasCreated() {
+        return created;
     }
 }

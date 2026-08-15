@@ -141,4 +141,17 @@ public final class CategoryManager {
 
         return weight != null ? weight : -1;
     }
+
+    /*
+     * GETTERS & SETTERS
+     */
+
+    /**
+     * Returns a copy of all categories
+     * @return returns a new copy of all the categories
+     */
+    @Contract(pure = true)
+    public Category[] getCategories() {
+        return categories.clone();
+    }
 }

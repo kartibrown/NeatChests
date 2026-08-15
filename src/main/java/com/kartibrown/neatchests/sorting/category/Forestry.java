@@ -19,6 +19,7 @@ public final class Forestry extends Category {
 
     @Override
     public void initialize() {
+        setStartWeight(baseWeight);
 
         /*
          * BUILD

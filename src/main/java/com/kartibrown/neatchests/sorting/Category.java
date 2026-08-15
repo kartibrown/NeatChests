@@ -3,18 +3,22 @@ package com.kartibrown.neatchests.sorting;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
 public abstract class Category {
+    protected String name;
 
+    private int startWeight;
     protected int baseWeight;
 
     protected final Map<Material, Integer>[] subCategories;
 
     @SuppressWarnings("unchecked")
     public Category(final int numberOfSubCategories) {
+        name = getClass().getSimpleName();
 
         subCategories = (EnumMap<Material, Integer>[]) new EnumMap[numberOfSubCategories];
 
@@ -28,7 +32,7 @@ public abstract class Category {
      * Categories that do not require initialization may use the default implementation.
      */
     public void initialize() {
-
+        setStartWeight(baseWeight);
     }
 
     /**
@@ -148,5 +152,27 @@ public abstract class Category {
     @Contract(mutates = "this")
     protected final void setBaseWeight(final int weight) {
         baseWeight = weight;
+    }
+
+    protected final void setStartWeight(final int weight) {
+        startWeight = weight;
+    }
+
+    public final int getStartWeight() {
+        return startWeight;
+    }
+
+    public final String name() {
+        return name;
+    }
+
+    public final @NonNull Map<Material, Integer> getSubCategories() {
+        final Map<Material, Integer> mapOfAll = new EnumMap<>(Material.class);
+
+        for(final Map<Material, Integer> subCat : this.subCategories){
+            mapOfAll.putAll(subCat);
+        }
+
+        return mapOfAll;
     }
 }
