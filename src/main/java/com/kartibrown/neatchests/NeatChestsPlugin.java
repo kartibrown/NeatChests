@@ -18,7 +18,7 @@ public final class NeatChestsPlugin extends JavaPlugin {
 
         // Config
         final ConfigManager configManager = new ConfigManager(this);
-        configManager.load();
+        configManager.loadAll();
 
         // Logger
         final LoggerManager loggerManager = new LoggerManager(this, configManager);
@@ -40,7 +40,8 @@ public final class NeatChestsPlugin extends JavaPlugin {
                 loggerManager,
                 protectionHookManager,
                 cooldownManager,
-                version);
+                version
+        );
 
         registerCommands(commandsManager);
 
@@ -48,7 +49,8 @@ public final class NeatChestsPlugin extends JavaPlugin {
         final ChestStorageListener chestStorageListener = new ChestStorageListener(
                 configManager,
                 sortingManager,
-                cooldownManager);
+                cooldownManager
+        );
         final PlayerListener playerListener = new PlayerListener(cooldownManager);
 
         getServer().getPluginManager().registerEvents(chestStorageListener, this);

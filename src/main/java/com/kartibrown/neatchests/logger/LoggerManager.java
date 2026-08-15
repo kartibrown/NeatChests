@@ -31,7 +31,7 @@ public final class LoggerManager {
     }
 
     public void debug(final String message) {
-        if (configManager.isDebugEnabled()) {
+        if (configManager.getMainConfig().isDebugEnabled()) {
             logger.info("[DEBUG] " + message);
         }
     }

@@ -23,9 +23,9 @@ public final class SortingManager {
     private final Category[] categories;
 
     private final LoggerManager logger;
-    private final ConfigManager config;
+    private final ConfigManager configManager;
 
-    public SortingManager(final ConfigManager config, final LoggerManager logger) {
+    public SortingManager(final ConfigManager configManager, final LoggerManager logger) {
         // Throw exception if category spacing is too small
         if (Material.values().length >= CATEGORY_SPACING) {
             throw new IllegalStateException(
@@ -37,7 +37,7 @@ public final class SortingManager {
 
         // Init LoggerManager
         this.logger = logger;
-        if (config.isStartupEnabled()) {
+        if (configManager.getMainConfig().isStartupEnabled()) {
             logger.info("Initializing categories...");
         }
 
@@ -107,12 +107,12 @@ public final class SortingManager {
         }
 
         // Log registered materials and time it took
-        if (config.isStartupEnabled()) {
+        if (configManager.getMainConfig().isStartupEnabled()) {
             logger.info("Registered " + registeredMaterials + " valid materials.");
             logger.logElapsedTime(start, "Initialization");
         }
 
-        this.config = config;
+        this.configManager = configManager;
     }
 
     /**
@@ -124,7 +124,7 @@ public final class SortingManager {
      * @param inventory the inventory to sort
      */
     public void sortInventory(final @NonNull Inventory inventory) {
-        final boolean performanceLogging = config.isPerformanceEnabled();
+        final boolean performanceLogging = configManager.getMainConfig().isPerformanceEnabled();
 
         long start = 0;
         if (performanceLogging) {
