@@ -25,7 +25,7 @@ public final class Equipment extends Category {
     @Override
     public void initialize() {
 
-        setStartWeight(baseWeight);
+        initializeStartWeight(baseWeight);
 
         // NETHERITE
 

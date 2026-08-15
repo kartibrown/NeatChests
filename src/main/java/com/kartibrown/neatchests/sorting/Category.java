@@ -20,6 +20,8 @@ public abstract class Category {
     public Category(final int numberOfSubCategories) {
         name = getClass().getSimpleName();
 
+        startWeight = -1;
+
         subCategories = (EnumMap<Material, Integer>[]) new EnumMap[numberOfSubCategories];
 
         for (int i = 0; i < numberOfSubCategories; i++) {
@@ -32,7 +34,7 @@ public abstract class Category {
      * Categories that do not require initialization may use the default implementation.
      */
     public void initialize() {
-        setStartWeight(baseWeight);
+        initializeStartWeight(baseWeight);
     }
 
     /**
@@ -140,6 +142,13 @@ public abstract class Category {
         return false;
     }
 
+    @Contract(mutates = "this")
+    protected final void initializeStartWeight(final int weight) {
+        if (startWeight == -1) {
+            startWeight = weight;
+        }
+    }
+
     /*
      * GETTERS & SETTERS
      */
@@ -152,10 +161,6 @@ public abstract class Category {
     @Contract(mutates = "this")
     protected final void setBaseWeight(final int weight) {
         baseWeight = weight;
-    }
-
-    protected final void setStartWeight(final int weight) {
-        startWeight = weight;
     }
 
     /**

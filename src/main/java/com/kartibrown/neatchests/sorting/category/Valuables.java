@@ -13,7 +13,8 @@ public final class Valuables extends Category {
 
     @Override
     public void initialize() {
-        setStartWeight(baseWeight);
+
+        initializeStartWeight(baseWeight);
 
         addMaterialIfExists(VALUABLES, "NETHERITE_INGOT");
         addMaterialIfExists(VALUABLES, "NETHERITE_BLOCK");

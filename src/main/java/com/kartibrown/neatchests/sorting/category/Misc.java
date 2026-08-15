@@ -13,6 +13,11 @@ public final class Misc extends Category {
         super(1);
     }
 
+    @Override
+    public void initialize() {
+        // Nothing here because we don't want to set the startWeight variable yet
+    }
+
     @Contract(pure = true)
     @Override
     public boolean containsOrRegister(final Material material) {
@@ -20,19 +25,23 @@ public final class Misc extends Category {
     }
 
     /**
-     *  Fallback class needs the weight to sort. e.g.<br>
-     *  DIRT has other similar blocks like PODZOL or MYCELIUM as they don't
-     *  start with same character they'll otherwise get in weird places
+     * The fallback category needs adjusted weights to keep related materials
+     * together. For example, DIRT should stay close to PODZOL and MYCELIUM
+     * even though they do not start with the same letter.
      *
      * @param material The fallback material to add
-     * @param weight The weight to be added with it
+     * @param weight   The weight to be added with it
      */
     public void addFallback(final Material material, final int weight) {
-        if (tryAddGroupedMaterial(material, weight)) {
+        final int actualWeight = baseWeight + weight;
+
+        initializeStartWeight(actualWeight);
+
+        if (tryAddGroupedMaterial(material, actualWeight)) {
             return;
         }
 
-        add(material, weight);
+        add(material, actualWeight);
     }
 
     private boolean tryAddGroupedMaterial(final Material material, final int weight) {
