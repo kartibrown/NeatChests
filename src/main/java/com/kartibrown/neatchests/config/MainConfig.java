@@ -2,6 +2,8 @@ package com.kartibrown.neatchests.config;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public final class MainConfig extends AbstractConfig implements ConfigFile {
     public MainConfig(final JavaPlugin plugin) {
         super(plugin);
@@ -46,5 +48,9 @@ public final class MainConfig extends AbstractConfig implements ConfigFile {
 
     public boolean isCommandSortEnabled() {
         return fileConfig.getBoolean("sorting.command-sort");
+    }
+
+    public WeightMode getWeightsMode() {
+        return WeightMode.fromString(fileConfig.getString("weights.mode"));
     }
 }

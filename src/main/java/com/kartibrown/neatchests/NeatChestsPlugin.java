@@ -2,6 +2,7 @@ package com.kartibrown.neatchests;
 
 import com.kartibrown.neatchests.commands.CommandsManager;
 import com.kartibrown.neatchests.config.ConfigManager;
+import com.kartibrown.neatchests.config.WeightsConfig;
 import com.kartibrown.neatchests.cooldown.CooldownManager;
 import com.kartibrown.neatchests.hooks.ProtectionHookManager;
 import com.kartibrown.neatchests.listener.PlayerListener;
@@ -28,10 +29,10 @@ public final class NeatChestsPlugin extends JavaPlugin {
         final CategoryManager categoryManager = new CategoryManager(configManager, loggerManager);
 
         // Write default to the weights.yml config file
-        if (configManager.getWeights().wasCreated()) {
-            configManager.getWeights().generateDefaults(categoryManager.getCategories());
-            configManager.getWeights().save();
-        }
+        configManager.getWeights().generateDefaultsIfNeeded(
+                categoryManager.getCategories(),
+                configManager.getMainConfig().getWeightsMode()
+        );
 
         // Sorting
         final SortingManager sortingManager = new SortingManager(
