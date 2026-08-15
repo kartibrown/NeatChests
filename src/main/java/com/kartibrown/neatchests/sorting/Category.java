@@ -158,14 +158,28 @@ public abstract class Category {
         startWeight = weight;
     }
 
+    /**
+     *
+     * @return Returns the category's starting weight
+     */
+    @Contract(pure = true)
     public final int getStartWeight() {
         return startWeight;
     }
 
+    /**
+     *
+     * @return Returns the name of the category
+     */
+    @Contract(pure = true)
     public final String name() {
         return name;
     }
 
+    /**
+     *
+     * @return Returns all sub categories in one map
+     */
     public final @NonNull Map<Material, Integer> getSubCategories() {
         final Map<Material, Integer> mapOfAll = new EnumMap<>(Material.class);
 
