@@ -39,8 +39,4 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
             plugin.getLogger().log(Level.SEVERE, "Could not save config file " + fileName, e);
         }
     }
-
-    public void test(){
-        Catego
-    }
 }

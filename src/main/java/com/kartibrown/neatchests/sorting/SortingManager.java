@@ -3,7 +3,6 @@ package com.kartibrown.neatchests.sorting;
 import com.kartibrown.neatchests.config.ConfigManager;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.sorting.category.*;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,102 +16,16 @@ import java.util.*;
 
 public final class SortingManager {
 
-    private static final int CATEGORY_SPACING = 2000;
     private static final int HOTBAR_SIZE = 9;
-
-    private final Category[] categories;
 
     private final LoggerManager logger;
     private final ConfigManager configManager;
+    private final CategoryManager categoryManager;
 
-    public SortingManager(final ConfigManager configManager, final LoggerManager logger) {
-        // Throw exception if category spacing is too small
-        if (Material.values().length >= CATEGORY_SPACING) {
-            throw new IllegalStateException(
-                    "CATEGORY_SPACING (" + CATEGORY_SPACING +
-                            ") must be larger than the number of materials (" +
-                            Material.values().length + ")."
-            );
-        }
-
-        // Init LoggerManager
-        this.logger = logger;
-        if (configManager.getMainConfig().isStartupEnabled()) {
-            logger.info("Initializing categories...");
-        }
-
-        // For debug
-        final long start = System.nanoTime();
-
-        // Fallback class
-        final Misc misc = new Misc();
-
-        categories = new Category[]{
-                new Valuables(),
-                new Equipment(),
-                new Redstone(),
-                new Food(),
-                new Forestry(),
-                new Template(),
-                misc
-        };
-
-        int baseWeight = 1_000_000;
-
-        for (final Category category : categories) {
-            // Set weight
-            category.setBaseWeight(baseWeight);
-            baseWeight -= CATEGORY_SPACING;
-
-            // Initialize the materials of each category
-            category.initialize();
-        }
-
-        final Material[] materials = Material.values();
-        // sort the materials in alphabetical order
-        Arrays.sort(materials, Comparator.comparing(Material::name));
-
-        final int totalMaterials = materials.length;
-        int registeredMaterials = 0;
-
-        for (int materialIndex = 0; materialIndex < totalMaterials; materialIndex++) {
-            final Material material = materials[materialIndex];
-
-            if (material.isAir() || material.isLegacy()) {
-                continue;
-            }
-
-            // Get the biggest number to character A first
-            final int alphabeticalWeight = totalMaterials - materialIndex;
-            boolean added = false;
-
-            // Misc is fallback and doesn't need testing here
-            for (int categoryIndex = 0;
-                 categoryIndex < categories.length - 1;
-                 categoryIndex++) {
-
-                // Adds or checks that a material has been added
-                if (categories[categoryIndex].containsOrRegister(material)) {
-                    added = true;
-                    registeredMaterials++;
-                    break;
-                }
-            }
-
-            // FALLBACK
-            if (!added) {
-                misc.addFallback(material, alphabeticalWeight);
-                registeredMaterials++;
-            }
-        }
-
-        // Log registered materials and time it took
-        if (configManager.getMainConfig().isStartupEnabled()) {
-            logger.info("Registered " + registeredMaterials + " valid materials.");
-            logger.logElapsedTime(start, "Initialization");
-        }
-
+    public SortingManager(final ConfigManager configManager, final LoggerManager logger, final CategoryManager categoryManager) {
         this.configManager = configManager;
+        this.logger = logger;
+        this.categoryManager = categoryManager;
     }
 
     /**
@@ -198,53 +111,14 @@ public final class SortingManager {
     }
 
     private int compareItems(final ItemStack item1, final ItemStack item2) {
-        final int w1 = getWeightSafely(item1);
-        final int w2 = getWeightSafely(item2);
+        final int w1 = categoryManager.getWeightSafely(item1);
+        final int w2 = categoryManager.getWeightSafely(item2);
 
         if (w1 != w2) {
             return Integer.compare(w2, w1);
         }
 
         return item1.getType().name().compareTo(item2.getType().name());
-    }
-
-    /**
-     * Gets the weight safely from the item, will return -1 if null
-     *
-     * @param item The item to get the weight from
-     * @return Returns -1 if item is null or if Category is null or if the Integer
-     * to get the weight is null
-     */
-    private int getWeightSafely(final @Nullable ItemStack item) {
-        if (item == null) {
-            return -1;
-        }
-
-        final Category category = findCategoryFor(item.getType());
-        if (category == null) {
-            return -1;
-        }
-
-        final Integer weight = category.getWeightFor(item.getType());
-
-        return weight != null ? weight : -1;
-    }
-
-    /**
-     * Returns the category that the material passed is located in, also adds
-     * the material to the category if it needs to add it
-     *
-     * @param material The material to find the category for
-     * @return Returns the category that the material is in
-     */
-    @Contract(pure = true)
-    private @Nullable Category findCategoryFor(final Material material) {
-        for (final Category category : categories) {
-            if (category.contains(material)) {
-                return category;
-            }
-        }
-        return null;
     }
 
     /**

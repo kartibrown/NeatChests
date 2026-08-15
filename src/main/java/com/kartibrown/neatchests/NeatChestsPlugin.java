@@ -7,6 +7,7 @@ import com.kartibrown.neatchests.hooks.ProtectionHookManager;
 import com.kartibrown.neatchests.listener.PlayerListener;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.listener.ChestStorageListener;
+import com.kartibrown.neatchests.sorting.CategoryManager;
 import com.kartibrown.neatchests.sorting.SortingManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,8 +24,15 @@ public final class NeatChestsPlugin extends JavaPlugin {
         // Logger
         final LoggerManager loggerManager = new LoggerManager(this, configManager);
 
+        // Category
+        final CategoryManager categoryManager = new CategoryManager(configManager, loggerManager);
+
         // Sorting
-        final SortingManager sortingManager = new SortingManager(configManager, loggerManager);
+        final SortingManager sortingManager = new SortingManager(
+                configManager,
+                loggerManager,
+                categoryManager
+        );
 
         // Cooldowns
         final CooldownManager cooldownManager = new CooldownManager();
