@@ -11,11 +11,25 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/**
+ * Creates and initializes all sorting categories,
+ * assigns their default weights, and prepares them
+ * for item lookup during sorting.
+ */
 public final class CategoryManager {
     private static final int CATEGORY_SPACING = 2000;
 
     private final Category[] categories;
 
+    /**
+     * Creates a new category manager and initializes all categories.
+     *
+     * @param configManager the config manager
+     * @param logger        the logger manager
+     * @throws IllegalStateException if the number of {@link Material}
+     *                               values exceeds the configured {@code CATEGORY_SPACING}, making
+     *                               category weight ranges overlap.
+     */
     public CategoryManager(final ConfigManager configManager, final LoggerManager logger) {
         // Throw exception if category spacing is too small
         if (Material.values().length >= CATEGORY_SPACING) {
@@ -148,6 +162,7 @@ public final class CategoryManager {
 
     /**
      * Returns a copy of all categories
+     *
      * @return returns a new copy of all the categories
      */
     @Contract(pure = true)

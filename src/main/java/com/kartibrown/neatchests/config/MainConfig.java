@@ -2,8 +2,9 @@ package com.kartibrown.neatchests.config;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Objects;
-
+/**
+ * Handles loading, saving, and accessing values stored in {@code config.yml}.
+ */
 public final class MainConfig extends AbstractConfig implements ConfigFile {
     public MainConfig(final JavaPlugin plugin) {
         super(plugin);

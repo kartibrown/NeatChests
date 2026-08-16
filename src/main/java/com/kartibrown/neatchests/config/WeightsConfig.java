@@ -8,12 +8,15 @@ import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 
+/**
+ * Handles loading, saving, and accessing values stored in {@code weights.yml}.<br>
+ * Also generates the file with default values when needed.
+ */
 public final class WeightsConfig extends AbstractConfig implements ConfigFile {
     private static final int CURRENT_VERSION = 1;
 
@@ -50,15 +53,34 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
         }
     }
 
+    /**
+     * Returns the weight mode stored in {@code weights.yml}.
+     *
+     * @return the stored weight mode from {@code metadata.mode}
+     */
     public WeightMode getStoredMode() {
         return WeightMode.fromString(fileConfig.getString("metadata.mode"));
     }
 
+    /**
+     * Returns the configuration version stored in {@code weights.yml}.
+     *
+     * @return the stored configuration version
+     */
     public int getStoredVersion() {
         return fileConfig.getInt("metadata.version");
     }
 
-    public void generateDefaultsIfNeeded(final Category[] sortingCategories, final WeightMode currentMode) {
+    /**
+     * Regenerates the default contents of {@code weights.yml} if the configuration
+     * format has changed or the file does not yet exist.
+     *
+     * @param sortingCategories the sorting categories, it's used to write all the categories in
+     *                          the {@code weights.yml}
+     * @param currentMode       the weight mode currently configured in {@code weights.yml}
+     */
+    public void generateDefaultsIfNeeded(final Category[] sortingCategories,
+                                         final WeightMode currentMode) {
         if (!needsRegeneration(currentMode)) {
             return;
         }
@@ -101,6 +123,7 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
     }
 
     private void generateSimple(final Category @NonNull [] sortingCategories) {
+        // Generates the simple mode config
         final ConfigurationSection categoriesSection = fileConfig.createSection("categories");
 
         for (final Category category : sortingCategories) {
@@ -109,6 +132,7 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
     }
 
     private void generateAdvanced(final Category @NonNull [] sortingCategories) {
+        // Generates the advanced mode config
         final ConfigurationSection categoriesSection = fileConfig.createSection("categories");
 
         for (final Category category : sortingCategories) {
@@ -125,11 +149,23 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
      * GETTERS & SETTERS
      */
 
+    /**
+     * Determines whether {@code weights.yml} should be regenerated.
+     *
+     * @param currentMode The current mode stored in the config file
+     * @return {@code true} if config needs regeneration
+     */
     private boolean needsRegeneration(final WeightMode currentMode) {
         return wasCreated()
                 || getStoredMode() != currentMode;
     }
 
+    /**
+     * Returns whether {@code weights.yml} was created during startup.
+     *
+     * @return {@code true} if the file was created, {@code false} if
+     * the file already existed
+     */
     @Contract(pure = true)
     private boolean wasCreated() {
         return created;

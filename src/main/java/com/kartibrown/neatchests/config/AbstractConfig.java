@@ -2,6 +2,7 @@ package com.kartibrown.neatchests.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jspecify.annotations.NonNull;
 
 import java.io.File;
 
@@ -13,14 +14,14 @@ public abstract class AbstractConfig {
     protected final File file;
     protected FileConfiguration fileConfig;
 
-    public  AbstractConfig(final JavaPlugin plugin) {
+    public  AbstractConfig(final @NonNull JavaPlugin plugin) {
         this.plugin = plugin;
         fileName = "config.yml"; // Standard config
 
         file = new File(plugin.getDataFolder(), fileName);
     }
 
-    public AbstractConfig(final JavaPlugin plugin,  final String fileName) {
+    public AbstractConfig(final @NonNull JavaPlugin plugin, final String fileName) {
         this.plugin = plugin;
         this.fileName = fileName;
 

@@ -8,6 +8,11 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
+/**
+ * Base class for all sorting categories.
+ * Stores materials in one or more sub-categories together
+ * with their sorting weights.
+ */
 public abstract class Category {
     protected String name;
 
