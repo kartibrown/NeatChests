@@ -14,6 +14,9 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.*;
 
+/**
+ * Handles inventory sorting based on category and item weights.
+ */
 public final class SortingManager {
 
     private static final int HOTBAR_SIZE = 9;
@@ -22,6 +25,7 @@ public final class SortingManager {
     private final ConfigManager configManager;
     private final CategoryManager categoryManager;
 
+    @Contract(pure = true)
     public SortingManager(final ConfigManager configManager, final LoggerManager logger, final CategoryManager categoryManager) {
         this.configManager = configManager;
         this.logger = logger;
