@@ -67,7 +67,7 @@ public final class SortingManager {
         final ItemStack[] finalContents =
                 new ItemStack[contents.length];
 
-        // copy the
+        // Copy the sorted items while preserving the remaining slots as null
         System.arraycopy(
                 sortedItems,
                 0,
@@ -202,6 +202,12 @@ public final class SortingManager {
         return Arrays.copyOf(newItems, itemCount);
     }
 
+    /**
+     * Checks whether the given inventory can be sorted by NeatChests.
+     *
+     * @param inventory the inventory to check
+     * @return {@code true} if the inventory is supported, otherwise {@code false}
+     */
     public boolean isSortableInventory(final @NonNull Inventory inventory) {
         return switch (inventory.getType()) {
             case PLAYER,
