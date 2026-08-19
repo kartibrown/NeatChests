@@ -33,6 +33,12 @@ public final class ProtectionHookManager implements ProtectionHook {
         }
 
         loggerManager.info("Hooked into " + pluginName + ".");
+
+        if (pluginName.equals("Towny")) {
+            loggerManager.info("The '/nc' alias may conflict with Towny's nation chat.");
+            loggerManager.info("Consider changing 'commands.aliases' in config.yml.");
+        }
+
         protectionHooks.add(supplier.get());
     }
 

@@ -15,6 +15,8 @@ import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public final class NeatChestsPlugin extends JavaPlugin {
@@ -62,7 +64,11 @@ public final class NeatChestsPlugin extends JavaPlugin {
                 version
         );
 
-        registerCommands(commandsManager);
+        // Register root commands and aliases
+        getLifecycleManager().registerEventHandler(
+                LifecycleEvents.COMMANDS,
+                event -> commandsManager.register(event.registrar())
+        );
 
         // Register Listener
         final ChestStorageListener chestStorageListener = new ChestStorageListener(
@@ -77,24 +83,6 @@ public final class NeatChestsPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(playerListener, this);
 
         logger.info("NeatChests has been enabled successfully!");
-    }
-
-    private void registerCommands(final CommandsManager commandsManager) {
-        final String[] commandNames = {
-                "neatchests",
-                "nc"
-        };
-
-        getLifecycleManager().registerEventHandler(
-                LifecycleEvents.COMMANDS,
-                event -> {
-                    for (final String commandName : commandNames) {
-                        event.registrar().register(
-                                commandsManager.createCommandTree(commandName).build()
-                        );
-                    }
-                }
-        );
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.kartibrown.neatchests.config;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jspecify.annotations.NonNull;
+
+import java.util.List;
 
 /**
  * Handles loading, saving, and accessing values stored in {@code config.yml}.
@@ -53,5 +56,9 @@ public final class MainConfig extends AbstractConfig implements ConfigFile {
 
     public WeightMode getWeightsMode() {
         return WeightMode.fromString(fileConfig.getString("weights.mode"));
+    }
+
+    public @NonNull List<String> getAliases() {
+        return fileConfig.getStringList("commands.aliases");
     }
 }

@@ -12,6 +12,17 @@ logging:
   debug: false
 
 # --------------------------------------------------
+# Commands
+# --------------------------------------------------
+commands:
+  # Aliases allows you to change the command to specifics shortcuts, if you want to use
+  # Towny's /nc (nation chat) command you can change this to another command
+  aliases:
+    - nc
+    # - neat
+    # - sort
+
+# --------------------------------------------------
 # Sorting
 # --------------------------------------------------
 sorting:

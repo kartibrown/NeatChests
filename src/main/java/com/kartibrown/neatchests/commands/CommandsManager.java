@@ -10,18 +10,25 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.block.Block;
 import org.bukkit.block.Container;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles command registration, permissions, and command tree creation.
  */
 public final class CommandsManager {
+    private static final String ROOT_COMMAND = "neatchests";
+
     private static final String RELOAD_PERMISSION = "neatchests.reload";
     public static final String SORT_PERMISSION = "neatchests.sort";
 
@@ -125,7 +132,7 @@ public final class CommandsManager {
         }
 
         // Check access from other plugins even bypasses like (OP)
-        if(!protectionHookManager.canAccess(player, block)) {
+        if (!protectionHookManager.canAccess(player, block)) {
             player.sendMessage("§cYou don't have permission to sort this chest!");
             return 0;
         }
@@ -151,6 +158,18 @@ public final class CommandsManager {
         sendMessageToSender("Config Reloaded!", ctx);
 
         return Command.SINGLE_SUCCESS;
+    }
+
+    public void register(final Commands registrar) {
+        final List<String> aliases = new ArrayList<>();
+        aliases.add(ROOT_COMMAND);
+        aliases.addAll(configManager.getMainConfig().getAliases());
+
+        for (final String commandRoot : aliases) {
+            registrar.register(
+                    createCommandTree(commandRoot).build()
+            );
+        }
     }
 
     /*
