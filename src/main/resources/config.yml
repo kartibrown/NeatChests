@@ -15,8 +15,8 @@ logging:
 # Commands
 # --------------------------------------------------
 commands:
-  # Aliases allows you to change the command to specifics shortcuts, if you want to use
-  # Towny's /nc (nation chat) command you can change this to another command
+  # Configure command aliases.
+  # Change this if another plugin already uses /nc (e.g. Towny).
   aliases:
     - nc
     # - neat
