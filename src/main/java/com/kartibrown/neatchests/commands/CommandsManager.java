@@ -18,10 +18,9 @@ import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
+/**
+ * Handles command registration, permissions, and command tree creation.
+ */
 public final class CommandsManager {
     private static final String RELOAD_PERMISSION = "neatchests.reload";
     public static final String SORT_PERMISSION = "neatchests.sort";
@@ -33,8 +32,6 @@ public final class CommandsManager {
     final LoggerManager logger;
     final ProtectionHookManager protectionHookManager;
     final CooldownManager cooldownManager;
-
-    final Map<UUID, Long> lastCommandTracker;
 
     @Contract(pure = true)
     public CommandsManager(
@@ -51,10 +48,14 @@ public final class CommandsManager {
         this.cooldownManager = cooldownManager;
 
         this.version = version;
-
-        this.lastCommandTracker = new HashMap<>();
     }
 
+    /**
+     * Builds the complete command tree for the specified root command.
+     *
+     * @param rootCommand the root command
+     * @return the root {@link LiteralArgumentBuilder}
+     */
     public LiteralArgumentBuilder<CommandSourceStack> createCommandTree(
             final String rootCommand
     ) {
@@ -65,7 +66,7 @@ public final class CommandsManager {
                         .executes(this::reload)
                 )
                 .then(Commands.literal("sort").requires(source ->
-                                configManager.isCommandSortEnabled()
+                                configManager.getMainConfig().isCommandSortEnabled()
                                         && source.getSender().hasPermission(SORT_PERMISSION))
                         .executes(this::sortStorage)
                         .then(Commands.literal("inventory")
@@ -145,7 +146,7 @@ public final class CommandsManager {
     }
 
     private int reload(final @NonNull CommandContext<CommandSourceStack> ctx) {
-        configManager.reload();
+        configManager.reloadAll();
 
         sendMessageToSender("Config Reloaded!", ctx);
 

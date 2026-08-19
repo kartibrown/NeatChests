@@ -3,43 +3,45 @@ package com.kartibrown.neatchests.config;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 
+/**
+ * Provides centralized access to all plugin configuration files.
+ */
 public final class ConfigManager {
+    private final MainConfig config;
+    private final WeightsConfig weights;
 
-    private final JavaPlugin plugin;
-
-    @Contract(pure = true)
     public ConfigManager(final JavaPlugin plugin) {
-        this.plugin = plugin;
+        this.config = new MainConfig(plugin);
+        this.weights = new WeightsConfig(plugin);
     }
 
-    public void load() {
-        plugin.saveDefaultConfig();
-
-        plugin.getConfig().options().copyDefaults(true);
-        plugin.saveConfig();
+    /**
+     * Returns the main plugin configuration.
+     *
+     * @return the main configuration
+     */
+    @Contract(pure = true)
+    public MainConfig getMainConfig() {
+        return config;
     }
 
-    public void reload() {
-        plugin.reloadConfig();
+    /**
+     * Returns the weights configuration.
+     *
+     * @return the weights configuration
+     */
+    @Contract(pure = true)
+    public WeightsConfig getWeights() {
+        return weights;
     }
 
-    public boolean isDebugEnabled() {
-        return plugin.getConfig().getBoolean("logging.debug");
+    public void loadAll() {
+        config.load();
+        weights.load();
     }
 
-    public boolean isStartupEnabled() {
-        return plugin.getConfig().getBoolean("logging.startup");
-    }
-
-    public boolean isPerformanceEnabled() {
-        return plugin.getConfig().getBoolean("logging.performance");
-    }
-
-    public boolean isDoubleClickSortEnabled() {
-        return plugin.getConfig().getBoolean("sorting.double-click");
-    }
-
-    public boolean isCommandSortEnabled() {
-        return plugin.getConfig().getBoolean("sorting.command-sort");
+    public void reloadAll() {
+        config.reload();
+        weights.reload();
     }
 }

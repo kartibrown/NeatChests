@@ -32,7 +32,7 @@ public final class ChestStorageListener implements Listener {
     public void onClick(final @NonNull InventoryClickEvent event) {
 
         // ignore if double-click in config is set to false or if cursor is not empty
-        if (!configManager.isDoubleClickSortEnabled() || !event.getCursor().isEmpty()) {
+        if (!configManager.getMainConfig().isDoubleClickSortEnabled() || !event.getCursor().isEmpty()) {
             return;
         }
 

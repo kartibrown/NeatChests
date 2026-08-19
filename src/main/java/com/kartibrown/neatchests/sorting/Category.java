@@ -3,18 +3,32 @@ package com.kartibrown.neatchests.sorting;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
+/**
+ * Base class for all sorting categories.
+ * Stores materials in one or more sub-categories together
+ * with their sorting weights.
+ */
 public abstract class Category {
+    protected String name;
 
+    protected int startWeight;
     protected int baseWeight;
+
+    protected boolean requiresAutomaticRegistration;
 
     protected final Map<Material, Integer>[] subCategories;
 
     @SuppressWarnings("unchecked")
     public Category(final int numberOfSubCategories) {
+        name = getClass().getSimpleName();
+
+        startWeight = -1;
+        requiresAutomaticRegistration = false;
 
         subCategories = (EnumMap<Material, Integer>[]) new EnumMap[numberOfSubCategories];
 
@@ -28,7 +42,7 @@ public abstract class Category {
      * Categories that do not require initialization may use the default implementation.
      */
     public void initialize() {
-
+        initializeStartWeight(baseWeight);
     }
 
     /**
@@ -126,6 +140,15 @@ public abstract class Category {
         return null;
     }
 
+    public final void setWeightFor(final @NotNull Material material, final int weight) {
+        for (final Map<Material, Integer> subCategoryMap : subCategories) {
+            if (subCategoryMap.containsKey(material)) {
+                subCategoryMap.put(material, weight);
+                return;
+            }
+        }
+    }
+
     @Contract(pure = true)
     public final boolean contains(final Material material) {
         for (final Map<Material, Integer> subCategoryMap : subCategories) {
@@ -134,6 +157,13 @@ public abstract class Category {
             }
         }
         return false;
+    }
+
+    @Contract(mutates = "this")
+    protected final void initializeStartWeight(final int weight) {
+        if (startWeight == -1) {
+            startWeight = weight;
+        }
     }
 
     /*
@@ -146,7 +176,45 @@ public abstract class Category {
      * @param weight The weight
      */
     @Contract(mutates = "this")
-    protected final void setBaseWeight(final int weight) {
+    public final void setBaseWeight(final int weight) {
+        startWeight = weight;
         baseWeight = weight;
+    }
+
+    /**
+     *
+     * @return Returns the category's starting weight
+     */
+    @Contract(pure = true)
+    public final int getStartWeight() {
+        return startWeight;
+    }
+
+    /**
+     *
+     * @return Returns the name of the category
+     */
+    @Contract(pure = true)
+    public final String name() {
+        return name;
+    }
+
+    /**
+     *
+     * @return Returns all sub categories in one map
+     */
+    public final @NonNull Map<Material, Integer> getSubCategories() {
+        final Map<Material, Integer> mapOfAll = new EnumMap<>(Material.class);
+
+        for(final Map<Material, Integer> subCat : this.subCategories){
+            mapOfAll.putAll(subCat);
+        }
+
+        return mapOfAll;
+    }
+
+    @Contract(pure = true)
+    public final boolean hasAutomaticRegistration() {
+        return requiresAutomaticRegistration;
     }
 }

@@ -13,6 +13,9 @@ public final class Food extends Category {
 
     @Override
     public void initialize() {
+
+        initializeStartWeight(baseWeight);
+
         final Material[] food = {
                 Material.ENCHANTED_GOLDEN_APPLE,
                 Material.GOLDEN_APPLE,

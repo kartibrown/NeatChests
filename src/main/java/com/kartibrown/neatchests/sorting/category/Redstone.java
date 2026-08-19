@@ -13,6 +13,9 @@ public final class Redstone extends Category {
 
     @Override
     public void initialize() {
+
+        initializeStartWeight(baseWeight);
+
         final Material[] redstone = {
                 Material.REDSTONE,
                 Material.REDSTONE_BLOCK,

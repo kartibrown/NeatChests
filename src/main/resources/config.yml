@@ -1,10 +1,29 @@
-# NeatChests Config
-
+# --------------------------------------------------
+# Logging
+# --------------------------------------------------
 logging:
+  # Logs startup information and initialization timings.
   startup: false
+
+  # Logs the execution time of sorting operations.
   performance: false
+
+  # Enables verbose debug logging.
   debug: false
 
+# --------------------------------------------------
+# Sorting
+# --------------------------------------------------
 sorting:
   double-click: true
   command-sort: true
+
+# --------------------------------------------------
+# Weights
+# --------------------------------------------------
+
+# Controls how item weights are configured.
+# simple   = Adjust category weights only.
+# advanced = Adjust both category and individual item weights.
+weights:
+  mode: simple
