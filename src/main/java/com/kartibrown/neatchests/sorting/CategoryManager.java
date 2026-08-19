@@ -1,6 +1,7 @@
 package com.kartibrown.neatchests.sorting;
 
 import com.kartibrown.neatchests.config.ConfigManager;
+import com.kartibrown.neatchests.config.WeightMode;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.sorting.category.*;
 import org.bukkit.Material;
@@ -61,15 +62,33 @@ public final class CategoryManager {
                 misc
         };
 
+        // Get mode from the main config
+        final WeightMode weightMode =
+                configManager.getMainConfig().getWeightsMode();
+
+        // Load configured weights from weights.yml
+        final boolean loadedWeights = configManager.getWeights().loadWeights(
+                categories, weightMode
+        );
+
+        // Assign default category weights when no configuration was loaded.
+
         int baseWeight = 1_000_000;
 
         for (final Category category : categories) {
-            // Set weight
-            category.setBaseWeight(baseWeight);
-            baseWeight -= CATEGORY_SPACING;
 
-            // Initialize the materials of each category
-            category.initialize();
+            // Set weight
+            if (!loadedWeights) {
+                category.setBaseWeight(baseWeight);
+                baseWeight -= CATEGORY_SPACING;
+            }
+
+            // Initialize the materials of each category if needed
+
+            // if weight mode is ADVANCED the config inits the category weights
+            if (!loadedWeights && weightMode == WeightMode.SIMPLE) {
+                category.initialize();
+            }
         }
 
         final Material[] materials = Material.values();
@@ -94,9 +113,17 @@ public final class CategoryManager {
             for (int categoryIndex = 0;
                  categoryIndex < categories.length - 1;
                  categoryIndex++) {
+                final Category category = categories[categoryIndex];
+
+                // if weight config mode is advanced and category has automatic registration
+                // it will not call the containsOrRegister method
+                if (weightMode == WeightMode.ADVANCED
+                        && category.hasAutomaticRegistration()) {
+                    continue;
+                }
 
                 // Adds or checks that a material has been added
-                if (categories[categoryIndex].containsOrRegister(material)) {
+                if (category.containsOrRegister(material)) {
                     added = true;
                     registeredMaterials++;
                     break;

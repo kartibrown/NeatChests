@@ -10,6 +10,7 @@ public final class Template extends Category {
     public Template()
     {
         super(1);
+        requiresAutomaticRegistration = true;
     }
 
     @Contract("null -> false")

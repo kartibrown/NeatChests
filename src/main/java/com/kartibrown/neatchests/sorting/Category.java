@@ -16,8 +16,10 @@ import java.util.*;
 public abstract class Category {
     protected String name;
 
-    private int startWeight;
+    protected int startWeight;
     protected int baseWeight;
+
+    protected boolean requiresAutomaticRegistration;
 
     protected final Map<Material, Integer>[] subCategories;
 
@@ -26,6 +28,7 @@ public abstract class Category {
         name = getClass().getSimpleName();
 
         startWeight = -1;
+        requiresAutomaticRegistration = false;
 
         subCategories = (EnumMap<Material, Integer>[]) new EnumMap[numberOfSubCategories];
 
@@ -137,6 +140,15 @@ public abstract class Category {
         return null;
     }
 
+    public final void setWeightFor(final @NotNull Material material, final int weight) {
+        for (final Map<Material, Integer> subCategoryMap : subCategories) {
+            if (subCategoryMap.containsKey(material)) {
+                subCategoryMap.put(material, weight);
+                return;
+            }
+        }
+    }
+
     @Contract(pure = true)
     public final boolean contains(final Material material) {
         for (final Map<Material, Integer> subCategoryMap : subCategories) {
@@ -164,7 +176,8 @@ public abstract class Category {
      * @param weight The weight
      */
     @Contract(mutates = "this")
-    protected final void setBaseWeight(final int weight) {
+    public final void setBaseWeight(final int weight) {
+        startWeight = weight;
         baseWeight = weight;
     }
 
@@ -198,5 +211,10 @@ public abstract class Category {
         }
 
         return mapOfAll;
+    }
+
+    @Contract(pure = true)
+    public final boolean hasAutomaticRegistration() {
+        return requiresAutomaticRegistration;
     }
 }

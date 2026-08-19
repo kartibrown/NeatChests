@@ -1,6 +1,7 @@
 package com.kartibrown.neatchests.config;
 
 import com.kartibrown.neatchests.sorting.Category;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -22,7 +24,7 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
 
     private static final List<String> BLANK_LINE = Collections.singletonList(null);
 
-    private boolean created;
+    private boolean generated;
 
     public WeightsConfig(final JavaPlugin plugin) {
         super(plugin, "weights.yml");
@@ -30,13 +32,95 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
 
     @Override
     public void load() {
-        created = !file.exists();
+        generated = !file.exists();
 
         fileConfig = new YamlConfiguration();
 
-        if (!created) {
+        if (!generated) {
             fileConfig = YamlConfiguration.loadConfiguration(file);
         }
+    }
+
+    /**
+     * Applies the weights stored in {@code weights.yml} to the given categories.
+     *
+     * @param sortingCategories the categories to update
+     * @return {@code true} if the weights were successfully applied,
+     * otherwise {@code false}
+     */
+    public boolean loadWeights(final Category[] sortingCategories, final WeightMode mode) {
+        if (wasCreated()) {
+            return false;
+        }
+
+        switch (mode) {
+            case SIMPLE -> {
+                return applySimpleWeights(sortingCategories);
+            }
+            case ADVANCED -> {
+                return applyAdvancedWeights(sortingCategories);
+            }
+        }
+
+        return false;
+    }
+
+    private boolean applySimpleWeights(final Category[] sortingCategories) {
+        final ConfigurationSection categoriesSection =
+                fileConfig.getConfigurationSection("categories");
+
+        if (categoriesSection == null) {
+            return false;
+        }
+
+        for (final Category category : sortingCategories) {
+            final int weight = categoriesSection.getInt(category.name().toLowerCase(), -1);
+            if (weight < 0) {
+                plugin.getLogger().log(Level.WARNING, "Invalid weight for category '"
+                        + category.name() + "' in weights.yml");
+                return false;
+            }
+
+            category.setBaseWeight(weight);
+        }
+        return true;
+    }
+
+    private boolean applyAdvancedWeights(final Category[] sortingCategories) {
+        final ConfigurationSection categoriesSection =
+                fileConfig.getConfigurationSection("categories");
+
+        if (categoriesSection == null) {
+            return false;
+        }
+
+        for (final Category category : sortingCategories) {
+            final ConfigurationSection categorySection =
+                    categoriesSection.getConfigurationSection(category.name().toLowerCase());
+            if (categorySection == null) {
+                plugin.getLogger().warning(
+                        "Could not load configuration for category '"
+                                + category.name() + "´ in weights.yml."
+                );
+                return false;
+            }
+
+            final ConfigurationSection itemsSection =
+                    categorySection.getConfigurationSection("items");
+
+            if (itemsSection == null) {
+                plugin.getLogger().warning("Could not load items in configuration for category '"
+                        + category.name() + "' in weights.yml.");
+                return false;
+            }
+
+            // Adds the items and weights to the categories
+            final Map<String, Object> items = itemsSection.getValues(false);
+            for (final Map.Entry<String, Object> entry : items.entrySet()) {
+                category.add(Material.valueOf(entry.getKey()), (Integer) entry.getValue());
+            }
+        }
+        return true;
     }
 
     @Override
@@ -119,6 +203,7 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
 
         fileConfig.setComments("categories", BLANK_LINE);
 
+        generated = true;
         save();
     }
 
@@ -168,6 +253,6 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
      */
     @Contract(pure = true)
     private boolean wasCreated() {
-        return created;
+        return generated;
     }
 }

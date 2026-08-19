@@ -3,6 +3,7 @@ package com.kartibrown.neatchests.sorting;
 import com.kartibrown.neatchests.config.ConfigManager;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.sorting.category.*;
+import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
