@@ -1,7 +1,5 @@
 package com.kartibrown.neatchests.config;
 
-import java.util.Locale;
-
 /**
  * Defines how item weights are loaded from {@code weights.yml}.
  */

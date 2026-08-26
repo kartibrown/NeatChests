@@ -2,22 +2,15 @@ package com.kartibrown.neatchests;
 
 import com.kartibrown.neatchests.commands.CommandsManager;
 import com.kartibrown.neatchests.config.ConfigManager;
-import com.kartibrown.neatchests.config.WeightsConfig;
 import com.kartibrown.neatchests.cooldown.CooldownManager;
 import com.kartibrown.neatchests.hooks.ProtectionHookManager;
+import com.kartibrown.neatchests.listener.ChestStorageListener;
 import com.kartibrown.neatchests.listener.PlayerListener;
 import com.kartibrown.neatchests.logger.LoggerManager;
-import com.kartibrown.neatchests.listener.ChestStorageListener;
-import com.kartibrown.neatchests.sorting.Category;
 import com.kartibrown.neatchests.sorting.CategoryManager;
 import com.kartibrown.neatchests.sorting.SortingManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
-import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public final class NeatChestsPlugin extends JavaPlugin {
 
