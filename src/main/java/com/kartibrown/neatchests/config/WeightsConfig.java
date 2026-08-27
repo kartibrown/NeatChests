@@ -48,21 +48,17 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
      * @return {@code true} if the weights were successfully applied,
      * otherwise {@code false}
      */
-    public boolean loadWeights(final Category[] sortingCategories, final WeightMode mode) {
-        if (wasCreated()) {
+    public boolean loadWeights(final Category[] sortingCategories,
+                               final WeightMode weightMode,
+                               final SortingMode sortingMode) {
+        if (needsRegeneration(weightMode, sortingMode)) {
             return false;
         }
 
-        switch (mode) {
-            case SIMPLE -> {
-                return applySimpleWeights(sortingCategories);
-            }
-            case ADVANCED -> {
-                return applyAdvancedWeights(sortingCategories);
-            }
-        }
-
-        return false;
+        return switch (weightMode) {
+            case SIMPLE -> applySimpleWeights(sortingCategories);
+            case ADVANCED -> applyAdvancedWeights(sortingCategories);
+        };
     }
 
     private boolean applySimpleWeights(final Category[] sortingCategories) {
@@ -142,8 +138,17 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
      *
      * @return the stored weight mode from {@code metadata.mode}
      */
-    public WeightMode getStoredMode() {
-        return WeightMode.fromString(fileConfig.getString("metadata.mode"));
+    public WeightMode getStoredWeightMode() {
+        return WeightMode.fromString(fileConfig.getString("metadata.weight-mode"));
+    }
+
+    /**
+     * Returns the sorting mode stored in {@code weights.yml}.
+     *
+     * @return the stored sorting mode from {@code metadata.mode}
+     */
+    public SortingMode getStoredSortingMode() {
+        return SortingMode.fromString(fileConfig.getString("metadata.sorting-mode"));
     }
 
     /**
@@ -161,11 +166,13 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
      *
      * @param sortingCategories the sorting categories, it's used to write all the categories in
      *                          the {@code weights.yml}
-     * @param currentMode       the weight mode currently configured in {@code weights.yml}
+     * @param weightMode        the weight mode currently configured in {@code weights.yml}
+     * @param sortingMode       the sorting mode currently configured in {@code weights.yml}
      */
     public void generateDefaultsIfNeeded(final Category[] sortingCategories,
-                                         final WeightMode currentMode) {
-        if (!needsRegeneration(currentMode)) {
+                                         final WeightMode weightMode,
+                                         final SortingMode sortingMode) {
+        if (!needsRegeneration(weightMode, sortingMode)) {
             return;
         }
 
@@ -194,9 +201,10 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
                 )
         );
         metadata.set("version", CURRENT_VERSION);
-        metadata.set("mode", currentMode.name().toLowerCase(Locale.ROOT));
+        metadata.set("weight-mode", weightMode.name().toLowerCase(Locale.ROOT));
+        metadata.set("sorting-mode", sortingMode.name().toLowerCase(Locale.ROOT));
 
-        switch (currentMode) {
+        switch (weightMode) {
             case SIMPLE -> generateSimple(sortingCategories);
             case ADVANCED -> generateAdvanced(sortingCategories);
         }
@@ -237,12 +245,15 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
     /**
      * Determines whether {@code weights.yml} should be regenerated.
      *
-     * @param currentMode The current mode stored in the config file
+     * @param currentWeightMode  The current weight mode stored in the config file
+     * @param currentSortingMode the current sorting mode stored in the config file
      * @return {@code true} if config needs regeneration
      */
-    private boolean needsRegeneration(final WeightMode currentMode) {
+    private boolean needsRegeneration(final WeightMode currentWeightMode,
+                                      final SortingMode currentSortingMode) {
         return wasCreated()
-                || getStoredMode() != currentMode;
+                || getStoredWeightMode() != currentWeightMode
+                || getStoredSortingMode() != currentSortingMode;
     }
 
     /**
