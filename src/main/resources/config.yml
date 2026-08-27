@@ -44,8 +44,8 @@ sorting:
 # Weights
 # --------------------------------------------------
 
-# Controls how item weights are configured.
-# simple   = Adjust category weights only.
-# advanced = Adjust both category and individual item weights.
 weights:
+  # Controls how item weights are configured.
+  # simple   = Adjust category weights only.
+  # advanced = Adjust both category and individual item weights.
   mode: simple
