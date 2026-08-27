@@ -20,14 +20,20 @@ public enum WeightMode {
      * Converts a configuration string to a {@link WeightMode}.
      *
      * @param mode the configured weight mode
-     * @return the matching weight mode, or {@link #SIMPLE} if the value is invalid
+     * @return the matching weight mode
+     * @throws NullPointerException     if {@code mode} is null or empty
+     * @throws IllegalArgumentException if {@code mode} is invalid
      */
     @Contract(pure = true)
     public static WeightMode fromString(final String mode) {
-        if ("advanced".equalsIgnoreCase(mode)) {
-            return ADVANCED;
+        if (mode == null || mode.isEmpty()) {
+            throw new NullPointerException("mode cannot be null or empty");
         }
 
-        return SIMPLE;
+        return switch (mode.toLowerCase()) {
+            case "simple" -> SIMPLE;
+            case "advanced" -> ADVANCED;
+            default -> throw new IllegalArgumentException("Unknown weight mode: " + mode);
+        };
     }
 }
