@@ -9,6 +9,7 @@ import com.kartibrown.neatchests.listener.PlayerListener;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.sorting.CategoryManager;
 import com.kartibrown.neatchests.sorting.SortingManager;
+
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -41,6 +41,20 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
         }
     }
 
+    @Override
+    public void reload() {
+        fileConfig = YamlConfiguration.loadConfiguration(file);
+    }
+
+    @Override
+    public void save() {
+        try {
+            fileConfig.save(file);
+        } catch (final IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Could not save config file " + fileName, e);
+        }
+    }
+
     /**
      * Applies the weights stored in {@code weights.yml} to the given categories.
      *
@@ -117,20 +131,6 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
             }
         }
         return true;
-    }
-
-    @Override
-    public void reload() {
-        fileConfig = YamlConfiguration.loadConfiguration(file);
-    }
-
-    @Override
-    public void save() {
-        try {
-            fileConfig.save(file);
-        } catch (final IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not save config file " + fileName, e);
-        }
     }
 
     /**

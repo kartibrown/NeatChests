@@ -10,7 +10,7 @@ public interface ProtectionHook {
      *
      * @param player The player attempting to access the inventory.
      * @param block  The block being accessed.
-     * @return <code>true</code> if the player has access, otherwise <code>false</code>.
+     * @return {@code true} if the player has access, otherwise {@code false}.
      */
     boolean canAccess(final Player player, final Block block);
 }
