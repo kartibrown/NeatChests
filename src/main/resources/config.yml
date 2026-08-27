@@ -26,8 +26,19 @@ commands:
 # Sorting
 # --------------------------------------------------
 sorting:
+  # Allows sorting containers by double-clicking an empty slot.
   double-click: true
+
+  # Allows sorting containers using the /neatchests sort command.
   command-sort: true
+
+  # Controls how items are grouped during sorting.
+  # This mainly affects forestry-related materials.
+  #
+  # category   = Groups items by category, such as building blocks and miscellaneous items.
+  # family     = Keeps material families together, such as all oak items followed by all spruce items.
+  # block-type = Groups matching block types together, such as all logs followed by all planks.
+  mode: category
 
 # --------------------------------------------------
 # Weights
