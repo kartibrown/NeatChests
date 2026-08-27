@@ -1,6 +1,7 @@
 package com.kartibrown.neatchests.sorting;
 
 import com.kartibrown.neatchests.config.ConfigManager;
+import com.kartibrown.neatchests.config.SortingMode;
 import com.kartibrown.neatchests.config.WeightMode;
 import com.kartibrown.neatchests.logger.LoggerManager;
 import com.kartibrown.neatchests.sorting.category.*;
@@ -62,13 +63,17 @@ public final class CategoryManager {
                 misc
         };
 
-        // Get mode from the main config
+        // Get weight mode from the main config
         final WeightMode weightMode =
                 configManager.getMainConfig().getWeightsMode();
 
+        // Get sorting mode from the main config
+        final SortingMode sortingMode =
+                configManager.getMainConfig().getSortingMode();
+
         // Load configured weights from weights.yml
-        final boolean loadedWeights = configManager.getWeights().loadWeights(
-                categories, weightMode
+        final boolean hasLoadedWeights = configManager.getWeights().loadWeights(
+                categories, weightMode, sortingMode
         );
 
         // Assign default category weights when no configuration was loaded.
@@ -78,7 +83,7 @@ public final class CategoryManager {
         for (final Category category : categories) {
 
             // Set weight
-            if (!loadedWeights) {
+            if (!hasLoadedWeights) {
                 category.setBaseWeight(baseWeight);
                 baseWeight -= CATEGORY_SPACING;
             }
@@ -86,8 +91,8 @@ public final class CategoryManager {
             // Initialize the materials of each category if needed
 
             // if weight mode is ADVANCED the config inits the category weights
-            if (!loadedWeights && weightMode == WeightMode.SIMPLE) {
-                category.initialize();
+            if (weightMode == WeightMode.SIMPLE || !hasLoadedWeights) {
+                category.initialize(sortingMode);
             }
         }
 

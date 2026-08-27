@@ -1,5 +1,7 @@
 package com.kartibrown.neatchests.config;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * Defines how item weights are loaded from {@code weights.yml}.
  */
@@ -20,6 +22,7 @@ public enum WeightMode {
      * @param mode the configured weight mode
      * @return the matching weight mode, or {@link #SIMPLE} if the value is invalid
      */
+    @Contract(pure = true)
     public static WeightMode fromString(final String mode) {
         if ("advanced".equalsIgnoreCase(mode)) {
             return ADVANCED;

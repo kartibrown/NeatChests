@@ -30,7 +30,8 @@ public final class NeatChestsPlugin extends JavaPlugin {
         // Write default to the weights.yml config file
         configManager.getWeights().generateDefaultsIfNeeded(
                 categoryManager.getCategories(),
-                configManager.getMainConfig().getWeightsMode()
+                configManager.getMainConfig().getWeightsMode(),
+                configManager.getMainConfig().getSortingMode()
         );
 
         // Sorting

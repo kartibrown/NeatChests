@@ -1,5 +1,6 @@
 package com.kartibrown.neatchests.sorting;
 
+import com.kartibrown.neatchests.config.SortingMode;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +43,7 @@ public abstract class Category {
      * Initializes the category after its base weight has been assigned.
      * Categories that do not require initialization may use the default implementation.
      */
-    public void initialize() {
+    public void initialize(final SortingMode sortingMode) {
         initializeStartWeight(baseWeight);
     }
 

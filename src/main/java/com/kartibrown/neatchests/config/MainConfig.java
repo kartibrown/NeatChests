@@ -26,7 +26,15 @@ public final class MainConfig extends AbstractConfig implements ConfigFile {
     @Override
     public void reload() {
         plugin.reloadConfig();
+        final WeightMode wm1 = getWeightsMode();
+        final SortingMode sm1 = getSortingMode();
         fileConfig = plugin.getConfig();
+        final WeightMode wm2 = getWeightsMode();
+        final SortingMode sm2 = getSortingMode();
+
+        if (wm1 != wm2 || sm1 != sm2) {
+            plugin.getLogger().warning("Changes will take effect after restart...");
+        }
     }
 
     @Override
@@ -56,6 +64,10 @@ public final class MainConfig extends AbstractConfig implements ConfigFile {
 
     public WeightMode getWeightsMode() {
         return WeightMode.fromString(fileConfig.getString("weights.mode"));
+    }
+
+    public SortingMode getSortingMode() {
+        return SortingMode.fromString(fileConfig.getString("sorting.mode"));
     }
 
     public @NonNull List<String> getAliases() {
