@@ -1,5 +1,6 @@
 package com.kartibrown.neatchests.sorting.category;
 
+import com.kartibrown.neatchests.config.SortingMode;
 import com.kartibrown.neatchests.sorting.Category;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Contract;
@@ -12,7 +13,7 @@ public final class Valuables extends Category {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(final SortingMode sortingMode) {
 
         initializeStartWeight(baseWeight);
 
