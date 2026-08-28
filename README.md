@@ -4,19 +4,30 @@ Tired of sorting plugins that place diamonds and diamond blocks nowhere near eac
 
 **NeatChests sorts items by category instead of only by name**, keeping related materials together and making your storage easier to navigate.
 
-Sort both chests and your player inventory instantly using either double-click or commands.
+Sort both containers and your player inventory instantly using either double-click or commands.
 
 ## Features
 
 - 🧠 **Category-Based Sorting:** Related items, such as diamonds and diamond blocks, are placed together.
-- 📦 **Chest Sorting:** Organize supported containers instantly.
+- 🧩 **Multiple Sorting Modes:** Choose between `category`, `family`, and `block-type` sorting styles.
+- 📦 **Container Sorting:** Organize supported containers instantly.
 - 🎒 **Player Inventory Sorting:** Keep your inventory neat using the same sorting system.
 - ⚖️ **Configurable Weights:** Customize category order or individual item weights using **Simple** or **Advanced** mode.
-- 🛡️ **Protection Plugin Support:** Compatible with **WorldGuard**, **Residence**, and **Towny** protected containers.
+- 🛡️ **Protection Plugin Support:** Compatible with protected containers from **WorldGuard**, **Residence**, and **Towny**.
 - ⚡ **Lightweight & Fast:** Designed for minimal server overhead.
 - 🔄 **Safe Sorting:** Handles simultaneous inventory changes, including hopper interactions.
-- ⚙️ **Configurable:** Includes configurable logging, command aliases, and sorting options.
-- 🪶 **No Dependencies:** Works out of the box without requiring additional plugins.
+- ⚙️ **Configurable:** Customize sorting behavior, command aliases, logging, and more through `config.yml`.
+- 🪶 **No Required Dependencies:** Works out of the box without requiring additional plugins.
+
+## Sorting Modes
+
+NeatChests supports multiple sorting styles:
+
+- **Category:** Groups items by category, such as building blocks, miscellaneous items, leaves, and saplings.
+- **Family:** Keeps material families together, such as all oak items followed by all spruce items.
+- **Block Type:** Groups matching block types together, such as all logs followed by all planks.
+
+The sorting mode can be changed in `config.yml`.
 
 ## Commands
 
@@ -33,7 +44,7 @@ Both `/neatchests` and `/nc` can be used by default. Additional aliases can be c
 
 ### Minecraft
 
-> ⚠️ **Important:** NeatChests currently supports Minecraft **26.2** and newer. Older API versions are not officially supported.
+> ⚠️ **Important:** NeatChests currently supports API version **26.2** and newer. Older API versions are not officially supported.
 
 ### Protection Plugins
 
@@ -69,7 +80,6 @@ Look at a supported container and run:
 ```
 
 To sort your own inventory, run:
-
-```text
+```
 /neatchests sort inventory
 ```
