@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.kartibrown"
-version = "0.5.1-alpha"
+version = "0.5.1-beta"
 
 repositories {
     maven {
