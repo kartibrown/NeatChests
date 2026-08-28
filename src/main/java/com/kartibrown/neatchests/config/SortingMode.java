@@ -2,6 +2,8 @@ package com.kartibrown.neatchests.config;
 
 import org.jetbrains.annotations.Contract;
 
+import java.util.Locale;
+
 public enum SortingMode {
     CATEGORY,
     FAMILY,
@@ -21,7 +23,7 @@ public enum SortingMode {
             throw new NullPointerException("mode cannot be null or empty");
         }
 
-        return switch (mode.toLowerCase()) {
+        return switch (mode.toLowerCase(Locale.ROOT)) {
             case "category" -> CATEGORY;
             case "family" -> FAMILY;
             case "block-type" -> BLOCK_TYPE;

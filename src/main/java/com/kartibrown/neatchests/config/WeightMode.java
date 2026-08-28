@@ -2,6 +2,8 @@ package com.kartibrown.neatchests.config;
 
 import org.jetbrains.annotations.Contract;
 
+import java.util.Locale;
+
 /**
  * Defines how item weights are loaded from {@code weights.yml}.
  */
@@ -30,7 +32,7 @@ public enum WeightMode {
             throw new NullPointerException("mode cannot be null or empty");
         }
 
-        return switch (mode.toLowerCase()) {
+        return switch (mode.toLowerCase(Locale.ROOT)) {
             case "simple" -> SIMPLE;
             case "advanced" -> ADVANCED;
             default -> throw new IllegalArgumentException("Unknown weight mode: " + mode);
