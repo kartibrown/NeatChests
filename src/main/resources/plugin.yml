@@ -1,5 +1,5 @@
 name: NeatChests
-version: 0.5.0-alpha
+version: 0.5.1-alpha
 main: com.kartibrown.neatchests.NeatChestsPlugin
 
 description: Smart chest sorting with protection plugin support.
