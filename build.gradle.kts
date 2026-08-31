@@ -39,6 +39,8 @@ dependencies {
     }
 
     compileOnly("com.palmergames.bukkit.towny:towny:0.103.2.0")
+
+    compileOnly("com.github.GriefPrevention:GriefPrevention:16.18.2")
 }
 
 java {

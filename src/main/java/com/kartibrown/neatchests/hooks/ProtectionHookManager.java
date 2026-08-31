@@ -21,6 +21,7 @@ public final class ProtectionHookManager implements ProtectionHook {
         addHook("WorldGuard", WorldGuardHook::new);
         addHook("Residence", ResidenceHook::new);
         addHook("Towny", TownyHook::new);
+        addHook("GriefPrevention",  GriefPreventionHook::new);
     }
 
     private void addHook(final String pluginName,
