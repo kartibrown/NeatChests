@@ -8,9 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class GriefPreventionHook implements ProtectionHook {
-    public GriefPreventionHook() {
-    }
-
     @Override
     public boolean canAccess(final Player player, final Block block) {
         final Claim claim = GriefPrevention.instance.dataStore.getClaimAt(
