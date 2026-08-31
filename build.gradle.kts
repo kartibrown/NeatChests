@@ -7,6 +7,15 @@ version = "0.5.0-alpha"
 
 repositories {
     maven {
+        name = "Modrinth"
+        url = uri("https://api.modrinth.com/maven")
+    }
+
+    maven {
+        url = uri("https://jitpack.io")
+    }
+
+    maven {
         name = "papermc"
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
@@ -14,10 +23,6 @@ repositories {
     maven {
         name = "enginehub"
         url = uri("https://maven.enginehub.org/repo/")
-    }
-
-    maven {
-        url = uri("https://jitpack.io")
     }
 
     maven {
@@ -41,6 +46,8 @@ dependencies {
     compileOnly("com.palmergames.bukkit.towny:towny:0.103.2.0")
 
     compileOnly("com.github.GriefPrevention:GriefPrevention:16.18.2")
+
+    compileOnly("maven.modrinth:PAlDTriF:9Yrr3YuZ")
 }
 
 java {

@@ -8,11 +8,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 
 public final class ResidenceHook implements ProtectionHook {
-
-    @Contract(pure = true)
-    public ResidenceHook() {
-    }
-
     @Override
     public boolean canAccess(final Player player, final Block block) {
         if (ResAdmin.isResAdmin(player)) {

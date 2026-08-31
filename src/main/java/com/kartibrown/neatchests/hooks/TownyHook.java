@@ -7,9 +7,6 @@ import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 
 public final class TownyHook implements ProtectionHook {
-    public TownyHook() {
-    }
-
     @Override
     public boolean canAccess(final Player player, final @NonNull Block block) {
         return PlayerCacheUtil.getCachePermission(
