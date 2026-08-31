@@ -12,6 +12,8 @@ softdepend:
   - WorldGuard
   - Residence
   - Towny
+  - GriefPrevention
+  - LandsClaimPlugin
 
 permissions:
   neatchests.reload:
