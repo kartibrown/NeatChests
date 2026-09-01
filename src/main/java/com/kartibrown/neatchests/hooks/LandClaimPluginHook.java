@@ -5,7 +5,7 @@ import org.ayosynk.landClaimPlugin.models.ClaimProfile;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public final class LandsClaimPluginHook implements ProtectionHook {
+public final class LandClaimPluginHook implements ProtectionHook {
     @Override
     public boolean canAccess(final Player player, final Block block) {
         final ClaimProfile cp = LandClaimAPI.getInstance().getClaimAt(block.getLocation());

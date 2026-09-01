@@ -13,7 +13,7 @@ softdepend:
   - Residence
   - Towny
   - GriefPrevention
-  - LandsClaimPlugin
+  - LandClaimPlugin
 
 permissions:
   neatchests.reload:

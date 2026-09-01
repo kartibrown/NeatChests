@@ -22,7 +22,7 @@ public final class ProtectionHookManager implements ProtectionHook {
         addHook("Residence", ResidenceHook::new);
         addHook("Towny", TownyHook::new);
         addHook("GriefPrevention", GriefPreventionHook::new);
-        addHook("LandsClaimPlugin", LandsClaimPluginHook::new);
+        addHook("LandClaimPlugin", LandClaimPluginHook::new);
     }
 
     private void addHook(final String pluginName,
