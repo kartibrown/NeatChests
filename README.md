@@ -44,7 +44,7 @@ Both `/neatchests` and `/nc` can be used by default. Additional aliases can be c
 
 ### Minecraft
 
-> ⚠️ **Important:** NeatChests currently supports API version **26.2** and newer. Older API versions are not officially supported.
+> ⚠️ Important: NeatChests currently supports Minecraft 26.2 / Paper 26.2 and newer. Older versions are not officially supported.
 
 ### Protection Plugins
 
