@@ -208,7 +208,7 @@ public abstract class Category {
     public final @NonNull Map<Material, Integer> getSubCategories() {
         final Map<Material, Integer> mapOfAll = new EnumMap<>(Material.class);
 
-        for(final Map<Material, Integer> subCat : this.subCategories){
+        for (final Map<Material, Integer> subCat : this.subCategories) {
             mapOfAll.putAll(subCat);
         }
 
