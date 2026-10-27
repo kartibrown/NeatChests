@@ -59,6 +59,7 @@ public final class CategoryManager {
                 new Redstone(),
                 new Food(),
                 new Forestry(),
+                new Flower(),
                 new Template(),
                 misc
         };
