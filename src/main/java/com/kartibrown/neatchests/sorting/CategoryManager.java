@@ -60,6 +60,7 @@ public final class CategoryManager {
                 new Food(),
                 new Forestry(),
                 new Flower(),
+                new Dye(),
                 new Template(),
                 misc
         };
