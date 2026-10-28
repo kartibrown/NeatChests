@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.2.build.+")
+    compileOnly("io.papermc.paper:paper-api:26.3.build.+")
 
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.18") {
         exclude(group = "com.google.guava", module = "guava")
