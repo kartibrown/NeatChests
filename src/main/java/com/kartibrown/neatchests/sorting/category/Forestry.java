@@ -191,8 +191,8 @@ public final class Forestry extends Category {
         // Poplar 26.3
         addWoodBuild("POPLAR");
         addWoodMisc("POPLAR");
-        // using the addColoredItems because there are 3 different colors and there by
-        // can also add new colors if they add it
+        // Uses the color helper because poplar leaves have multiple color variants.
+        // This also automatically supports additional colors if more are added later.
         addColoredItems(LEAVES, "POPLAR_LEAVES");
         addMaterialIfExists(SAPLING, "POPLAR_SAPLING");
 
@@ -413,7 +413,7 @@ public final class Forestry extends Category {
     private void addWoodMisc() {
         // Beds
         // Colored beds started at 1.12
-        addColoredItems("BED");
+        addColoredItems(MISC, "BED");
 
         // Chests & Barrel
         addMaterialIfExists(MISC, "BARREL");
@@ -429,7 +429,7 @@ public final class Forestry extends Category {
         addMaterialIfExists(MISC, "WAXED_OXIDIZED_COPPER_CHEST");
         // Shulker Box 1.11
         addMaterialIfExists(MISC, "SHULKER_BOX");
-        addColoredItems("SHULKER_BOX");
+        addColoredItems(MISC, "SHULKER_BOX");
 
 
         addWithAutoWeight(MISC, Material.CRAFTING_TABLE);
@@ -438,29 +438,6 @@ public final class Forestry extends Category {
         addWithAutoWeight(MISC, Material.BOOKSHELF);
         addMaterialIfExists(MISC, "CHISELED_BOOKSHELF");
         addMaterialIfExists(MISC, "LECTERN");
-    }
-
-    private void addColoredItems(final int subCategory, final String item) {
-        addMaterialIfExists(subCategory, "WHITE_" + item);
-        addMaterialIfExists(subCategory, "LIGHT_GRAY_" + item);
-        addMaterialIfExists(subCategory, "GRAY_" + item);
-        addMaterialIfExists(subCategory, "BLACK_" + item);
-        addMaterialIfExists(subCategory, "BROWN_" + item);
-        addMaterialIfExists(subCategory, "RED_" + item);
-        addMaterialIfExists(subCategory, "ORANGE_" + item);
-        addMaterialIfExists(subCategory, "YELLOW_" + item);
-        addMaterialIfExists(subCategory, "LIME_" + item);
-        addMaterialIfExists(subCategory, "GREEN_" + item);
-        addMaterialIfExists(subCategory, "CYAN_" + item);
-        addMaterialIfExists(subCategory, "LIGHT_BLUE_" + item);
-        addMaterialIfExists(subCategory, "BLUE_" + item);
-        addMaterialIfExists(subCategory, "PURPLE_" + item);
-        addMaterialIfExists(subCategory, "MAGENTA_" + item);
-        addMaterialIfExists(subCategory, "PINK_" + item);
-    }
-
-    private void addColoredItems(final String item) {
-        addColoredItems(MISC, item);
     }
 
     @Contract(pure = true)
