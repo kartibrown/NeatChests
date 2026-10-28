@@ -83,8 +83,15 @@ public final class WeightsConfig extends AbstractConfig implements ConfigFile {
             return false;
         }
 
+        /*
+         * This can occur when a new category has been added.
+         * Missing categories should trigger a migration that adds them to weights.yml
+         * using their default weights, while preserving the user's existing values.
+         *
+         * This avoids requiring users to delete weights.yml after adding new categories.
+         */
         for (final Category category : sortingCategories) {
-            final int weight = categoriesSection.getInt(category.name().toLowerCase(), -1);
+            final int weight = categoriesSection.getInt(category.name().toLowerCase(Locale.ROOT), -1);
             if (weight < 0) {
                 plugin.getLogger().log(Level.WARNING, "Invalid weight for category '"
                         + category.name() + "' in weights.yml");
