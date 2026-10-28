@@ -102,6 +102,7 @@ public final class Forestry extends Category {
         addMaterialIfExists(BUILD, "STRIPPED_MANGROVE_" + blockType);
         addMaterialIfExists(BUILD, "STRIPPED_CHERRY_" + blockType);
         addMaterialIfExists(BUILD, "STRIPPED_PALE_OAK_" + blockType);
+        addMaterialIfExists(BUILD, "STRIPPED_POPLAR_" + blockType);
         addMaterialIfExists(BUILD, "STRIPPED_BAMBOO_" + blockType);
         addMaterialIfExists(BUILD, "STRIPPED_CRIMSON_" + blockType);
         addMaterialIfExists(BUILD, "STRIPPED_WARPED_" + blockType);
@@ -117,6 +118,7 @@ public final class Forestry extends Category {
         addMaterialIfExists(BUILD, "MANGROVE_" + blockType);
         addMaterialIfExists(BUILD, "CHERRY_" + blockType);
         addMaterialIfExists(BUILD, "PALE_OAK_" + blockType);
+        addMaterialIfExists(BUILD, "POPLAR_" + blockType);
         addMaterialIfExists(BUILD, "BAMBOO_" + blockType);
         addMaterialIfExists(BUILD, "CRIMSON_" + blockType);
         addMaterialIfExists(BUILD, "WARPED_" + blockType);
@@ -186,6 +188,14 @@ public final class Forestry extends Category {
         addMaterialIfExists(LEAVES, "PALE_OAK_LEAVES");
         addMaterialIfExists(SAPLING, "PALE_OAK_SAPLING");
 
+        // Poplar 26.3
+        addWoodBuild("POPLAR");
+        addWoodMisc("POPLAR");
+        // using the addColoredItems because there are 3 different colors and there by
+        // can also add new colors if they add it
+        addColoredItems(LEAVES, "POPLAR_LEAVES");
+        addMaterialIfExists(SAPLING, "POPLAR_SAPLING");
+
         // Bamboo 1.20
         // It's not a building block, but I think this design is correct
         addMaterialIfExists(BUILD, "BAMBOO");
@@ -242,6 +252,9 @@ public final class Forestry extends Category {
         // Pale 1.21.4
         addWoodBuild("PALE_OAK");
 
+        // Poplar 26.3
+        addWoodBuild("POPLAR");
+
         // Bamboo 1.20
         // It's not a building block, but I think this design is correct
         addMaterialIfExists(BUILD, "BAMBOO");
@@ -296,6 +309,10 @@ public final class Forestry extends Category {
 
         addWoodMisc("PALE_OAK");
 
+        // Poplar
+
+        addWoodMisc("POPLAR");
+
         // Bamboo
 
         addWoodMisc("BAMBOO");
@@ -321,6 +338,8 @@ public final class Forestry extends Category {
         addMaterialIfExists(LEAVES, "MANGROVE_LEAVES");
         addMaterialIfExists(LEAVES, "CHERRY_LEAVES");
         addMaterialIfExists(LEAVES, "PALE_OAK_LEAVES");
+        // using this to get new colors if they add some
+        addColoredItems(LEAVES, "POPLAR_LEAVES");
         addMaterialIfExists(LEAVES, "AZALEA_LEAVES");
         addMaterialIfExists(LEAVES, "FLOWERING_AZALEA_LEAVES");
 
@@ -338,6 +357,7 @@ public final class Forestry extends Category {
         addMaterialIfExists(SAPLING, "MANGROVE_PROPAGULE");
         addMaterialIfExists(SAPLING, "CHERRY_SAPLING");
         addMaterialIfExists(SAPLING, "PALE_OAK_SAPLING");
+        addMaterialIfExists(SAPLING, "POPLAR_SAPLING");
         addMaterialIfExists(SAPLING, "AZALEA");
         addMaterialIfExists(SAPLING, "FLOWERING_AZALEA");
         addMaterialIfExists(SAPLING, "CRIMSON_FUNGUS");
@@ -390,7 +410,7 @@ public final class Forestry extends Category {
         addMaterialIfExists(MISC, woodType + "_HANGING_SIGN");
     }
 
-    private void addWoodMisc(){
+    private void addWoodMisc() {
         // Beds
         // Colored beds started at 1.12
         addColoredItems("BED");
@@ -420,23 +440,27 @@ public final class Forestry extends Category {
         addMaterialIfExists(MISC, "LECTERN");
     }
 
+    private void addColoredItems(final int subCategory, final String item) {
+        addMaterialIfExists(subCategory, "WHITE_" + item);
+        addMaterialIfExists(subCategory, "LIGHT_GRAY_" + item);
+        addMaterialIfExists(subCategory, "GRAY_" + item);
+        addMaterialIfExists(subCategory, "BLACK_" + item);
+        addMaterialIfExists(subCategory, "BROWN_" + item);
+        addMaterialIfExists(subCategory, "RED_" + item);
+        addMaterialIfExists(subCategory, "ORANGE_" + item);
+        addMaterialIfExists(subCategory, "YELLOW_" + item);
+        addMaterialIfExists(subCategory, "LIME_" + item);
+        addMaterialIfExists(subCategory, "GREEN_" + item);
+        addMaterialIfExists(subCategory, "CYAN_" + item);
+        addMaterialIfExists(subCategory, "LIGHT_BLUE_" + item);
+        addMaterialIfExists(subCategory, "BLUE_" + item);
+        addMaterialIfExists(subCategory, "PURPLE_" + item);
+        addMaterialIfExists(subCategory, "MAGENTA_" + item);
+        addMaterialIfExists(subCategory, "PINK_" + item);
+    }
+
     private void addColoredItems(final String item) {
-        addMaterialIfExists(MISC, "WHITE_" + item);
-        addMaterialIfExists(MISC, "LIGHT_GRAY_" + item);
-        addMaterialIfExists(MISC, "GRAY_" + item);
-        addMaterialIfExists(MISC, "BLACK_" + item);
-        addMaterialIfExists(MISC, "BROWN_" + item);
-        addMaterialIfExists(MISC, "RED_" + item);
-        addMaterialIfExists(MISC, "ORANGE_" + item);
-        addMaterialIfExists(MISC, "YELLOW_" + item);
-        addMaterialIfExists(MISC, "LIME_" + item);
-        addMaterialIfExists(MISC, "GREEN_" + item);
-        addMaterialIfExists(MISC, "CYAN_" + item);
-        addMaterialIfExists(MISC, "LIGHT_BLUE_" + item);
-        addMaterialIfExists(MISC, "BLUE_" + item);
-        addMaterialIfExists(MISC, "PURPLE_" + item);
-        addMaterialIfExists(MISC, "MAGENTA_" + item);
-        addMaterialIfExists(MISC, "PINK_" + item);
+        addColoredItems(MISC, item);
     }
 
     @Contract(pure = true)
