@@ -7,7 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,6 +26,25 @@ public abstract class Category {
     protected boolean requiresAutomaticRegistration;
 
     protected final Map<Material, Integer>[] subCategories;
+
+    protected static final List<String> COLORS = List.of(
+            "WHITE",
+            "LIGHT_GRAY",
+            "GRAY",
+            "BLACK",
+            "BROWN",
+            "RED",
+            "ORANGE",
+            "YELLOW",
+            "LIME",
+            "GREEN",
+            "CYAN",
+            "LIGHT_BLUE",
+            "BLUE",
+            "PURPLE",
+            "MAGENTA",
+            "PINK"
+    );
 
     @SuppressWarnings("unchecked")
     public Category(final int numberOfSubCategories) {
@@ -165,6 +186,13 @@ public abstract class Category {
     protected final void initializeStartWeight(final int weight) {
         if (startWeight == -1) {
             startWeight = weight;
+        }
+    }
+
+    // Helper method to add colored items
+    protected void addColoredItems(final int subCategory, final String item) {
+        for (final String color : COLORS) {
+            addMaterialIfExists(subCategory, color + "_" + item);
         }
     }
 

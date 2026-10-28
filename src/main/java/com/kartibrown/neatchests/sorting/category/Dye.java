@@ -14,27 +14,10 @@ public final class Dye extends Category {
 
     @Override
     public void initialize(final SortingMode mode) {
-        final Material[] dyes = {
-                Material.BLACK_DYE,
-                Material.BLUE_DYE,
-                Material.BROWN_DYE,
-                Material.CYAN_DYE,
-                Material.GRAY_DYE,
-                Material.GREEN_DYE,
-                Material.LIGHT_BLUE_DYE,
-                Material.LIGHT_GRAY_DYE,
-                Material.LIME_DYE,
-                Material.MAGENTA_DYE,
-                Material.ORANGE_DYE,
-                Material.PINK_DYE,
-                Material.PURPLE_DYE,
-                Material.RED_DYE,
-                Material.WHITE_DYE,
-                Material.YELLOW_DYE
-        };
+        initializeStartWeight(baseWeight);
 
-        for (final Material dye : dyes) {
-            addWithAutoWeight(DYE, dye);
+        for (final String color : COLORS) {
+            addMaterialIfExists(DYE, color + "_DYE");
         }
     }
 
